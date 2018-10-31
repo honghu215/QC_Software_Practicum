@@ -14,13 +14,20 @@
 </head>
 
 <body>
+
+
+
 <div class="container">
 
-    <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" name="registration"
-                type="Submit">Logout
-        </button>
-    </form>
+    <div th:include="header"></div>
+
+
+    <br>
+    <!--<form th:action="@{/logout}" method="get">-->
+        <!--<button class="btn btn-md btn-danger btn-block" name="registration"-->
+                <!--type="Submit">Logout-->
+        <!--</button>-->
+    <!--</form>-->
 
     <div class="panel-group" style="margin-top:40px">
         <div class="panel panel-primary">

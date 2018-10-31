@@ -23,15 +23,6 @@ public class UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Autowired
-//    public UserService(UserRepository userRepository,
-//                       RoleRepository roleRepository,
-//                       BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        this.userRepository = userRepository;
-//        this.roleRepository = roleRepository;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//    }
-
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }

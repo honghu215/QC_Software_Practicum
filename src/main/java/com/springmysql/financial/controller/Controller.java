@@ -98,31 +98,7 @@ public class Controller {
         return modelAndView;
     }
 
-    @RequestMapping(value="admin/home", method = RequestMethod.GET)
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 
-        Stock stock = new Stock();
-        modelAndView.addObject("newStock", stock);
-
-        List<Stock> stocks = new ArrayList<>();
-        stockService.findAll().forEach(stocks::add);
-        modelAndView.addObject("stocks", stocks);
-
-        List<User> users = new ArrayList<>();
-        userService.findAll().forEach(users::add);
-        modelAndView.addObject("users", users);
-
-        List<Trade> trades = tradeService.findAll();
-        modelAndView.addObject("trades", trades);
-
-        modelAndView.setViewName("admin/home");
-        return modelAndView;
-    }
 
 
     @RequestMapping(value = "/admin/home", method = RequestMethod.POST)

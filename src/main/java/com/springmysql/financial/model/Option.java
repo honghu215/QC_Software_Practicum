@@ -8,11 +8,11 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "option")
+@Table(name = "`option`")
 public class Option {
 
     @Id
-    @Column(name = "occCode")
+    @Column(name = "occCode", nullable = false)
     private String occCode;
 
     @Column(name = "option_name")
