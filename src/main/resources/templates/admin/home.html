@@ -34,126 +34,129 @@
         </div>
     </div>
 
-    <div class="col-md-6 list">
-        <h4>Users</h4>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>User Id</th>
-                <th>User Name</th>
-                <th>User Email</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"/>
-                <td th:text="${user.name}"/>
-                <td th:text="${user.email}"/>
-                <td th:if="${user.id} != 1">
-                    <a th:href="@{/admin/deleteUser(id=${user.id})}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="col-md-6 list">
-        <h4>Stocks</h4>
-
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">New Stock</button>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Add New Stock</h4>
-                    </div>
 
 
-                    <div class="modal-body">
-                        <form th:action="@{/admin/addStock}" th:object="${newStock}" method="post">
-                            <div class="form-group">
-                                <label for="name">Stock Name:</label>
-                                <input type="text" class="form-control" id="name" th:field="*{stockName}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="price">Stock Price:</label>
-                                <input type="number" step="any" class="form-control" id="price" th:field="*{stockPrice}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="field">Stock Field:</label>
-                                <input type="text" class="form-control" id="field" th:field="*{stockField}"/>
-                            </div>
+    <!---->
+    <!--<div class="col-md-6 list">-->
+        <!--<h4>Users</h4>-->
+        <!--<table class="table">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>User Id</th>-->
+                <!--<th>User Name</th>-->
+                <!--<th>User Email</th>-->
+                <!--<th>Action</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
 
-                            <input type="submit" value="Submit" />
-                        </form>
-                    </div>
+            <!--<tbody>-->
+            <!--<tr th:each="user : ${users}">-->
+                <!--<td th:text="${user.id}"/>-->
+                <!--<td th:text="${user.name}"/>-->
+                <!--<td th:text="${user.email}"/>-->
+                <!--<td th:if="${user.id} != 1">-->
+                    <!--<a th:href="@{/admin/deleteUser(id=${user.id})}">Delete</a>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+    <!--</div>-->
 
+    <!--<div class="col-md-6 list">-->
+        <!--<h4>Stocks</h4>-->
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <!--<button type="submit" class="btn btn-primary">Comfirm</button>-->
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">New Stock</button>-->
 
-        <!--Add Stock button-->
+        <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">-->
+            <!--<div class="modal-dialog" role="document">-->
+                <!--<div class="modal-content">-->
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>Stock Name</th>
-                <th>Stock Price</th>
-                <th>Stock Field</th>
-                <th></th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="stock: ${stocks}">
-                <td th:text="${stock.stockName}" />
-                <td th:text="${stock.stockName}" />
-                <td th:text="${stock.stockPrice}" />
-                <td th:text="${stock.stockField}" />
-                <td>
-                    <a th:href="@{/admin/deleteStock(id=${stock.stockName})}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <!--<h4 class="modal-title" id="exampleModalLabel">Add New Stock</h4>-->
+                    <!--</div>-->
 
 
-        <table class="table col-md-6">
-            <h4 style="text-align: center; color: darkred;">Transaction History</h4>
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>User Id</th>
-                <th>Stock Name</th>
-                <th>Stock Price</th>
-                <th>Quantity</th>
-            </tr>
-            </thead>
+                    <!--<div class="modal-body">-->
+                        <!--<form th:action="@{/admin/addStock}" th:object="${newStock}" method="post">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="name">Stock Name:</label>-->
+                                <!--<input type="text" class="form-control" id="name" th:field="*{stockName}"/>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="price">Stock Price:</label>-->
+                                <!--<input type="number" step="any" class="form-control" id="price" th:field="*{stockPrice}"/>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="field">Stock Field:</label>-->
+                                <!--<input type="text" class="form-control" id="field" th:field="*{stockField}"/>-->
+                            <!--</div>-->
 
-            <tbody>
-            <tr th:each="trade : ${trades}">
-                <td th:text="${trade.id}" />
-                <td th:text="${trade.userId}" />
-                <td th:text="${trade.stockName}" />
-                <td th:text="${trade.stockPrice}" />
-                <td th:text="${trade.quantity}" />
-            </tr>
-            </tbody>
-        </table>
+                            <!--<input type="submit" value="Submit" />-->
+                        <!--</form>-->
+                    <!--</div>-->
 
 
-    </div>
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <!--&lt;!&ndash;<button type="submit" class="btn btn-primary">Comfirm</button>&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--&lt;!&ndash;Add Stock button&ndash;&gt;-->
+
+        <!--<table class="table">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>No.</th>-->
+                <!--<th>Stock Name</th>-->
+                <!--<th>Stock Price</th>-->
+                <!--<th>Stock Field</th>-->
+                <!--<th></th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+
+            <!--<tbody>-->
+            <!--<tr th:each="stock: ${stocks}">-->
+                <!--<td th:text="${stock.stockName}" />-->
+                <!--<td th:text="${stock.stockName}" />-->
+                <!--<td th:text="${stock.stockPrice}" />-->
+                <!--<td th:text="${stock.stockField}" />-->
+                <!--<td>-->
+                    <!--<a th:href="@{/admin/deleteStock(id=${stock.stockName})}">Delete</a>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+
+
+        <!--<table class="table col-md-6">-->
+            <!--<h4 style="text-align: center; color: darkred;">Transaction History</h4>-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>No.</th>-->
+                <!--<th>User Id</th>-->
+                <!--<th>Stock Name</th>-->
+                <!--<th>Stock Price</th>-->
+                <!--<th>Quantity</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+
+            <!--<tbody>-->
+            <!--<tr th:each="trade : ${trades}">-->
+                <!--<td th:text="${trade.id}" />-->
+                <!--<td th:text="${trade.userId}" />-->
+                <!--<td th:text="${trade.stockName}" />-->
+                <!--<td th:text="${trade.stockPrice}" />-->
+                <!--<td th:text="${trade.quantity}" />-->
+            <!--</tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+
+
+    <!--</div>-->
 
 
 

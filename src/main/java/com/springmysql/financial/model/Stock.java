@@ -25,9 +25,6 @@ public class Stock {
     @NotEmpty(message = "*Please provide the name of the stock")
     private String stockName;
 
-    @Column(name = "stock_price")
-    @DecimalMin("0.01")
-    private BigDecimal stockPrice;
 
     @Column(name = "stock_field")
     @NotEmpty(message = "*Please provide the field of the stock")

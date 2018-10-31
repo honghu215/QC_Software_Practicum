@@ -165,31 +165,31 @@ public class Controller {
         return new ModelAndView("redirect:/admin/home");
     }
 
-    @RequestMapping(value = "/user/newTrade", method = RequestMethod.POST)
-    @Transactional
-    public ModelAndView newTrade(
-            @RequestParam("stockName") String stockName,
-            @RequestParam("stockPrice") String stockPrice,
-            @RequestParam("quantity") int quantity,
-            @RequestParam("buy") Boolean buy){
-        if(!buy) quantity = 0 - quantity;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        Date date = new Date();
-        System.out.println("Adding new trade: " + user.getId() + " " + stockName + " " + stockPrice + " " + quantity + " " + date);
-
-        Trade newTrade = new Trade(user.getId(), stockName, stockPrice, quantity, date);
-        tradeService.save(newTrade);
-
-        Portfolio existPortfolio = portfolioService.findByUserIdAndStockName(user.getId(), stockName);
-        if (existPortfolio != null)
-            existPortfolio.setQuantity(quantity + existPortfolio.getQuantity());
-        else {
-            portfolioService.save(new Portfolio(user.getId(), stockName, quantity));
-        }
-
-        return new ModelAndView("redirect:/user/home");
-
-    }
+//    @RequestMapping(value = "/user/newTrade", method = RequestMethod.POST)
+//    @Transactional
+//    public ModelAndView newTrade(
+//            @RequestParam("stockName") String stockName,
+//            @RequestParam("stockPrice") String stockPrice,
+//            @RequestParam("quantity") int quantity,
+//            @RequestParam("buy") Boolean buy){
+//        if(!buy) quantity = 0 - quantity;
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findUserByEmail(auth.getName());
+//        Date date = new Date();
+//        System.out.println("Adding new trade: " + user.getId() + " " + stockName + " " + stockPrice + " " + quantity + " " + date);
+//
+//        Trade newTrade = new Trade(user.getId(), stockName, stockPrice, quantity, date);
+//        tradeService.save(newTrade);
+//
+//        Portfolio existPortfolio = portfolioService.findByUserIdAndStockName(user.getId(), stockName);
+//        if (existPortfolio != null)
+//            existPortfolio.setQuantity(quantity + existPortfolio.getQuantity());
+//        else {
+//            portfolioService.save(new Portfolio(user.getId(), stockName, quantity));
+//        }
+//
+//        return new ModelAndView("redirect:/user/home");
+//
+//    }
 
 }
