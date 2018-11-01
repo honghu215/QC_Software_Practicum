@@ -4,11 +4,38 @@
       xmlns:th="http://java.sun.com/xml/ns/persistence/orm" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Users</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 </head>
 <body>
-<div th:include="header"></div>
-<br><br>
-    <h1>List of users</h1>
+
+    <div th:include="header"></div>
+
+    <br>
+    <br>
+
+    <table class="rwd-table" style="margin-top: 10px;" align="center">
+        <thead>
+        <tr>
+            <th>User Id</th>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"/>
+            <td th:text="${user.name}"/>
+            <td th:text="${user.email}"/>
+            <td th:if="${user.id} != 1">
+                <a th:href="@{/admin/deleteUser(id=${user.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 </body>
 </html>

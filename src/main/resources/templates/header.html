@@ -10,8 +10,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
 </head>
 <body>
+
+<!--<div th:style="'background:url(' + @{../../static/images/background.jpeg} + ');'"></div>-->
+
+</div>
 
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
 
@@ -26,6 +32,8 @@
         <div class="navbar-collapse collapse">
 
             <ul class="nav navbar-nav">
+                <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/home}" mothods="get">Home</a></li>
+                <li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/home}" mothods="get">Home</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}" mothods="get">Users</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/securities}" mothods="get">Securities</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/history}" mothods="get">History</a></li>

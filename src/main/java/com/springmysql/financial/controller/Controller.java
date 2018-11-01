@@ -101,45 +101,7 @@ public class Controller {
 
 
 
-    @RequestMapping(value = "/admin/home", method = RequestMethod.POST)
-    public ModelAndView createStock(@Valid Stock newStock, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        Stock stockExists = stockService.findByStockId(newStock.getStockId());
-        if (stockExists != null) {
-            bindingResult
-                    .rejectValue("stockId", "error.stock",
-                            "There is already a stock added");
-        }
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("/admin/home");
-        } else {
-            stockService.saveStock(newStock);
-            modelAndView.addObject("successMessage", "Stock has been added successfully");
-            modelAndView.setViewName("/admin/home");
-        }
 
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/admin/deleteUser", method = RequestMethod.GET)
-    @Transactional
-    public ModelAndView deleteUser(@RequestParam("id") String id){
-        userService.deleteUser(Integer.parseInt(id));
-        return new ModelAndView("redirect:/admin/home");
-    }
-
-    @RequestMapping(value = "/admin/deleteStock", method = RequestMethod.GET)
-    @Transactional
-    public ModelAndView deleteStock(@RequestParam("id") String id) {
-        stockService.deleteByStockId(Integer.parseInt(id));
-        return new ModelAndView("redirect:/admin/home");
-    }
-
-    @RequestMapping(value = "/admin/addStock", method = RequestMethod.POST)
-    public ModelAndView addStock(@ModelAttribute("newStock") Stock newStock){
-        stockService.saveStock(newStock);
-        return new ModelAndView("redirect:/admin/home");
-    }
 
 //    @RequestMapping(value = "/user/newTrade", method = RequestMethod.POST)
 //    @Transactional

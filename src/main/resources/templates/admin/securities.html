@@ -4,12 +4,44 @@
       xmlns:th="https://java.sun.com/xml/ns/persistence/orm">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Securities</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 </head>
 <body>
-<div th:include="header"></div>
-<br><br>
+    <div th:include="header"></div>
+    <br><br>
 
-<h1>Securities</h1>
+    <div class="container">
+
+        <table class="rwd-table" style="margin-top: 10px;" align="center">
+            <thead>
+                <tr>
+                    <th>OCC</th>
+                    <th>Name</th>
+                    <th>Underlying</th>
+                    <th>Strike Price</th>
+                    <th>Expiration</th>
+                    <th>Put/Call</th>
+                    <th>Ame/Eur</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="option: ${options}">
+                    <td th:text="${option.occCode}"></td>
+                    <td th:text="${option.optionName}}"></td>
+                    <td th:text="${option.underlying}"></td>
+                    <td th:text="${option.strikePrice}"></td>
+                    <td th:text="${option.expiration}"></td>
+                    <td th:text="${option.putCall}"></td>
+                    <td th:text="${option.putCall}"></td>
+                    <td th:text="${option.ameEur}"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
 </body>
 </html>
