@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -82,9 +83,18 @@ public class AdminController {
     public ModelAndView addOption(@ModelAttribute("newOption") Option newOption) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(newOption.getExpiration());
-        newOption.setOccCode(newOption.getUnderlying().substring(0, 3).toUpperCase() + cal.get(Calendar.MONTH) + cal.get(Calendar.DAY_OF_MONTH) + cal.get(Calendar.YEAR)
-                + newOption.getPutCall().toUpperCase().charAt(0) + newOption.getStrikePrice());
+        String priceStr = String.format("%08d", (int)(newOption.getStrikePrice()*100));
+
+        newOption.setOccCode(newOption.getUnderlying().substring(0, 4).toUpperCase() + cal.get(Calendar.MONTH) + cal.get(Calendar.DAY_OF_MONTH) + cal.get(Calendar.YEAR)
+                + newOption.getPutCall().toUpperCase().charAt(0) + priceStr);
         optionService.save(newOption);
+        return new ModelAndView("redirect:/admin/securities");
+    }
+
+    @RequestMapping(value = "/admin/securities/deleteOption", method = RequestMethod.GET)
+    @Transactional
+    public ModelAndView deleteOption(@RequestParam("OCC") String OCC) {
+        optionService.deleteByOCC(OCC);
         return new ModelAndView("redirect:/admin/securities");
     }
 

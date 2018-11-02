@@ -9,6 +9,7 @@ body {
     min-width: 300px;
     width: 80%;
     align: center;
+    margin-bottom: 15px;
 }
 .rwd-table tr {
     border-top: 1px solid #ddd;

@@ -97,7 +97,7 @@
 
                             <div class="form-group">
                                 <label for="strikePrice">Strike Price:</label>
-                                <input type="number" class="form-control" id="strikePrice" th:field="*{strikePrice}"/>
+                                <input type="number" step="any" class="form-control" id="strikePrice" th:field="*{strikePrice}"/>
                             </div>
 
                             <div class="form-group">
@@ -106,18 +106,29 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="putCall">Put/Call:</label>
-                                <input type="text" class="form-control" id="putCall" th:field="*{putCall}"/>
+                                <label for="putCall" style="margin-right: 8px;">Put/Call:</label>
+                                <!--<input type="text" class="form-control" id="putCall" th:field="*{putCall}"/>-->
+                                <select id="putCall" th:field="*{putCall}" class="form-control form-control-lg">
+                                    <option value="Put">Put</option>
+                                    <option value="Call">Call</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="ameEur">Ame/Eur</label>
-                                <input type="text" class="form-control" id="ameEur" th:field="*{ameEur}"/>
+                                <!--<input type="text" class="form-control" id="ameEur" th:field="*{ameEur}"/>-->
+                                <select id="ameEur" th:field="*{ameEur}" class="form-control form-control-lg">
+                                    <option value="Ame">America</option>
+                                    <option value="Eur">Europe</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="underlying">Underlying</label>
-                                <input type="text" class="form-control" id="underlying" th:field="*{underlying}"/>
+                                <!--<input type="text" class="form-control" id="underlying" th:field="*{underlying}"/>-->
+                                <select id="underlying" th:field="*{underlying}" class="form-control form-control-lg">
+                                    <option th:each="stock: ${stocks}" th:value="${stock.stockName}" th:text="${stock.stockName}"></option>
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
@@ -127,7 +138,7 @@
             </div>
         </div>
 
-        <table class="rwd-table" style="margin-top: 10px" align="center">
+        <table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px; width: 100%;" align="center">
             <thead>
             <tr>
                 <th>OCC</th>
@@ -137,6 +148,7 @@
                 <th>Expiration</th>
                 <th>Put/Call</th>
                 <th>Ame/Eur</th>
+                <th></th>
             </tr>
             </thead>
 
@@ -149,6 +161,7 @@
                 <td th:text="${option.expiration}"></td>
                 <td th:text="${option.putCall}"></td>
                 <td th:text="${option.ameEur}"></td>
+                <th> <a th:href="@{/admin/securities/deleteOption(OCC=${option.occCode})}">Delete</a></th>
             </tr>
             </tbody>
 

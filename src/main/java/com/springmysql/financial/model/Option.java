@@ -4,7 +4,10 @@ package com.springmysql.financial.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -17,10 +20,12 @@ public class Option {
     @Column(name = "occCode", nullable = false)
     private String occCode;
 
+    @NotEmpty(message = "Please provide the option name.")
     @Column(name = "option_name")
     private String optionName;
 
     @Column(name = "strikePrice")
+    @DecimalMin("0.01")
     private double strikePrice;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -39,7 +44,6 @@ public class Option {
     public Option() { }
 
     public Option(String occCode, String optionName, double strikePrice, Date expiration, String putCall, String ameEur, String underlying) {
-
         this.optionName = optionName;
         this.strikePrice = strikePrice;
         this.expiration = expiration;
@@ -127,9 +131,9 @@ public class Option {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Option option = (Option) o;
-        return Double.compare(option.strikePrice, strikePrice) == 0 &&
-                Objects.equals(occCode, option.occCode) &&
+        return Objects.equals(occCode, option.occCode) &&
                 Objects.equals(optionName, option.optionName) &&
+                Objects.equals(strikePrice, option.strikePrice) &&
                 Objects.equals(expiration, option.expiration) &&
                 Objects.equals(putCall, option.putCall) &&
                 Objects.equals(ameEur, option.ameEur) &&

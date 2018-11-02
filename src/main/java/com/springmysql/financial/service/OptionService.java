@@ -22,4 +22,8 @@ public class OptionService{
     public List<Option> findAll() {
         return optionRepository.findAll();
     }
+
+    public void deleteByOCC(String OCC) {
+        optionRepository.deleteById(OCC);
+    }
 }
