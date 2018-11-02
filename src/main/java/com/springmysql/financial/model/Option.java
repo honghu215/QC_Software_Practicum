@@ -1,6 +1,8 @@
 package com.springmysql.financial.model;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -21,6 +23,7 @@ public class Option {
     @Column(name = "strikePrice")
     private double strikePrice;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "expiration")
     private Date expiration;
 

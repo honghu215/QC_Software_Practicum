@@ -6,42 +6,155 @@
     <meta charset="UTF-8">
     <title>Securities</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
+
     <div th:include="header"></div>
     <br><br>
 
     <div class="container">
 
-        <table class="rwd-table" style="margin-top: 10px;" align="center">
+        <!-- table for stocks -->
+        <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Stocks
+            <span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 59%;" data-target="#addStock" data-whatever="@mdo">+</button>
+            </span>
+        </p>
+
+        <div class="modal fade" id="addStock" tabindex="-1" role="dialog" aria-labelledby="addStockLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addStockLabel">Add New Stock</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/securities/addStock}" th:object="${newStock}" method="post">
+                            <div class="form-group">
+                                <label for="stockName">Stock Name:</label>
+                                <input type="text" class="form-control" id="stockName" th:field="*{stockName}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="field">Stock Field:</label>
+                                <input type="text" class="form-control" id="field" th:field="*{stockField}"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
             <thead>
                 <tr>
-                    <th>OCC</th>
-                    <th>Name</th>
-                    <th>Underlying</th>
-                    <th>Strike Price</th>
-                    <th>Expiration</th>
-                    <th>Put/Call</th>
-                    <th>Ame/Eur</th>
+                    <th>Stock Name</th>
+                    <th>Stock Field</th>
+                    <th></th>
+                    <!--<th>Add Option</th>-->
                 </tr>
             </thead>
 
             <tbody>
-                <tr th:each="option: ${options}">
-                    <td th:text="${option.occCode}"></td>
-                    <td th:text="${option.optionName}}"></td>
-                    <td th:text="${option.underlying}"></td>
-                    <td th:text="${option.strikePrice}"></td>
-                    <td th:text="${option.expiration}"></td>
-                    <td th:text="${option.putCall}"></td>
-                    <td th:text="${option.putCall}"></td>
-                    <td th:text="${option.ameEur}"></td>
+                <tr th:each="stock: ${stocks}">
+                    <td th:text="${stock.stockName}"></td>
+                    <td th:text="${stock.stockField}"></td>
+                    <th> <a th:href="@{/admin/securities/deleteStock(id=${stock.stockId})}">Delete</a> </th>
+                    <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
                 </tr>
+            </tbody>
+        </table>
+
+
+        <!-- table for options -->
+        <!--<h2 style="margin: 40px 0px 25px 513px;">Options</h2>-->
+
+        <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Options
+            <span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 57%;" data-target="#addOption" data-whatever="@mdo">+</button>
+            </span>
+        </p>
+
+        <div class="modal fade" id="addOption" tabindex="-1" role="dialog" aria-labelledby="addOptionLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addOptionLabel">Add New Option</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/securities/addOption}" th:object="${newOption}" method="post">
+
+                            <div class="form-group">
+                                <span type="text" style="display: none" th:field="*{occCode}">OCC</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="optionName">Option Name:</label>
+                                <input type="text" class="form-control" id="optionName" th:field="*{optionName}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="strikePrice">Strike Price:</label>
+                                <input type="number" class="form-control" id="strikePrice" th:field="*{strikePrice}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="expiration">Expiration Date:</label>
+                                <input type="date" class="form-control" id="expiration" th:field="*{expiration}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="putCall">Put/Call:</label>
+                                <input type="text" class="form-control" id="putCall" th:field="*{putCall}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ameEur">Ame/Eur</label>
+                                <input type="text" class="form-control" id="ameEur" th:field="*{ameEur}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="underlying">Underlying</label>
+                                <input type="text" class="form-control" id="underlying" th:field="*{underlying}"/>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="rwd-table" style="margin-top: 10px" align="center">
+            <thead>
+            <tr>
+                <th>OCC</th>
+                <th>Name</th>
+                <th>Underlying</th>
+                <th>Strike Price</th>
+                <th>Expiration</th>
+                <th>Put/Call</th>
+                <th>Ame/Eur</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="option: ${options}">
+                <td th:text="${option.occCode}"></td>
+                <td th:text="${option.optionName}"></td>
+                <td th:text="${option.underlying}"></td>
+                <td th:text="${option.strikePrice}"></td>
+                <td th:text="${option.expiration}"></td>
+                <td th:text="${option.putCall}"></td>
+                <td th:text="${option.ameEur}"></td>
+            </tr>
             </tbody>
 
         </table>
-
     </div>
+
 
 </body>
 </html>

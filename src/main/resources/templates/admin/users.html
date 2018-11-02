@@ -5,37 +5,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
-
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 </head>
 <body>
 
     <div th:include="header"></div>
+    <br><br>
 
-    <br>
-    <br>
+    <div class="container">
+        <table class="rwd-table" style="margin-top: 10px;" align="center">
+            <thead>
+            <tr>
+                <th>Account Id</th>
+                <th>Account Name</th>
+                <th>Account Email</th>
+                <th>Action</th>
+            </tr>
+            </thead>
 
-    <table class="rwd-table" style="margin-top: 10px;" align="center">
-        <thead>
-        <tr>
-            <th>User Id</th>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"/>
+                <td th:text="${user.name}"/>
+                <td th:text="${user.email}"/>
+                <td th:if="${user.id} != 1">
+                    <button th:href="@{/admin/deleteUser(id=${user.id})}" style="color: #1e5a16;">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-        <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}"/>
-            <td th:text="${user.name}"/>
-            <td th:text="${user.email}"/>
-            <td th:if="${user.id} != 1">
-                <a th:href="@{/admin/deleteUser(id=${user.id})}">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    </div>
 
 </body>
 </html>

@@ -15,9 +15,6 @@
 </head>
 <body>
 
-<!--<div th:style="'background:url(' + @{../../static/images/background.jpeg} + ');'"></div>-->
-
-</div>
 
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
 
@@ -34,12 +31,22 @@
             <ul class="nav navbar-nav">
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/home}" mothods="get">Home</a></li>
                 <li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/home}" mothods="get">Home</a></li>
-                <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}" mothods="get">Users</a></li>
+                <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}" mothods="get">Accounts</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/securities}" mothods="get">Securities</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/history}" mothods="get">History</a></li>
 
-            </ul>
+                <!--<li class="nav-item dropdown">-->
+                    <!--<a class="nav-link dropdown-toggle navbar-right" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                        <!--+-->
+                    <!--</a>-->
+                    <!--<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+                        <!--<button class="dropdown-item" href="#">Action</button>-->
+                        <!--<a class="dropdown-item" href="#">Another action</a>-->
+                        <!--<a class="dropdown-item" href="#">Something else here</a>-->
+                    <!--</div>-->
+                <!--</li>-->
 
+            </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a th:href="@{/logout}" methods="get">Logout</a></li>
