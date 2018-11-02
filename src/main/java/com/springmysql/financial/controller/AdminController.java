@@ -69,7 +69,7 @@ public class AdminController {
         stockService.findAll().forEach(stocks::add);
         modelAndView.addObject("stocks", stocks);
 
-        modelAndView.setViewName("/admin/securities");
+        modelAndView.setViewName("admin/securities");
         return modelAndView;
     }
 
