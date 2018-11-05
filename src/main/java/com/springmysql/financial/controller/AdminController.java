@@ -1,9 +1,6 @@
 package com.springmysql.financial.controller;
 
-import com.springmysql.financial.model.Option;
-import com.springmysql.financial.model.Stock;
-import com.springmysql.financial.model.Trade;
-import com.springmysql.financial.model.User;
+import com.springmysql.financial.model.*;
 import com.springmysql.financial.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,6 +29,8 @@ public class AdminController {
     private PortfolioService portfolioService;
     @Autowired
     OptionService optionService;
+    @Autowired
+    IndexService indexService;
 
 
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
@@ -60,6 +59,13 @@ public class AdminController {
 
         Option newOption = new Option();
         modelAndView.addObject("newOption", newOption);
+
+        Index newIndex = new Index();
+        modelAndView.addObject("newIndex", newIndex);
+
+        List<Index> indexes = new ArrayList<>();
+        indexService.findAll().forEach(indexes::add);
+        modelAndView.addObject("indexes", indexes);
 
         List<Option> options = new ArrayList<>();
         optionService.findAll().forEach(options::add);
@@ -91,6 +97,12 @@ public class AdminController {
         return new ModelAndView("redirect:/admin/securities");
     }
 
+    @RequestMapping(value = "/admin/securities/addIndex", method = RequestMethod.POST)
+    public ModelAndView addIndex(@ModelAttribute("newIndex") Index newIndex){
+        indexService.save(newIndex);
+        return new ModelAndView("redirect:/admin/securities");
+    }
+
     @RequestMapping(value = "/admin/securities/deleteOption", method = RequestMethod.GET)
     @Transactional
     public ModelAndView deleteOption(@RequestParam("OCC") String OCC) {
@@ -102,6 +114,13 @@ public class AdminController {
     @Transactional
     public ModelAndView deleteStock(@RequestParam("id") String id){
         stockService.deleteByStockId(Integer.parseInt(id));
+        return new ModelAndView("redirect:/admin/securities");
+    }
+
+    @RequestMapping(value = "/admin/securities/deleteIndex", method = RequestMethod.GET)
+    @Transactional
+    public ModelAndView deleteIndex(@RequestParam("id") String id){
+        indexService.deleteByIndexId(Integer.parseInt(id));
         return new ModelAndView("redirect:/admin/securities");
     }
 
@@ -136,6 +155,7 @@ public class AdminController {
 
         List<Trade> trades = tradeService.findAll();
         modelAndView.addObject("trades", trades);
+
 
         modelAndView.setViewName("admin/home");
         return modelAndView;

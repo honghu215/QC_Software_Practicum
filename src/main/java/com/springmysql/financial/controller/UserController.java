@@ -57,4 +57,12 @@ public class UserController {
         modelAndView.addObject("currentUser", user);
         return modelAndView;
     }
+
+    @RequestMapping(value = "user/history", method = RequestMethod.GET)
+    public ModelAndView userHistory() {
+        ModelAndView modelAndView = new ModelAndView("user/home");
+
+
+        return modelAndView;
+    }
 }

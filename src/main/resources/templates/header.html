@@ -33,7 +33,7 @@
                 <li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/home}" mothods="get">Home</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}" mothods="get">Accounts</a></li>
                 <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/securities}" mothods="get">Securities</a></li>
-                <li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/history}" mothods="get">History</a></li>
+                <li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/history}" mothods="get">History</a></li>
 
                 <!--<li class="nav-item dropdown">-->
                     <!--<a class="nav-link dropdown-toggle navbar-right" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
