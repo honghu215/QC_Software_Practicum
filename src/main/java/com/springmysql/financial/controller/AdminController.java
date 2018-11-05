@@ -31,6 +31,8 @@ public class AdminController {
     OptionService optionService;
     @Autowired
     IndexService indexService;
+    @Autowired
+    BondService bondService;
 
 
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
@@ -62,6 +64,13 @@ public class AdminController {
 
         Index newIndex = new Index();
         modelAndView.addObject("newIndex", newIndex);
+
+        Bond newBond = new Bond();
+        modelAndView.addObject("newBond", newBond);
+
+        List<Bond> bonds = new ArrayList<>();
+        bondService.findAll().forEach(bonds::add);
+        modelAndView.addObject("bonds", bonds);
 
         List<Index> indexes = new ArrayList<>();
         indexService.findAll().forEach(indexes::add);
@@ -102,6 +111,20 @@ public class AdminController {
         indexService.save(newIndex);
         return new ModelAndView("redirect:/admin/securities");
     }
+
+    @RequestMapping(value = "/admin/securities/addBond", method = RequestMethod.POST)
+    public ModelAndView addBond(@ModelAttribute("newBond") Bond newBond) {
+        bondService.save(newBond);
+        return new ModelAndView("redirect:/admin/securities");
+    }
+
+    @RequestMapping(value = "/admin/securities/deleteBond", method = RequestMethod.GET)
+    @Transactional
+    public ModelAndView deleteBond(@RequestParam("id") String id) {
+        bondService.deleteByBondId(Integer.parseInt(id));
+        return new ModelAndView("redirect:/admin/securities");
+    }
+
 
     @RequestMapping(value = "/admin/securities/deleteOption", method = RequestMethod.GET)
     @Transactional

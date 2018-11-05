@@ -170,7 +170,7 @@
 
         <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Indexes
             <span>
-                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 59%;" data-target="#addIndex" data-whatever="@mdo">+</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 57%;" data-target="#addIndex" data-whatever="@mdo">+</button>
             </span>
         </p>
 
@@ -218,6 +218,68 @@
             </tr>
             </tbody>
         </table>
+
+
+        <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Bond
+            <span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 62%;" data-target="#addBond" data-whatever="@mdo">+</button>
+            </span>
+        </p>
+
+        <div class="modal fade" id="addBond" tabindex="-1" role="dialog" aria-labelledby="addBondLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addBondLabel">Add New Index</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/securities/addBond}" th:object="${newBond}" method="post">
+                            <div class="form-group">
+                                <label for="bondName">Bond Name:</label>
+                                <input type="text" class="form-control" id="bondName" th:field="*{bondName}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="matuarity">Matuarity:</label>
+                                <input type="text" class="form-control" id="matuarity" th:field="*{matuarity}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="coupon">Coupon:</label>
+                                <input type="number" step="any" class="form-control" id="coupon" th:field="*{coupon}"/>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Matuarity</th>
+                <th>Coupon</th>
+                <th></th>
+                <!--<th>Add Index</th>-->
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="bond: ${bonds}">
+                <td th:text="${bond.bondName}"></td>
+                <td th:text="${bond.matuarity}"></td>
+                <td th:text="${bond.coupon}"></td>
+                <th> <a th:href="@{/admin/securities/deleteBond(id=${bond.bondId})}">Delete</a> </th>
+                <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
+            </tr>
+            </tbody>
+        </table>
+
+
+
     </div>
 
 
