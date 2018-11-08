@@ -240,13 +240,21 @@
                                 <input type="text" class="form-control" id="bondName" th:field="*{bondName}"/>
                             </div>
                             <div class="form-group">
-                                <label for="matuarity">Matuarity:</label>
-                                <input type="text" class="form-control" id="matuarity" th:field="*{matuarity}"/>
+                                <label for="maturity">Maturity Length(years):</label>
+                                <input type="number" class="form-control" id="maturity" th:field="*{maturityLength}"/>
                             </div>
                             <div class="form-group">
                                 <label for="coupon">Coupon:</label>
                                 <input type="number" step="any" class="form-control" id="coupon" th:field="*{coupon}"/>
                             </div>
+                            <div class="form-group">
+                                <label for="issuedOn">Issued On:</label>
+                                <input type="date" class="form-control" id="issuedOn" th:field="*{createdOn}"/>
+                            </div>
+                            <!--<input type="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{createdOn}"  style="display: none"/>-->
+                            <!--<input type="date" th:field="*{createdOn}" />-->
+                            <!--<input type="date" th:text="${#dates.createNow()}" th:field="*{maturity}" />-->
+                            <!--&lt;!&ndash;<input type="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{maturity}" style="display: none;">&ndash;&gt;-->
 
                             <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
                         </form>
@@ -260,7 +268,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Matuarity</th>
+                <th>Maturity</th>
                 <th>Coupon</th>
                 <th></th>
                 <!--<th>Add Index</th>-->
@@ -270,7 +278,7 @@
             <tbody>
             <tr th:each="bond: ${bonds}">
                 <td th:text="${bond.bondName}"></td>
-                <td th:text="${bond.matuarity}"></td>
+                <td th:text="${bond.maturity}"></td>
                 <td th:text="${bond.coupon}"></td>
                 <th> <a th:href="@{/admin/securities/deleteBond(id=${bond.bondId})}">Delete</a> </th>
                 <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->

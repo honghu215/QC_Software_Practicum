@@ -12,8 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -114,6 +116,14 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/securities/addBond", method = RequestMethod.POST)
     public ModelAndView addBond(@ModelAttribute("newBond") Bond newBond) {
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(newBond.getCreatedOn());
+//        LocalDate createdOn = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+//        newBond.setCreatedOn(createdOn);
+//        //        cal.set(cal.get(Calendar.YEAR)+newBond.getMaturityLength(), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+//        System.out.println(cal);
+//        newBond.setMaturity(cal.getTime());
+        newBond.setMaturity(LocalDate.of(newBond.getCreatedOn().getYear()+3, newBond.getCreatedOn().getMonth(), newBond.getCreatedOn().getDayOfMonth()));
         bondService.save(newBond);
         return new ModelAndView("redirect:/admin/securities");
     }
