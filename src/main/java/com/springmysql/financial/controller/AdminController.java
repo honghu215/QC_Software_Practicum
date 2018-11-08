@@ -36,6 +36,8 @@ public class AdminController {
     @Autowired
     BondService bondService;
 
+    private final int faceValue = 100;
+
 
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
     public ModelAndView getUsers(){
