@@ -38,7 +38,6 @@ public class AdminController {
 
     private final int faceValue = 100;
 
-
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
     public ModelAndView getUsers(){
         ModelAndView modelAndView = new ModelAndView("admin/users");
