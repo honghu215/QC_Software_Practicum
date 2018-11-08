@@ -1,6 +1,24 @@
 # Tips for programming languages, softwares, etc  
 
 ## Git command  
+* List all branches
+
+```
+git branch --all
+```
+
+* switch to another existing branch
+
+```
+git checkout branch_name
+```
+
+* create a new branch
+
+```
+git checkout -b branch_name
+```
+
 * List existing remotes  
 
 ```
