@@ -2,6 +2,7 @@ package com.springmysql.financial.controller;
 
 import com.springmysql.financial.model.*;
 import com.springmysql.financial.service.*;
+import org.decimal4j.util.DoubleRounder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,6 +94,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/securities/addStock", method = RequestMethod.POST)
     public ModelAndView addStock(@ModelAttribute("newStock") Stock newStock){
+        newStock.setPrice( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );
         stockService.saveStock(newStock);
         return new ModelAndView("redirect:/admin/securities");
     }

@@ -18,7 +18,6 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
 
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         for(GrantedAuthority auth: authentication.getAuthorities()) {
-            System.out.println(auth.getAuthority());
             if (auth.getAuthority().equals("USER")) {
                 httpServletResponse.sendRedirect("user/home");
             } else if (auth.getAuthority().equals("ADMIN")){

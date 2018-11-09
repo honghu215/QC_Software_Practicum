@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://java.sun.com/xml/ns/persistence/orm" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Market</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <style>
+        .table-name {
+            font-size: 32px;
+            margin-top: 25px;
+            margin-left: 45%;
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:include="header"></div>
+<br><br>
+<h1>Market</h1>
+
+    <!-- table for stocks -->
+    <p class="table-name">Stocks
+        <!--<span>-->
+        <!--<button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 59%;" data-target="#addStock" data-whatever="@mdo">+</button>-->
+        <!--</span>-->
+    </p>
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Field</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="stock: ${stocks}">
+            <td th:text="${stock.stockName}"></td>
+            <td th:text="${stock.price}"></td>
+            <td th:text="${stock.stockField}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="table-name">Bonds</p>
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Coupon</th>
+            <th>Face Value</th>
+            <th>Maturity</th>
+            <th>Issued On</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="bond: ${bonds}">
+            <td th:text="${bond.bondName}"></td>
+            <td th:text="${bond.coupon}"></td>
+            <td th:text="100"></td>
+            <td th:text="${bond.maturity}"></td>
+            <td th:text="${bond.createdOn}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

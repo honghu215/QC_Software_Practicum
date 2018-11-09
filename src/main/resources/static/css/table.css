@@ -2,8 +2,15 @@ body {
     background-image: url("../images/background.jpeg");
 }
 
-
 @import "https://fonts.googleapis.com/css?family=Montserrat:300, 400, 700";
+
+#table-name {
+    font-size: 32px;
+    margin-top: 25px;
+    margin-left: 45%;
+    margin-bottom: 0px;
+}
+
 .rwd-table {
     /*margin: 1em 0;*/
     min-width: 300px;

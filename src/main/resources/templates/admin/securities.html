@@ -36,6 +36,10 @@
                                 <input type="text" class="form-control" id="stockName" th:field="*{stockName}"/>
                             </div>
                             <div class="form-group">
+                                <label for="price" style="display: none">Price:</label>
+                                <input type="number" step="any" class="form-control" id="price" th:field="*{price}" style="display: none"/>
+                            </div>
+                            <div class="form-group">
                                 <label for="field">Stock Field:</label>
                                 <input type="text" class="form-control" id="field" th:field="*{stockField}"/>
                             </div>
@@ -50,8 +54,9 @@
         <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
             <thead>
                 <tr>
-                    <th>Stock Name</th>
-                    <th>Stock Field</th>
+                    <th>Name</th>
+                    <!--<th>Price</th>-->
+                    <th>Field</th>
                     <th></th>
                     <!--<th>Add Option</th>-->
                 </tr>
@@ -60,6 +65,7 @@
             <tbody>
                 <tr th:each="stock: ${stocks}">
                     <td th:text="${stock.stockName}"></td>
+                    <!--<td th:text="${stock.price}"></td>-->
                     <td th:text="${stock.stockField}"></td>
                     <th> <a th:href="@{/admin/securities/deleteStock(id=${stock.stockId})}">Delete</a> </th>
                     <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
