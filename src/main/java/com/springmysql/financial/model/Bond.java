@@ -32,6 +32,9 @@ public class Bond {
     @Column(name = "createdOn")
     private LocalDate createdOn;
 
+    @Column(name = "bondValue")
+    private Double bondValue;
+
     public Bond() {    }
 
     public Bond(String bondName, int maturityLength, double coupon) {
@@ -65,6 +68,10 @@ public class Bond {
         this.coupon = coupon;
     }
 
+    public void setBondValue(Double bondValue) {
+        this.bondValue = bondValue;
+    }
+
     public void setCreatedOn(LocalDate createdOn) {
         this.createdOn = createdOn;
     }
@@ -93,6 +100,10 @@ public class Bond {
         return createdOn;
     }
 
+    public Double getBondValue() {
+        return bondValue;
+    }
+
     @Override
     public String toString() {
         return "Bond{" +
@@ -102,6 +113,7 @@ public class Bond {
                 ", maturity=" + maturity +
                 ", coupon=" + coupon +
                 ", createdOn=" + createdOn +
+                ", bondValue=" + bondValue +
                 '}';
     }
 }
