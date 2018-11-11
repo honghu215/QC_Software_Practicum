@@ -6,12 +6,19 @@
     <meta charset="UTF-8">
     <title>Market</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+
     <style>
         .table-name {
             font-size: 32px;
             margin-top: 25px;
             margin-left: 45%;
             margin-bottom: 0px;
+        }
+        .calculation {
+            font-style: italic;
+            font-size: 23px;
+            margin-top: 40px;
         }
     </style>
 </head>
@@ -45,30 +52,94 @@
         </tbody>
     </table>
 
-    <p class="table-name">Bonds</p>
-    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Coupon</th>
-            <th>Face Value</th>
-            <th>Maturity</th>
-            <th>Issued On</th>
-            <th>Bond Value</th>
-        </tr>
-        </thead>
+    <div class="container row">
+        <div class="col-md-8">
+            <p class="table-name">Bonds</p>
+            <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Coupon</th>
+                    <th>Face Value</th>
+                    <th>Maturity</th>
+                    <th>Issued On</th>
+                    <th>Bond Value</th>
+                </tr>
+                </thead>
 
-        <tbody>
-        <tr th:each="bond: ${bonds}">
-            <td th:text="${bond.bondName}"></td>
-            <td th:text="${bond.coupon}"></td>
-            <td th:text="100"></td>
-            <td th:text="${bond.maturity}"></td>
-            <td th:text="${bond.createdOn}"></td>
-            <td th:text="${bond.bondValue}"></td>
-        </tr>
-        </tbody>
-    </table>
+                <tbody>
+                <tr th:each="bond: ${bonds}">
+                    <td th:text="${bond.bondName}"></td>
+                    <td th:text="${bond.coupon}"></td>
+                    <td th:text="100"></td>
+                    <td th:text="${bond.maturity}"></td>
+                    <td th:text="${bond.createdOn}"></td>
+                    <td th:text="${bond.bondValue}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-2">
+            <p class="calculation">Calculate Yield</p>
+            <label for="bond">Select Bond: </label>
+            <select name="bond" id="bond" class="form-control form-control-lg">
+                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+            </select>
+            <label for="bond_value">Input value: </label>
+            <input type="number" step="0.01" id="bond_value" />
+            <br>
+            <div id="display_yield" style="color: #ffed16; font-size: 23px;">Yield: </div>
+            <button type="submit" class="btn btn-primary" align="right">Calculate</button>
+        </div>
+
+        <div class="col-md-2">
+            <p class="calculation">Calculate Bond</p>
+            <label for="bond">Select Bond: </label>
+            <select name="bond" id="bond2" class="form-control form-control-lg">
+                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+            </select>
+            <label for="yield">Input yield: </label>
+            <input type="number" step="0.01" id="yield" />
+            <br>
+            <div id="display_bond" style="color: #ffed16; font-size: 23px;">Bond: </div>
+            <button type="submit" class="btn btn-primary" align="right">Calculate</button>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <p class="table-name">Options</p>
+<table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px;" align="center">
+    <thead>
+    <tr>
+        <th>OCC</th>
+        <th>Name</th>
+        <th>Underlying</th>
+        <th>Strike Price</th>
+        <th>Expiration</th>
+        <th>Put/Call</th>
+        <th>Ame/Eur</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="option: ${options}">
+        <td th:text="${option.occCode}"></td>
+        <td th:text="${option.optionName}"></td>
+        <td th:text="${option.underlying}"></td>
+        <td th:text="${option.strikePrice}"></td>
+        <td th:text="${option.expiration}"></td>
+        <td th:text="${option.putCall}"></td>
+        <td th:text="${option.ameEur}"></td>
+    </tr>
+    </tbody>
+
+</table>
 
 </body>
 </html>

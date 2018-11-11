@@ -27,6 +27,8 @@ public class UserController {
     PortfolioService portfolioService;
     @Autowired
     BondService bondService;
+    @Autowired
+    OptionService optionService;
 
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
     public ModelAndView userHome() {
@@ -63,7 +65,17 @@ public class UserController {
         bondService.findAll().forEach(bonds::add);
         modelAndView.addObject("bonds", bonds);
 
+        List<Option> options = new ArrayList<>();
+        optionService.findAll().forEach(options::add);
+        modelAndView.addObject("options", options);
+
         return modelAndView;
+    }
+
+    @RequestMapping(value = "user/market/calculateYield", method = RequestMethod.POST)
+    public String calculateYield() {
+
+        return "";
     }
 
     @RequestMapping(value = "user/portfolio", method = RequestMethod.GET)
