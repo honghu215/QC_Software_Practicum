@@ -15,8 +15,8 @@ public class IndexService {
     @Autowired
     IndexRepository indexRepository;
 
-    public void save(Index index) {
-        indexRepository.save(index);
+    public Index saveIndex(Index index) {
+        return indexRepository.save(index);
     }
 
     public List<Index> findAll() {
@@ -26,4 +26,14 @@ public class IndexService {
     public void deleteByIndexId(int id) {
         indexRepository.deleteByIndexId(id);
     }
+
+    public Index findByIndexId(int id) {
+        return indexRepository.findByIndexId(id);
+    }
+
+    public Index findIndexByIndexName(String indexName)
+    {
+        return  indexRepository.findIndexByIndexName(indexName);
+    }
+
 }

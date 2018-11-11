@@ -29,6 +29,8 @@ public class UserController {
     BondService bondService;
     @Autowired
     OptionService optionService;
+    @Autowired
+    IndexService indexService;
 
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
     public ModelAndView userHome() {
@@ -68,6 +70,10 @@ public class UserController {
         List<Option> options = new ArrayList<>();
         optionService.findAll().forEach(options::add);
         modelAndView.addObject("options", options);
+
+        List<Index> indexes = new ArrayList<>();
+        indexService.findAll().forEach(indexes::add);
+        modelAndView.addObject("indexes", indexes);
 
         return modelAndView;
     }

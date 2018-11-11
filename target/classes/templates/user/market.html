@@ -30,9 +30,6 @@
 
     <!-- table for stocks -->
     <p class="table-name">Stocks
-        <!--<span>-->
-        <!--<button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 59%;" data-target="#addStock" data-whatever="@mdo">+</button>-->
-        <!--</span>-->
     </p>
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
         <thead>
@@ -51,6 +48,29 @@
         </tr>
         </tbody>
     </table>
+
+      <p class="table-name">Indexes
+      </p>
+       <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+       <thead>
+       <tr>
+        <th>Name</th>
+        <th>Index Value</th>
+        <th>Index Full Name</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="index: ${indexes}">
+        <td th:text="${index.indexName}"></td>
+        <td th:text="${index.indexValue}"></td>
+        <td th:text="${index.indexFullName}"></td>
+    </tr>
+    </tbody>
+     </table>
+
+
+
 
     <div class="container row">
         <div class="col-md-8">

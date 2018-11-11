@@ -113,7 +113,8 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/securities/addIndex", method = RequestMethod.POST)
     public ModelAndView addIndex(@ModelAttribute("newIndex") Index newIndex){
-        indexService.save(newIndex);
+        newIndex.setIndexValue( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );
+        indexService.saveIndex(newIndex);
         return new ModelAndView("redirect:/admin/securities");
     }
 
