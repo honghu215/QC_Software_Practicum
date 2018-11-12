@@ -4,7 +4,7 @@ $(document).ready(function () {
    $("#calculate_yield").submit(function (event) {
        //stop submit the form, we will post it manually
        event.preventDefault();
-       fire_ajax_submit();
+       var bondvalue = fire_ajax_submit();
    });
 });
 
@@ -13,12 +13,7 @@ function fire_ajax_submit() {
         "bondName": $("#calculateByBond").val(),
         "bondValue": $("#bond_value").val()
     };
-    // params.bondName = $("#calculateByBond").val();
-    // params.bondValue = $("#bond_value").val();
-    console.log(params, JSON.stringify(params));
-
     $("#btn_calculate").prop("disabled", true);
-
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
