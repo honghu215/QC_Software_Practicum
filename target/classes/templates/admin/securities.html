@@ -67,7 +67,7 @@
                     <td th:text="${stock.stockName}"></td>
                     <!--<td th:text="${stock.price}"></td>-->
                     <td th:text="${stock.stockField}"></td>
-                    <th> <a th:href="@{/admin/securities/deleteStock(id=${stock.stockId})}">Delete</a> </th>
+                    <td> <a th:href="@{/admin/securities/deleteStock(id=${stock.stockId})}">Delete</a> </td>
                     <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
                 </tr>
             </tbody>

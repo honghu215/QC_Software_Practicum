@@ -78,11 +78,28 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "user/market/getStockPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getStockPrice(@RequestParam("stockName") String stockName){
+        System.out.println("Stockname: " + stockName);
+        Stock stock = stockService.findStockByStockName(stockName);
+        return String.valueOf(stock.getPrice());
+    }
+
     @RequestMapping(value = "user/market/calculateYield", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String calculateYield(@RequestParam("bondName") String bondName,
                                  @RequestParam("bondValue") String bondValue) {
         System.out.println(bondName + " " + bondValue);
+
+        Bond currBond = bondService.findByBondName(bondName);
+
+
+
+
+
+
+
 
         return bondValue;
     }

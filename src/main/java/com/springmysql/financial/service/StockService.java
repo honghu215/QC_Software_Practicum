@@ -35,4 +35,5 @@ public class StockService {
     public void deleteByStockId(int id) {
         stockRepository.deleteByStockId(id);
     }
+
 }

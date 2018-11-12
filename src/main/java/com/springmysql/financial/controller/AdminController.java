@@ -49,6 +49,12 @@ public class AdminController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "admin/deleteUser", method = RequestMethod.GET)
+    @Transactional
+    public ModelAndView deleteUser(@RequestParam("id") int userId) {
+        userService.deleteUser(userId);
+        return new ModelAndView("redirect:/admin/users");
+    }
 //    @RequestMapping(value = "admin/addStock", method = RequestMethod.GET)
 //    public ModelAndView addStock() {
 //        ModelAndView modelAndView = new ModelAndView("/admin/addStock");

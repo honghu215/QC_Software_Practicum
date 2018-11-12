@@ -4,7 +4,7 @@ $(document).ready(function () {
    $("#calculate_yield").submit(function (event) {
        //stop submit the form, we will post it manually
        event.preventDefault();
-       var bondvalue = fire_ajax_submit();
+       fire_ajax_submit();
    });
 });
 
@@ -30,4 +30,31 @@ function fire_ajax_submit() {
             $("#btn_calculate").prop("disabled", false);
         }
     });
+}
+
+function getInfo(obj) {
+    var stockName = $(obj).parents("tr").find("#stockName").text();
+    getCurrentPrice(stockName);
+}
+
+
+function getCurrentPrice(stockName) {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        url: "/user/market/getStockPrice",
+        data: {"stockName": stockName },
+        success: function (data) {
+            console.log("Current price of ", stockName , " is: ", data);
+            $("#currentPrice").html(data);
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+
+function buyStock(obj) {
+
+    console.log("Confirmed!");
 }

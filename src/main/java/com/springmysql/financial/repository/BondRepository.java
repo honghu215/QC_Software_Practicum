@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BondRepository extends JpaRepository<Bond, Long> {
 
     void deleteByBondId(int bondId);
+
+    Bond findByBondName(String bondName);
 }

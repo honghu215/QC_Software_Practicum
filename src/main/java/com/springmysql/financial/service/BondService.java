@@ -26,4 +26,8 @@ public class BondService {
     public List<Bond> findAll() {
         return bondRepository.findAll();
     }
+
+    public Bond findByBondName(String bondName) {
+        return bondRepository.findByBondName(bondName);
+    }
 }

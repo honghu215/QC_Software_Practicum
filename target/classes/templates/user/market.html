@@ -34,20 +34,56 @@
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
         <thead>
         <tr>
+            <th style="display: none">No. </th>
             <th>Name</th>
             <th>Price</th>
             <th>Field</th>
+            <th></th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each="stock: ${stocks}">
-            <td th:text="${stock.stockName}"></td>
+        <tr th:each="stock, status: ${stocks}">
+            <td th:text="${status.index}" id="index" style="display: none"></td>
+            <td th:text="${stock.stockName}" id="stockName"></td>
             <td th:text="${stock.price}"></td>
             <td th:text="${stock.stockField}"></td>
+            <td>
+                <button class="btn btn-primary" onclick="getInfo(this)" data-toggle="modal" data-target="#buyStock">Buy</button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#sellStock">Sell</button>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <!-- modal for buy stock-->
+    <div class="modal fade" id="buyStock" tabindex="-1" role="dialog" aria-labelledby="buyLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="buyLabel">Confirm</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>Current price: <span id="currentPrice"></span></p>
+                    <label for="quantity">Quantity: </label>
+                    <input type="number" id="quantity" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button onclick="buyStock(this)" type="button" class="btn btn-primary">Buy</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
 
       <p class="table-name">Indexes
       </p>
@@ -115,22 +151,29 @@
                 </div>
                 <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" id="btn_calculate" align="right">Calculate</button>
+                    <button type="submit" class="btn btn-primary" id="btn_calculate_bond" align="right">Calculate</button>
                 </div>
             </form>
         </div>
 
         <div class="col-md-2">
             <p class="calculation">Calculate Bond</p>
-            <label for="bond2">Select Bond: </label>
-            <select name="bond" id="bond2" class="form-control form-control-lg">
-                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
-            </select>
-            <label for="yield">Input yield: </label>
-            <input type="number" step="0.01" id="yield" />
-            <br>
-            <div id="display_bond" style="color: #ffed16; font-size: 23px;">Bond: </div>
-            <button type="submit" class="btn btn-primary" align="right">Calculate</button>
+            <form id="calculate_bond">
+                <div class="form-group">
+                    <label for="calculateByYield">Select Bond: </label>
+                    <select name="bond" id="calculateByYield" class="form-control form-control-lg">
+                        <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="yield_value">Input value: </label>
+                    <input type="number" step="0.01" id="yield_value" />
+                </div>
+                <p style="color: #ffed16; font-size: 23px;">Bond: <span id="display_bond"></span> </p>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" id="btn_calculate_yield" align="right">Calculate</button>
+                </div>
+            </form>
 
         </div>
 
