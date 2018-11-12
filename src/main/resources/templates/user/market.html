@@ -102,20 +102,27 @@
 
         <div class="col-md-2">
             <p class="calculation">Calculate Yield</p>
-            <label for="bond">Select Bond: </label>
-            <select name="bond" id="bond" class="form-control form-control-lg">
-                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
-            </select>
-            <label for="bond_value">Input value: </label>
-            <input type="number" step="0.01" id="bond_value" />
-            <br>
-            <div id="display_yield" style="color: #ffed16; font-size: 23px;">Yield: </div>
-            <button type="submit" class="btn btn-primary" align="right">Calculate</button>
+            <form id="calculate_yield">
+                <div class="form-group">
+                    <label for="calculateByBond">Select Bond: </label>
+                    <select name="bond" id="calculateByBond" class="form-control form-control-lg">
+                        <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bond_value">Input value: </label>
+                    <input type="number" step="0.01" id="bond_value" />
+                </div>
+                <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" id="btn_calculate" align="right">Calculate</button>
+                </div>
+            </form>
         </div>
 
         <div class="col-md-2">
             <p class="calculation">Calculate Bond</p>
-            <label for="bond">Select Bond: </label>
+            <label for="bond2">Select Bond: </label>
             <select name="bond" id="bond2" class="form-control form-control-lg">
                 <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
             </select>
@@ -134,34 +141,38 @@
 
 
     <p class="table-name">Options</p>
-<table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px;" align="center">
-    <thead>
-    <tr>
-        <th>OCC</th>
-        <th>Name</th>
-        <th>Underlying</th>
-        <th>Strike Price</th>
-        <th>Issued On</th>
-        <th>Expiration</th>
-        <th>Put/Call</th>
-        <th>Ame/Eur</th>
-    </tr>
-    </thead>
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px;" align="center">
+        <thead>
+        <tr>
+            <th>OCC</th>
+            <th>Name</th>
+            <th>Underlying</th>
+            <th>Strike Price</th>
+            <th>Issued On</th>
+            <th>Expiration</th>
+            <th>Put/Call</th>
+            <th>Ame/Eur</th>
+        </tr>
+        </thead>
 
-    <tbody>
-    <tr th:each="option: ${options}">
-        <td th:text="${option.occCode}"></td>
-        <td th:text="${option.optionName}"></td>
-        <td th:text="${option.underlying}"></td>
-        <td th:text="${option.strikePrice}"></td>
-        <td th:text="${option.createdOn}"></td>
-        <td th:text="${option.expiration}"></td>
-        <td th:text="${option.putCall}"></td>
-        <td th:text="${option.ameEur}"></td>
-    </tr>
-    </tbody>
+        <tbody>
+        <tr th:each="option: ${options}">
+            <td th:text="${option.occCode}"></td>
+            <td th:text="${option.optionName}"></td>
+            <td th:text="${option.underlying}"></td>
+            <td th:text="${option.strikePrice}"></td>
+            <td th:text="${option.createdOn}"></td>
+            <td th:text="${option.expiration}"></td>
+            <td th:text="${option.putCall}"></td>
+            <td th:text="${option.ameEur}"></td>
+        </tr>
+        </tbody>
 
-</table>
+    </table>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
 
 </body>
 </html>

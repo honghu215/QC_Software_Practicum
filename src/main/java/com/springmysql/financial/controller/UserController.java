@@ -3,13 +3,13 @@ package com.springmysql.financial.controller;
 import com.springmysql.financial.model.*;
 import com.springmysql.financial.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,10 +78,13 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "user/market/calculateYield", method = RequestMethod.POST)
-    public String calculateYield() {
+    @RequestMapping(value = "user/market/calculateYield", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String calculateYield(@RequestParam("bondName") String bondName,
+                                 @RequestParam("bondValue") String bondValue) {
+        System.out.println(bondName + " " + bondValue);
 
-        return "";
+        return bondValue;
     }
 
     @RequestMapping(value = "user/portfolio", method = RequestMethod.GET)
