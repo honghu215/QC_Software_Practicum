@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -29,6 +30,10 @@ public class Option {
     private double strikePrice;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "createdOn")
+    private Date createdOn;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "expiration")
     private Date expiration;
 
@@ -43,14 +48,17 @@ public class Option {
 
     public Option() { }
 
-    public Option(String occCode, String optionName, double strikePrice, Date expiration, String putCall, String ameEur, String underlying) {
+    public Option(String occCode, String optionName, double strikePrice, Date createdOn ,Date expiration, String putCall, String ameEur, String underlying) {
         this.optionName = optionName;
         this.strikePrice = strikePrice;
         this.expiration = expiration;
+        this.createdOn = createdOn;
         this.putCall = putCall;
         this.ameEur = ameEur;
         this.underlying = underlying;
 
+        Calendar cal0 = Calendar.getInstance();
+        cal0.setTime(expiration);
         Calendar cal = Calendar.getInstance();
         cal.setTime(expiration);
         this.occCode = underlying.substring(0, 3).toUpperCase() + cal.get(Calendar.MONTH) + cal.get(Calendar.DAY_OF_MONTH) + cal.get(Calendar.YEAR)
@@ -79,6 +87,10 @@ public class Option {
 
     public String getAmeEur() {
         return ameEur;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
     public String getUnderlying() {
@@ -113,12 +125,16 @@ public class Option {
         this.underlying = underlying;
     }
 
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
     @Override
     public String toString() {
         return "Option{" +
                 "occCode='" + occCode + '\'' +
                 ", optionName='" + optionName + '\'' +
                 ", strikePrice=" + strikePrice +
+                ", createdOn=" + createdOn +
                 ", expiration=" + expiration +
                 ", putCall='" + putCall + '\'' +
                 ", ameEur='" + ameEur + '\'' +

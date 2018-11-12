@@ -141,6 +141,7 @@
         <th>Name</th>
         <th>Underlying</th>
         <th>Strike Price</th>
+        <th>Issued On</th>
         <th>Expiration</th>
         <th>Put/Call</th>
         <th>Ame/Eur</th>
@@ -153,6 +154,7 @@
         <td th:text="${option.optionName}"></td>
         <td th:text="${option.underlying}"></td>
         <td th:text="${option.strikePrice}"></td>
+        <td th:text="${option.createdOn}"></td>
         <td th:text="${option.expiration}"></td>
         <td th:text="${option.putCall}"></td>
         <td th:text="${option.ameEur}"></td>

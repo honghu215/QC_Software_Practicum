@@ -107,6 +107,11 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="createdOn">Issued on:</label>
+                                <input type="date" class="form-control" id="createdOn" th:field="*{createdOn}"/>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="expiration">Expiration Date:</label>
                                 <input type="date" class="form-control" id="expiration" th:field="*{expiration}"/>
                             </div>
@@ -151,6 +156,7 @@
                 <th>Name</th>
                 <th>Underlying</th>
                 <th>Strike Price</th>
+                <th>Issued on</th>
                 <th>Expiration</th>
                 <th>Put/Call</th>
                 <th>Ame/Eur</th>
@@ -164,6 +170,7 @@
                 <td th:text="${option.optionName}"></td>
                 <td th:text="${option.underlying}"></td>
                 <td th:text="${option.strikePrice}"></td>
+                <td th:text="${option.createdOn}"></td>
                 <td th:text="${option.expiration}"></td>
                 <td th:text="${option.putCall}"></td>
                 <td th:text="${option.ameEur}"></td>
@@ -279,6 +286,7 @@
             <thead>
             <tr>
                 <th>Name</th>
+                <th>Issued On</th>
                 <th>Maturity</th>
                 <th>Coupon</th>
                 <th></th>
@@ -289,6 +297,7 @@
             <tbody>
             <tr th:each="bond: ${bonds}">
                 <td th:text="${bond.bondName}"></td>
+                <td th:text="${bond.createdOn}"></td>
                 <td th:text="${bond.maturity}"></td>
                 <td th:text="${bond.coupon}"></td>
                 <th> <a th:href="@{/admin/securities/deleteBond(id=${bond.bondId})}">Delete</a> </th>

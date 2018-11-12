@@ -101,6 +101,8 @@ public class AdminController {
 
     @RequestMapping(value = "admin/securities/addOption", method = RequestMethod.POST)
     public ModelAndView addOption(@ModelAttribute("newOption") Option newOption) {
+        Calendar cal0 = Calendar.getInstance();
+        cal0.setTime(newOption.getCreatedOn());
         Calendar cal = Calendar.getInstance();
         cal.setTime(newOption.getExpiration());
         String priceStr = String.format("%08d", (int)(newOption.getStrikePrice()*100));
