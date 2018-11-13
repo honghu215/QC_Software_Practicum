@@ -25,4 +25,14 @@
     DELETE EVENT updatePrice
     ```
 
+* Modify Event
+
+    ```
+    alter event updatePrice 
+        on schedule    
+            every 30 second       
+                do         
+                    update stock           
+                    set price = round(price + (-1 + 2 * rand()) * 10, 2);
+    ```  
 
