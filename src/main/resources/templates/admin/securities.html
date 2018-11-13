@@ -65,7 +65,6 @@
             <tbody>
                 <tr th:each="stock: ${stocks}">
                     <td th:text="${stock.stockName}"></td>
-                    <!--<td th:text="${stock.price}"></td>-->
                     <td th:text="${stock.stockField}"></td>
                     <td> <a th:href="@{/admin/securities/deleteStock(id=${stock.stockId})}">Delete</a> </td>
                     <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
@@ -108,12 +107,12 @@
 
                             <div class="form-group">
                                 <label for="createdOn">Issued on:</label>
-                                <input type="date" class="form-control" id="createdOn" th:field="*{createdOn}"/>
+                                <input type="datetime" class="form-control" id="createdOn" th:field="*{createdOn}"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="expiration">Expiration Date:</label>
-                                <input type="date" class="form-control" id="expiration" th:field="*{expiration}"/>
+                                <input type="datetime" class="form-control" id="expiration" th:field="*{expiration}"/>
                             </div>
 
                             <div class="form-group">
@@ -262,17 +261,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="issuedOn">Issued On:</label>
-                                <input type="date" class="form-control" id="issuedOn" th:field="*{createdOn}"/>
+                                <input type="datetime" class="form-control" id="issuedOn" th:field="*{createdOn}"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="bondValue" style="display: none">bondValue:</label>
                                 <input type="number" step="any" class="form-control" id="bondValue" th:field="*{bondValue}" style="display: none"/>
                             </div>
-                            <!--<input type="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{createdOn}"  style="display: none"/>-->
-                            <!--<input type="date" th:field="*{createdOn}" />-->
-                            <!--<input type="date" th:text="${#dates.createNow()}" th:field="*{maturity}" />-->
-                            <!--&lt;!&ndash;<input type="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{maturity}" style="display: none;">&ndash;&gt;-->
+                            <!--<input type="datetime" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{createdOn}"  style="display: none"/>-->
+                            <!--<input type="datetime" th:field="*{createdOn}" />-->
+                            <!--<input type="datetime" th:text="${#dates.createNow()}" th:field="*{maturity}" />-->
+                            <!--&lt;!&ndash;<input type="datetime" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{maturity}" style="display: none;">&ndash;&gt;-->
 
                             <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
                         </form>

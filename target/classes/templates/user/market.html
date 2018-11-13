@@ -21,6 +21,8 @@
             margin-top: 40px;
         }
     </style>
+
+
 </head>
 <body>
 
@@ -49,8 +51,8 @@
             <td th:text="${stock.price}"></td>
             <td th:text="${stock.stockField}"></td>
             <td>
-                <button class="btn btn-primary" onclick="getInfo(this)" data-toggle="modal" data-target="#buyStock">Buy</button>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#sellStock">Sell</button>
+                <button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#buyStock">Buy/Sell</button>
+                <!--<button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#sellStock">Sell</button>-->
             </td>
         </tr>
         </tbody>
@@ -66,6 +68,8 @@
                 </div>
 
                 <div class="modal-body">
+                    <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}"></p>
+                    <p id="currentStockName"></p>
                     <p>Current price: <span id="currentPrice"></span></p>
                     <label for="quantity">Quantity: </label>
                     <input type="number" id="quantity" />
@@ -73,7 +77,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button onclick="buyStock(this)" type="button" class="btn btn-primary">Buy</button>
+                    <button onclick="buyStock(this)" type="button" data-dismiss="modal" class="btn btn-primary">Buy</button>
+                    <button onclick="sellStock(this)" type="button" data-dismiss="modal" class="btn btn-primary">Sell</button>
                 </div>
 
             </div>
@@ -213,8 +218,9 @@
 
     </table>
 
-<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
 
 
 </body>

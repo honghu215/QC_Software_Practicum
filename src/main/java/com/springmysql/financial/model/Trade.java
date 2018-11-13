@@ -1,7 +1,7 @@
 package com.springmysql.financial.model;
 
 
-import lombok.NonNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,8 +17,8 @@ public class Trade implements Serializable {
     @Column(name = "trade_id")
     private int id;
 
-    @Column(name = "USER_ID", nullable = false)
-    private int userId;
+    @Column(name = "USER_NAME", nullable = false)
+    private String userName;
 
     @Column(name = "STOCK_NAME", nullable = false)
     private String stockName;
@@ -26,14 +26,16 @@ public class Trade implements Serializable {
     @Column(name = "STOCK_PRICE", nullable = false)
     private double stockPrice;
 
-    @Column(name = "date", updatable = false, columnDefinition = "datetime default CURRENT_TIMESTAMP")
-    private Date date;
+    @Column(name = "datetime", updatable = false, columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date datetime;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setStockName(String stockName) {
@@ -44,8 +46,8 @@ public class Trade implements Serializable {
         this.stockPrice = stockPrice;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
     }
 
     public void setQuantity(int quantity) {
@@ -56,8 +58,8 @@ public class Trade implements Serializable {
         return id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
     public String getStockName() {
@@ -68,8 +70,8 @@ public class Trade implements Serializable {
         return stockPrice;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDatetime() {
+        return datetime;
     }
 
     public int getQuantity() {
@@ -78,22 +80,22 @@ public class Trade implements Serializable {
 
     public Trade() { }
 
-    public Trade(int userId, String stockName, String stockPrice, int quantity, Date date) {
-        this.userId = userId;
+    public Trade(String userName, String stockName, double stockPrice, Date datetime, int quantity) {
+        this.userName = userName;
         this.stockName = stockName;
-        this.stockPrice = Double.parseDouble(stockPrice);
+        this.stockPrice = stockPrice;
+        this.datetime = datetime;
         this.quantity = quantity;
-        this.date = date;
     }
 
     @Override
     public String toString() {
         return "Trade{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userName=" + userName +
                 ", stockName='" + stockName + '\'' +
                 ", stockPrice=" + stockPrice +
-                ", date=" + date +
+                ", datetime=" + datetime +
                 ", quantity=" + quantity +
                 '}';
     }
@@ -104,16 +106,15 @@ public class Trade implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Trade trade = (Trade) o;
         return id == trade.id &&
-                userId == trade.userId &&
                 Double.compare(trade.stockPrice, stockPrice) == 0 &&
                 quantity == trade.quantity &&
+                Objects.equals(userName, trade.userName) &&
                 Objects.equals(stockName, trade.stockName) &&
-                Objects.equals(date, trade.date);
+                Objects.equals(datetime, trade.datetime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, stockName, stockPrice, date, quantity);
+        return Objects.hash(id, userName, stockName, stockPrice, datetime, quantity);
     }
-
 }

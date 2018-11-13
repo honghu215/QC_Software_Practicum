@@ -5,12 +5,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 </head>
 <body>
 
 <div th:include="header"></div>
 <br><br>
 <h1>History</h1>
+
+    <p class="table-name">History
+    </p>
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th style="display: none">No. </th>
+            <th>StockName</th>
+            <th>Price</th>
+            <th>DateTime</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="trade: ${trades}">
+            <td th:text="${trade.stockName}"></td>
+            <td th:text="${trade.stockPrice}"></td>
+            <td th:text="${trade.datetime}"></td>
+            <td th:text="${trade.quantity}"></td>
+        </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>

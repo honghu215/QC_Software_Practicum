@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -78,10 +79,33 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "user/history", method = RequestMethod.GET)
+    public ModelAndView userHistory() {
+        ModelAndView modelAndView = new ModelAndView("user/history");
+
+        List<Trade> trades = new ArrayList<>();
+        tradeService.findAll().forEach(trades::add);
+        modelAndView.addObject("trades", trades);
+
+        return modelAndView;
+    }
+    @RequestMapping(value = "user/market/buyStock", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void buyStock(@RequestBody Trade newTrade) {
+        tradeService.save(newTrade);
+    }
+
+    @RequestMapping(value = "user/market/sellStock", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void sellStock(@RequestBody Trade newTrade) {
+//        newTrade.setQuantity(0 - newTrade.getQuantity());
+        System.out.println(newTrade);
+        tradeService.save(newTrade);
+    }
+
     @RequestMapping(value = "user/market/getStockPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getStockPrice(@RequestParam("stockName") String stockName){
-        System.out.println("Stockname: " + stockName);
         Stock stock = stockService.findStockByStockName(stockName);
         return String.valueOf(stock.getPrice());
     }
@@ -112,11 +136,4 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "user/history", method = RequestMethod.GET)
-    public ModelAndView userHistory() {
-        ModelAndView modelAndView = new ModelAndView("user/home");
-
-
-        return modelAndView;
-    }
 }
