@@ -16,8 +16,8 @@ public class PortfolioService {
     @Autowired
     PortfolioRepository portfolioRepository;
 
-    public Portfolio findByUserIdAndStockName(int userId, String stockName) {
-        return portfolioRepository.findByUserIdAndStockName(userId, stockName);
+    public Portfolio findByUserNameAndStockName(String userName, String stockName) {
+        return portfolioRepository.findByUserNameAndStockName(userName, stockName);
     }
 
     public void save(Portfolio portfolio) {

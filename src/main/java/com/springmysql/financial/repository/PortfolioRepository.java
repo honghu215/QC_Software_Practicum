@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
-    Portfolio findByUserIdAndStockName(int userId, String stockName);
+    Portfolio findByUserNameAndStockName(String userName, String stockName);
 
 }

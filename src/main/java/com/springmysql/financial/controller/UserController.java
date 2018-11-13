@@ -35,20 +35,7 @@ public class UserController {
 
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
     public ModelAndView userHome() {
-
         ModelAndView modelAndView = new ModelAndView("user/home");
-
-//        Trade newTrade = new Trade();
-//        modelAndView.addObject("newTrade", newTrade);
-//
-//
-//        List<Portfolio> portfolios = new ArrayList<>();
-//        portfolioService.findAll().forEach(portfolios::add);
-//        modelAndView.addObject("portfolios", portfolios);
-//
-//        List<Trade> trades = new ArrayList<>();
-//        tradeService.findAll().forEach(trades::add);
-//        modelAndView.addObject("trades", trades);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
@@ -89,18 +76,17 @@ public class UserController {
 
         return modelAndView;
     }
-    @RequestMapping(value = "user/market/buyStock", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void buyStock(@RequestBody Trade newTrade) {
         tradeService.save(newTrade);
-    }
-
-    @RequestMapping(value = "user/market/sellStock", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public void sellStock(@RequestBody Trade newTrade) {
-//        newTrade.setQuantity(0 - newTrade.getQuantity());
-        System.out.println(newTrade);
-        tradeService.save(newTrade);
+        Portfolio portfolio = portfolioService.findByUserNameAndStockName(newTrade.getUserName(), newTrade.getStockName());
+        if (portfolio != null) {
+            portfolio.setQuantity(portfolio.getQuantity() + newTrade.getQuantity());
+            portfolioService.save(portfolio);
+        } else {
+            portfolioService.save(new Portfolio(newTrade.getUserName(), newTrade.getStockName(), newTrade.getQuantity()));
+        }
     }
 
     @RequestMapping(value = "user/market/getStockPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -132,6 +118,9 @@ public class UserController {
     public ModelAndView userPortfolio() {
         ModelAndView modelAndView = new ModelAndView("user/portfolio");
 
+        List<Portfolio> portfolios = new ArrayList<>();
+        portfolioService.findAll().forEach(portfolios::add);
+        modelAndView.addObject("portfolios", portfolios);
 
         return modelAndView;
     }

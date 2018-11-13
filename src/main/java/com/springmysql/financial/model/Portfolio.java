@@ -1,6 +1,11 @@
 package com.springmysql.financial.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,8 +18,8 @@ public class Portfolio implements Serializable{
     @Column(name = "portfolio_id")
     private int portforlioId;
 
-    @Column(name = "user_id")
-    private int userId;
+    @Column(name = "user_name")
+    private String userName;
 
     @Column(name = "stock_id")
     private String stockName;
@@ -25,21 +30,9 @@ public class Portfolio implements Serializable{
     public Portfolio() {
     }
 
-    public Portfolio(int userId, String stockName, int quantity) {
-        this.userId = userId;
+    public Portfolio(String userName, String stockName, int quantity) {
+        this.userName = userName;
         this.stockName = stockName;
-        this.quantity = quantity;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-
-    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -47,8 +40,8 @@ public class Portfolio implements Serializable{
         return portforlioId;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
     public String getStockName() {
@@ -59,12 +52,24 @@ public class Portfolio implements Serializable{
         return quantity;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "Portfolio{" +
                 "portforlioId=" + portforlioId +
-                ", userId=" + userId +
-                ", stockName=" + stockName +
+                ", userName='" + userName + '\'' +
+                ", stockName='" + stockName + '\'' +
                 ", quantity=" + quantity +
                 '}';
     }

@@ -50,42 +50,23 @@ function getCurrentPrice(obj) {
     });
 }
 
-function buyStock(obj) {
-    var buyStock = {
+function trade(obj, buySell) {
+    var newTrade = {
         "userName": $("#currentUsername").text(),
         "stockName": $("#currentStockName").text(),
         "stockPrice": $("#currentPrice").text(),
-        "datetime": new Date(),
-        "quantity": $("#quantity").val()
+        "datetime": new Date()
+    };
+    if (buySell === true) {
+        newTrade.quantity = $("#quantity").val();
+    } else {
+        newTrade.quantity = 0 - $("#quantity").val();
     }
-    console.log("Buy a new stock: ", buyStock);
+    console.log("Buy a new stock: ", newTrade);
     $.ajax({
         type: "POST",
-        url: "/user/market/buyStock",
-        data: JSON.stringify(buyStock),
-        contentType:'application/json;charset=UTF-8',
-        success: function (data) {
-            console.log("Success!");
-        },
-        error: function (error) {
-            console.log("Error!");
-        }
-    });
-}
-
-function sellStock(obj) {
-    var sellStock = {
-        "userName": $("#currentUsername").text(),
-        "stockName": $("#currentStockName").text(),
-        "stockPrice": $("#currentPrice").text(),
-        "datetime": new Date(),
-        "quantity": 0 - $("#quantity").val()
-    }
-    console.log("Sell stock: ", buyStock);
-    $.ajax({
-        type: "POST",
-        url: "/user/market/sellStock",
-        data: JSON.stringify(sellStock),
+        url: "/user/market/trade",
+        data: JSON.stringify(newTrade),
         contentType:'application/json;charset=UTF-8',
         success: function (data) {
             console.log("Success!");
