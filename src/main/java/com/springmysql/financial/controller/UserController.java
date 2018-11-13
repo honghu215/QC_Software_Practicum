@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,12 +70,28 @@ public class UserController {
     @RequestMapping(value = "user/history", method = RequestMethod.GET)
     public ModelAndView userHistory() {
         ModelAndView modelAndView = new ModelAndView("user/history");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findUserByEmail(auth.getName());
+
+        List<Portfolio> portfolios = new ArrayList<>();
+        portfolioService.findAllByUserName(auth.getName()).forEach(portfolios::add);
+        modelAndView.addObject("portfolios", portfolios);
 
         List<Trade> trades = new ArrayList<>();
-        tradeService.findAll().forEach(trades::add);
+        tradeService.findAllByUserName(auth.getName()).forEach(trades::add);
         modelAndView.addObject("trades", trades);
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "user/history/filter", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Trade> filter(@RequestParam("stockName") String stockName) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Trade> trades = new ArrayList<>();
+        tradeService.findAllByUserNameAndStockName(auth.getName(), stockName).forEach(trades::add);
+
+        return trades;
     }
     @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -117,9 +134,9 @@ public class UserController {
     @RequestMapping(value = "user/portfolio", method = RequestMethod.GET)
     public ModelAndView userPortfolio() {
         ModelAndView modelAndView = new ModelAndView("user/portfolio");
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Portfolio> portfolios = new ArrayList<>();
-        portfolioService.findAll().forEach(portfolios::add);
+        portfolioService.findAllByUserNameAndQUantityNot(auth.getName(), 0).forEach(portfolios::add);
         modelAndView.addObject("portfolios", portfolios);
 
         return modelAndView;

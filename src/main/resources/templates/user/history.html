@@ -9,13 +9,19 @@
 </head>
 <body>
 
-<div th:include="header"></div>
-<br><br>
-<h1>History</h1>
+    <div th:include="header"></div>
+    <br><br><br><br>
 
-    <p class="table-name">History
-    </p>
-    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+    <div class="container">
+        <label for="selectedStock">Filter: </label>
+        <select name="selectedStock" id="selectedStock">
+            <option th:each="portfolio: ${portfolios}" th:value="${portfolio.stockName}" th:text="${portfolio.stockName}"></option>
+        </select>
+        <button class="btn-info btn" onclick="filter(this)"></button>
+    </div>
+
+
+<table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
         <thead>
         <tr>
             <th style="display: none">No. </th>
@@ -26,7 +32,7 @@
         </tr>
         </thead>
 
-        <tbody>
+        <tbody class="table-content">
         <tr th:each="trade: ${trades}">
             <td th:text="${trade.stockName}"></td>
             <td th:text="${trade.stockPrice}"></td>
@@ -36,5 +42,9 @@
         </tbody>
     </table>
 
+
+
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
 </body>
 </html>

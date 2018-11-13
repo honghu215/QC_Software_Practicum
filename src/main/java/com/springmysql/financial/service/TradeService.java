@@ -22,4 +22,12 @@ public class TradeService {
     public Trade save(Trade trade) {
         return tradeRepository.save(trade);
     }
+
+    public List<Trade> findAllByUserName(String userName) {
+        return tradeRepository.findAllByUserName(userName);
+    }
+
+    public List<Trade> findAllByUserNameAndStockName(String userName, String stockName) {
+        return tradeRepository.findAllByUserNameAndStockName(userName, stockName);
+    }
 }

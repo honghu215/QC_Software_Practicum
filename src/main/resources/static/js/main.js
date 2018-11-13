@@ -76,3 +76,27 @@ function trade(obj, buySell) {
         }
     });
 }
+
+function filter(obj) {
+    let stockName = $('#selectedStock option:selected').val();
+    let strHtml = '';
+    $.ajax({
+        type: "GET",
+        url: "/user/history/filter",
+        data: {"stockName": stockName},
+        dataType: 'json',
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            $.each(data, function (index, item) {
+                var datetimeStr = JSON.stringify(item.datetime);
+                strHtml += '<tr><td>' + item.stockName + '</td>' + '<td>' + item.stockPrice + '</td>' + '<td>' +
+                            datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
+                            + '</td>' + '<td>' + item.quantity + '</td></tr>';
+            });
+            $(".table-content").html(strHtml);
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}

@@ -24,7 +24,13 @@ public class PortfolioService {
         portfolioRepository.save(portfolio);
     }
 
-    public List<Portfolio> findAll() {
-        return portfolioRepository.findAll();
+    public List<Portfolio> findAllByUserName(String userName) {
+        return portfolioRepository.findAllByUserName(userName);
     }
+
+    public List<Portfolio> findAllByUserNameAndQUantityNot(String userName, int min){
+        return portfolioRepository.findAllByUserNameAndQuantityNot(userName, min);
+    }
+
+
 }
