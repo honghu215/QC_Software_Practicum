@@ -23,11 +23,11 @@ public class TradeService {
         return tradeRepository.save(trade);
     }
 
-    public List<Trade> findAllByUserName(String userName) {
-        return tradeRepository.findAllByUserName(userName);
+    public List<Trade> findAllByUserNameOrderByDatetimeDesc(String userName) {
+        return tradeRepository.findAllByUserNameOrderByDatetimeDesc(userName);
     }
 
-    public List<Trade> findAllByUserNameAndStockName(String userName, String stockName) {
-        return tradeRepository.findAllByUserNameAndStockName(userName, stockName);
+    public List<Trade> findAllByUserNameAndStockNameOrderByDatetimeDesc(String userName, String stockName) {
+        return tradeRepository.findAllByUserNameAndStockNameOrderByDatetimeDesc(userName, stockName);
     }
 }

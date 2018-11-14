@@ -78,7 +78,7 @@ public class UserController {
         modelAndView.addObject("portfolios", portfolios);
 
         List<Trade> trades = new ArrayList<>();
-        tradeService.findAllByUserName(auth.getName()).forEach(trades::add);
+        tradeService.findAllByUserNameOrderByDatetimeDesc(auth.getName()).forEach(trades::add);
         modelAndView.addObject("trades", trades);
 
         return modelAndView;
@@ -89,8 +89,7 @@ public class UserController {
     public List<Trade> filter(@RequestParam("stockName") String stockName) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Trade> trades = new ArrayList<>();
-        tradeService.findAllByUserNameAndStockName(auth.getName(), stockName).forEach(trades::add);
-
+        tradeService.findAllByUserNameAndStockNameOrderByDatetimeDesc(auth.getName(), stockName).forEach(trades::add);
         return trades;
     }
     @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

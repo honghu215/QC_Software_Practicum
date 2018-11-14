@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
-    List<Trade> findAllByUserName(String userName);
+    List<Trade> findAllByUserNameOrderByDatetimeDesc(String userName);
 
-    List<Trade> findAllByUserNameAndStockName(String userName, String stockName);
+    List<Trade> findAllByUserNameAndStockNameOrderByDatetimeDesc(String userName, String stockName);
+
 }
