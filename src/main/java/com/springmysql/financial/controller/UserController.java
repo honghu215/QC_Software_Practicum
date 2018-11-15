@@ -34,6 +34,7 @@ public class UserController {
     @Autowired
     IndexService indexService;
 
+
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
     public ModelAndView userHome() {
         ModelAndView modelAndView = new ModelAndView("user/home");
@@ -95,6 +96,8 @@ public class UserController {
     @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void buyStock(@RequestBody Trade newTrade) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userService.findUserByEmail(auth.getName());
         tradeService.save(newTrade);
         Portfolio portfolio = portfolioService.findByUserNameAndStockName(newTrade.getUserName(), newTrade.getStockName());
         if (portfolio != null) {
@@ -103,6 +106,12 @@ public class UserController {
         } else {
             portfolioService.save(new Portfolio(newTrade.getUserName(), newTrade.getStockName(), newTrade.getQuantity()));
         }
+        double totalCost = newTrade.getQuantity() * newTrade.getStockPrice();
+        if (newTrade.getQuantity() > 0) {
+            currentUser.setBalance((double)Math.round((currentUser.getBalance() - totalCost) * 100) / 100);
+        }
+        else currentUser.setBalance((double)Math.round((currentUser.getBalance() - totalCost) * 100) / 100);
+        userService.saveUser(currentUser);
     }
 
     @RequestMapping(value = "user/market/getStockPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -110,6 +119,15 @@ public class UserController {
     public String getStockPrice(@RequestParam("stockName") String stockName){
         Stock stock = stockService.findStockByStockName(stockName);
         return String.valueOf(stock.getPrice());
+    }
+
+    @RequestMapping(value = "user/market/getBalance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getBalance() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userService.findUserByEmail(auth.getName());
+        System.out.println("Got user's balance = " + currentUser.getBalance());
+        return String.valueOf(currentUser.getBalance());
     }
 
     @RequestMapping(value = "user/market/calculateYield", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

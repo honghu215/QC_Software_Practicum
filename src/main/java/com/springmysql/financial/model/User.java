@@ -42,6 +42,9 @@ public class User {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "balance")
+    private Double balance = 0.0;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;

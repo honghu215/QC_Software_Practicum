@@ -1,4 +1,3 @@
-console.log("Hello, ");
 
 $(document).ready(function () {
    $("#calculate_yield").submit(function (event) {
@@ -51,31 +50,69 @@ function getCurrentPrice(obj) {
 }
 
 function trade(obj, buySell) {
-    var newTrade = {
+    let newTrade = {
         "userName": $("#currentUsername").text(),
         "stockName": $("#currentStockName").text(),
         "stockPrice": $("#currentPrice").text(),
         "datetime": new Date()
     };
-    if (buySell === true) {
-        newTrade.quantity = $("#quantity").val();
-    } else {
-        newTrade.quantity = 0 - $("#quantity").val();
-    }
-    console.log("Buy a new stock: ", newTrade);
     $.ajax({
-        type: "POST",
-        url: "/user/market/trade",
-        data: JSON.stringify(newTrade),
-        contentType:'application/json;charset=UTF-8',
+        type: "GET",
+        url: "/user/market/getBalance",
+        contentType: "application/json; charset=utf-8",
         success: function (data) {
-            console.log("Success!");
+            if (buySell === true) {
+                var quantity = $("#quantity").val();
+                newTrade.quantity = quantity;
+                if(quantity * newTrade.stockPrice > data) {
+                    console.log("You don't have sufficient money left.");
+                    $('#errorMsg').html('You don\'t have sufficient money left.');
+                    setTimeout(function () {
+                        $('#buyStock').modal('hide');
+                        $('#errorMsg').html("");
+                    }, 2000);
+                    return;
+                }
+            } else {
+                newTrade.quantity = 0 - $("#quantity").val();
+            }
+            $.ajax({
+                type: "POST",
+                url: "/user/market/trade",
+                data: JSON.stringify(newTrade),
+                contentType:'application/json;charset=UTF-8',
+                success: function (data) {
+                    console.log("Success!");
+                },
+                error: function (error) {
+                    console.log("Error!", error);
+                }
+            });
+
         },
-        error: function (error) {
-            console.log("Error!");
+        error: function(error) {
+            console.log(error);
         }
     });
 }
+
+// function getBalance() {
+//     let balance = 0.0;
+//     $.ajax({
+//         type: "GET",
+//         url: "/user/market/getBalance",
+//         contentType: "application/json; charset=utf-8",
+//         success: function (data) {
+//             balance = data;
+//             console.log("Balance = ;/", balance);
+//         },
+//         error: function(error) {
+//             console.log(error);
+//         }
+//     });
+//     console.log("Get balance: ", balance);
+//     return balance;
+// }
 
 function filter(obj) {
     let stockName = $('#selectedStock option:selected').val();
