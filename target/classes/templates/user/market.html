@@ -156,10 +156,6 @@
                         <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="bond_value">Input value: </label>
-                    <input type="number" step="0.01" id="bond_value" />
-                </div>
                 <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary" id="btn_calculate_bond" align="right">Calculate</button>

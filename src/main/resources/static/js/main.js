@@ -9,8 +9,7 @@ $(document).ready(function () {
 
 function fire_ajax_submit() {
     var params = {
-        "bondName": $("#calculateByBond").val(),
-        "bondValue": $("#bond_value").val()
+        "bondName": $("#calculateByBond").val()
     };
     $("#btn_calculate").prop("disabled", true);
     $.ajax({
