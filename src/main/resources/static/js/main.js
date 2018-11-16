@@ -82,6 +82,7 @@ function trade(obj, buySell) {
                 contentType:'application/json;charset=UTF-8',
                 success: function (data) {
                     console.log("Success!");
+                    $('#buyStock').modal('hide');
                 },
                 error: function (error) {
                     console.log("Error!", error);
