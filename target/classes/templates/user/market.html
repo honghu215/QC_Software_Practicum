@@ -127,9 +127,9 @@
                 <tr>
                     <th>Name</th>
                     <th>Coupon</th>
-                    <th>Face Value</th>
                     <th>Maturity</th>
                     <th>Issued On</th>
+                    <th>Face Value</th>
                     <th>Bond Value</th>
                 </tr>
                 </thead>
@@ -138,9 +138,9 @@
                 <tr th:each="bond: ${bonds}">
                     <td th:text="${bond.bondName}"></td>
                     <td th:text="${bond.coupon}"></td>
-                    <td th:text="100"></td>
                     <td th:text="${bond.maturity}"></td>
                     <td th:text="${bond.createdOn}"></td>
+                    <td th:text=100.0></td>
                     <td th:text="${bond.bondValue}"></td>
                 </tr>
                 </tbody>
