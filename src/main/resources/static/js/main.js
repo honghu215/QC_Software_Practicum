@@ -1,31 +1,60 @@
 
-$(document).ready(function () {
-   $("#calculate_yield").submit(function (event) {
-       //stop submit the form, we will post it manually
-       event.preventDefault();
-       fire_ajax_submit();
-   });
-});
+// $(document).ready(function () {
+//    $("#calculate_yield").submit(function (event) {
+//        //stop submit the form, we will post it manually
+//        event.preventDefault();
+//        fire_ajax_submit();
+//    });
+// });
+//
+// function fire_ajax_submit() {
+//     var params = {
+//         "bondName": $("#calculateByBond").val()
+//     };
+//     $("#btn_calculate").prop("disabled", true);
+//     $.ajax({
+//         type: "GET",
+//         contentType: "application/json; charset=utf-8",
+//         url: "/user/market/calculateYield",
+//         data: params,
+//         success: function (data) {
+//             console.log(data);
+//             $("#display_yield").html(data);
+//             $("#btn_calculate").prop("disabled", false);
+//         },
+//         error: function (error) {
+//             console.log("Error", error);
+//             $("#display_yield").html(error);
+//             $("#btn_calculate").prop("disabled", false);
+//         }
+//     });
+// }
 
-function fire_ajax_submit() {
-    var params = {
-        "bondName": $("#calculateByBond").val()
-    };
-    $("#btn_calculate").prop("disabled", true);
+function calculate(method) {
+    var params = {};
+    if (method === 'bond') {
+        params.bondName = $("#calculateByYield").val();
+        params.method = 'bond';
+        params.yield = $('#yield_value').val();
+    } else if (method === 'yield') {
+        params.bondName = $('#calculateByBond').val();
+        params.method = 'yield';
+        params.yield = '0';
+    }
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: "/user/market/calculateYield",
+        url: "/user/market/calculate",
         data: params,
         success: function (data) {
             console.log(data);
-            $("#display_yield").html(data);
-            $("#btn_calculate").prop("disabled", false);
+            if (method === 'bond')
+                $("#display_bond").html(data);
+            else if (method === 'yield')
+                $("#display_yield").html(data);
         },
         error: function (error) {
             console.log("Error", error);
-            $("#display_yield").html(error);
-            $("#btn_calculate").prop("disabled", false);
         }
     });
 }

@@ -147,15 +147,21 @@ public class UserController {
         return String.valueOf(currentUser.getBalance());
     }
 
-    @RequestMapping(value = "user/market/calculateYield", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/market/calculate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String calculateYield(@RequestParam("bondName") String bondName) {
+    public String calculateYield(@RequestParam("bondName") String bondName,
+                                 @RequestParam("yield") String yield,
+                                 @RequestParam("method") String method) {
         Bond currBond = bondService.findByBondName(bondName);
         LocalDate now = LocalDate.now();
         Period intervalPeriod = Period.between(currBond.getCreatedOn(), now);
         int diffMonths = intervalPeriod.getMonths() + intervalPeriod.getYears() * 12;
+        if (method.equals("yield")) {
+            return String.valueOf((double) Math.round((new calYield().sentBack(diffMonths, currBond.getCoupon(), currBond.getBondValue())) * 10000) / 10000);
+        } else {
+            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield), diffMonths, currBond.getCoupon())) * 10000) / 10000);
 
-        return String.valueOf((double)Math.round( (new calYield().sentBack(diffMonths, currBond.getCoupon(), currBond.getBondValue())) * 10000 ) / 10000);
+        }
     }
 
     private class calYield {

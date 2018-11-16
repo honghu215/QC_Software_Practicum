@@ -149,39 +149,29 @@
 
         <div class="col-md-2">
             <p class="calculation">Calculate Yield</p>
-            <form id="calculate_yield">
-                <div class="form-group">
-                    <label for="calculateByBond">Select Bond: </label>
-                    <select name="bond" id="calculateByBond" class="form-control form-control-lg">
-                        <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
-                    </select>
-                </div>
-                <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" id="btn_calculate_bond" align="right">Calculate</button>
-                </div>
-            </form>
+
+            <label for="calculateByBond">Select Bond: </label>
+            <select name="bond" id="calculateByBond" class="form-control form-control-lg">
+                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+            </select>
+            <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
+            <button onclick="calculate('yield')" class="btn btn-primary" align="right">Calculate</button>
+
         </div>
 
         <div class="col-md-2">
             <p class="calculation">Calculate Bond</p>
-            <form id="calculate_bond">
-                <div class="form-group">
-                    <label for="calculateByYield">Select Bond: </label>
-                    <select name="bond" id="calculateByYield" class="form-control form-control-lg">
-                        <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="yield_value">Input value: </label>
-                    <input type="number" step="0.01" id="yield_value" />
-                </div>
-                <p style="color: #ffed16; font-size: 23px;">Bond: <span id="display_bond"></span> </p>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" id="btn_calculate_yield" align="right">Calculate</button>
-                </div>
-            </form>
 
+            <label for="calculateByYield">Select Bond: </label>
+            <select name="bond" id="calculateByYield" class="form-control form-control-lg">
+                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+            </select>
+
+            <label for="yield_value">Input value: </label>
+            <input type="number" step="0.01" id="yield_value" />
+
+            <p style="color: #ffed16; font-size: 23px;">Bond: <span id="display_bond"></span> </p>
+            <button onclick="calculate('bond')" class="btn btn-primary" align="right">Calculate</button>
         </div>
 
     </div>
