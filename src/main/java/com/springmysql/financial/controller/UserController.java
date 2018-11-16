@@ -159,7 +159,7 @@ public class UserController {
         if (method.equals("yield")) {
             return String.valueOf((double) Math.round((new calYield().sentBack(diffMonths, currBond.getCoupon(), currBond.getBondValue())) * 10000) / 10000);
         } else {
-            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield), diffMonths, currBond.getCoupon())) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield)*10, diffMonths, currBond.getCoupon())) * 10000) / 10000);
 
         }
     }
