@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+
     <style>
         .table-name {
             font-size: 32px;
@@ -21,6 +25,7 @@
             margin-top: 40px;
         }
     </style>
+
 
 
 </head>
@@ -68,16 +73,17 @@
                 </div>
 
                 <div class="modal-body">
-                    <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}"></p>
-                    <p id="currentStockName"></p>
+                    <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
+                    <p id="currentStockName" style="display: none"></p>
                     <p>Current price: <span id="currentPrice"></span></p>
                     <label for="quantity">Quantity: </label>
                     <input type="number" id="quantity" />
+                    <h4 id="errorMsg" style="color: red;"></h4>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button onclick="trade(this, true)" type="button" data-dismiss="modal" class="btn btn-primary">Buy</button>
+                    <button onclick="trade(this, true)" type="button" class="btn btn-primary">Buy</button>
                     <button onclick="trade(this, false)" type="button" data-dismiss="modal" class="btn btn-primary">Sell</button>
                 </div>
 
@@ -121,9 +127,9 @@
                 <tr>
                     <th>Name</th>
                     <th>Coupon</th>
-                    <th>Face Value</th>
                     <th>Maturity</th>
                     <th>Issued On</th>
+                    <th>Face Value</th>
                     <th>Bond Value</th>
                 </tr>
                 </thead>
@@ -132,9 +138,9 @@
                 <tr th:each="bond: ${bonds}">
                     <td th:text="${bond.bondName}"></td>
                     <td th:text="${bond.coupon}"></td>
-                    <td th:text="100"></td>
                     <td th:text="${bond.maturity}"></td>
                     <td th:text="${bond.createdOn}"></td>
+                    <td th:text=100.0></td>
                     <td th:text="${bond.bondValue}"></td>
                 </tr>
                 </tbody>
@@ -149,10 +155,6 @@
                     <select name="bond" id="calculateByBond" class="form-control form-control-lg">
                         <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="bond_value">Input value: </label>
-                    <input type="number" step="0.01" id="bond_value" />
                 </div>
                 <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
                 <div class="form-group">
@@ -219,8 +221,7 @@
     </table>
 
 
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+
 
 
 </body>

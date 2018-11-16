@@ -65,3 +65,11 @@ git remote -v
 	```bash
 	git checkout --track -b local_branch_name origin/remote_branch_name
 	``` 
+
+* ignoring the changes to files/restore keeping track of files
+
+    ```
+    git update-index --assume-unchanged path/to/file
+    git update-index --no-assume-unchanged path/to/file
+    ```  
+
