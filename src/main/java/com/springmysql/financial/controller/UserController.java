@@ -168,11 +168,10 @@ public class UserController {
 
     private class calYield {
         double func(double x, int n,double c) {
-            System.out.println(x + " " + n + " " + c);
             double Sum = 0.0;
             double down = 1.0 + 0.5 * x;
             double top = 0.5 * c;
-            for (int i = 0; i <= n; i++) {
+            for (int i = 1; i <= n; i++) {
                 if (i == n) {
                     Sum = Sum + (100 + top) / Math.pow(down, i);
                     break;
