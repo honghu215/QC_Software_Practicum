@@ -36,9 +36,11 @@ function calculate(method) {
         params.bondName = $("#calculateByYield").val();
         params.method = 'bond';
         params.yield = $('#yield_value').val();
+        params.bondValue = '0';
     } else if (method === 'yield') {
         params.bondName = $('#calculateByBond').val();
         params.method = 'yield';
+        params.bondValue = $('#bond_value').val();
         params.yield = '0';
     }
     $.ajax({

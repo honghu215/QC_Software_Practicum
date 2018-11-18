@@ -151,21 +151,24 @@ public class UserController {
     @ResponseBody
     public String calculateYield(@RequestParam("bondName") String bondName,
                                  @RequestParam("yield") String yield,
+                                 @RequestParam("bondValue") String bondValue,
                                  @RequestParam("method") String method) {
         Bond currBond = bondService.findByBondName(bondName);
         LocalDate now = LocalDate.now();
         Period intervalPeriod = Period.between(currBond.getCreatedOn(), now);
         int diffMonths = intervalPeriod.getMonths() + intervalPeriod.getYears() * 12;
+        System.out.println("diffenceMonth: " + intervalPeriod.getMonths() + ", differneceYears: " + intervalPeriod.getYears() + "; n = " + (currBond.getMaturityLength()*2-diffMonths/6)) ;
         if (method.equals("yield")) {
-            return String.valueOf((double) Math.round((new calYield().sentBack(diffMonths, currBond.getCoupon(), currBond.getBondValue())) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().sentBack((currBond.getMaturityLength()*2-diffMonths/6), currBond.getCoupon(), Double.parseDouble(bondValue))) * 10000) / 10000);
         } else {
-            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield)*10, diffMonths, currBond.getCoupon())) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield), (currBond.getMaturityLength()*2-diffMonths/6), currBond.getCoupon())) * 10000) / 10000);
 
         }
     }
 
     private class calYield {
         double func(double x, int n,double c) {
+            System.out.println(x + " " + n + " " + c);
             double Sum = 0.0;
             double down = 1.0 + 0.5 * x;
             double top = 0.5 * c;
@@ -223,7 +226,7 @@ public class UserController {
 
             yield = root_bisection(BondValue, tol_f, tol_x, max_iter,
                     x_low, x_high,n,coupon);
-            return yield*0.1;
+            return yield;
         }
     }
 }
