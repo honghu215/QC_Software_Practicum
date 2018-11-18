@@ -151,6 +151,8 @@ public class UserController {
     @ResponseBody
     public String calculateYield(@RequestParam("bondName") String bondName,
                                  @RequestParam("yield") String yield,
+                                 @RequestParam("couponValue") String couponValue,
+                                 @RequestParam("couponValue1") String couponValue1,
                                  @RequestParam("bondValue") String bondValue,
                                  @RequestParam("method") String method) {
         Bond currBond = bondService.findByBondName(bondName);
@@ -159,9 +161,9 @@ public class UserController {
         int diffMonths = intervalPeriod.getMonths() + intervalPeriod.getYears() * 12;
         System.out.println("diffenceMonth: " + intervalPeriod.getMonths() + ", differneceYears: " + intervalPeriod.getYears() + "; n = " + (currBond.getMaturityLength()*2-diffMonths/6)) ;
         if (method.equals("yield")) {
-            return String.valueOf((double) Math.round((new calYield().sentBack((currBond.getMaturityLength()*2-diffMonths/6), currBond.getCoupon(), Double.parseDouble(bondValue))) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().sentBack((currBond.getMaturityLength()*2-diffMonths/6), Double.parseDouble(couponValue), Double.parseDouble(bondValue))) * 10000) / 10000);
         } else {
-            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield), (currBond.getMaturityLength()*2-diffMonths/6), currBond.getCoupon())) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield), (currBond.getMaturityLength()*2-diffMonths/6), Double.parseDouble(couponValue1))) * 10000) / 10000);
 
         }
     }

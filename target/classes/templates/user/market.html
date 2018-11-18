@@ -158,6 +158,9 @@
             <label for="bond_value">Input Bond value: </label>
             <input type="number" step="0.01" id="bond_value" />
 
+            <label for="couponValue">Input coupon value: </label>
+            <input type="number" step="0.01" id="couponValue" />
+
             <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
             <button onclick="calculate('yield')" class="btn btn-primary" align="right">Calculate</button>
 
@@ -171,8 +174,11 @@
                 <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
             </select>
 
-            <label for="yield_value">Input value: </label>
+            <label for="yield_value">Input yield value: </label>
             <input type="number" step="0.01" id="yield_value" />
+
+            <label for="couponValue1">Input coupon value: </label>
+            <input type="number" step="0.01" id="couponValue1" />
 
             <p style="color: #ffed16; font-size: 23px;">Bond: <span id="display_bond"></span> </p>
             <button onclick="calculate('bond')" class="btn btn-primary" align="right">Calculate</button>
