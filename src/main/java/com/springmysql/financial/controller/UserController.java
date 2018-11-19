@@ -14,10 +14,12 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 
 @RestController
 public class UserController {
@@ -157,42 +159,68 @@ public class UserController {
                                  @RequestParam("method") String method) {
         Bond currBond = bondService.findByBondName(bondName);
         LocalDate now = LocalDate.now();
-        Period intervalPeriod = Period.between(currBond.getCreatedOn(), now);
-        int diffMonths = intervalPeriod.getMonths() + intervalPeriod.getYears() * 12;
-        System.out.println("diffenceMonth: " + intervalPeriod.getMonths() + ", differneceYears: " + intervalPeriod.getYears() + "; n = " + (currBond.getMaturityLength()*2-diffMonths/6)) ;
+        LocalDate createON = currBond.getCreatedOn();
+        int issueTimes = currBond.getMaturityLength()*2;
+        LocalDate issueDate = createON;
+        LocalDate [] issueDateT = new LocalDate[issueTimes];
+        int count = 0;
+
+        for (int i =1; i <= issueTimes; i++)
+        {
+            int add= 6 * i;
+            //issueDate = LocalDate.of(createON.getYear(), now.getMonth().plus(add), now.getDayOfMonth());
+            issueDate = issueDate.plusMonths(add);
+            if(now.isBefore(issueDate))
+            {
+                issueDateT[count] = issueDate;
+                count ++;
+                //System.out.print("test");
+            }
+
+        }
+        double [] dateValue = new double[count];
+
+        for (int i =0; i < count; i++)
+        {
+            long daydiff = ChronoUnit.DAYS.between(now,issueDateT[i]);
+            dateValue[i] = daydiff/ 365.25;
+
+        }
+
+
         if (method.equals("yield")) {
-            return String.valueOf((double) Math.round((new calYield().sentBack((currBond.getMaturityLength()*2-diffMonths/6), Double.parseDouble(couponValue), Double.parseDouble(bondValue))) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().sentBack(Double.parseDouble(couponValue), Double.parseDouble(bondValue),dateValue,count)) * 10000) / 10000);
         } else {
-            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield), (currBond.getMaturityLength()*2-diffMonths/6), Double.parseDouble(couponValue1))) * 10000) / 10000);
+            return String.valueOf((double) Math.round((new calYield().func(Double.parseDouble(yield),Double.parseDouble(couponValue1),dateValue,count)) * 10000) / 10000);
 
         }
     }
 
     private class calYield {
-        double func(double x, int n,double c) {
+        double func(double x, double c,double[]dateValue,int len) {
             double Sum = 0.0;
             double down = 1.0 + 0.5 * x;
             double top = 0.5 * c;
-            for (int i = 1; i <= n; i++) {
-                if (i == n) {
-                    Sum = Sum + (100 + top) / Math.pow(down, i);
+            for (int i = 1; i < len; i++) {
+                if (i == len-1) {
+                    Sum = Sum + (100 + top) / Math.pow(down, 2* dateValue[i]);
                     break;
                 }
-                Sum = Sum + (top / Math.pow(down, i));
+                Sum = Sum + (top / Math.pow(down, 2* dateValue[i]));
             }
             return Sum;
         }
 
         double root_bisection(double target, double tol_f, double tol_x, int max_iter,
-                              double x_low, double x_high, int n, double c) {
+                              double x_low, double x_high, double c,double[]dateValue,int len) {
             double x = 0.0;
-            double y_low = func(x_low, n, c);
+            double y_low = func(x_low, c,dateValue,len);
             double diff_y_low = y_low - target;
             if (Math.abs(diff_y_low) <= tol_f) {
                 x = x_low;
                 return x;
             }
-            double y_high = func(x_high, n, c);
+            double y_high = func(x_high, c,dateValue,len);
             double diff_y_high = y_high - target;
             if (Math.abs(diff_y_high) <= tol_f) {
                 x = x_high;
@@ -204,7 +232,7 @@ public class UserController {
             }
             for (int i = 1; i < max_iter; ++i) {
                 x = (x_low + x_high) / 2.0;
-                double y = func(x, n, c);
+                double y = func(x, c,dateValue,len);
                 double diff_y = y - target;
                 if (Math.abs(diff_y) <= tol_f)  return x;
                 if (diff_y * diff_y_low > 0.0) x_low = x;
@@ -215,7 +243,7 @@ public class UserController {
             return -1.0;
         }
 
-        double sentBack(int n, double coupon,double BondValue) {
+        double sentBack(double coupon,double BondValue,double[]dateValue,int count) {
 
             int max_iter = 100;
             double tol_f =  1.0e-4;
@@ -223,10 +251,12 @@ public class UserController {
             double x_low = 0.0;
             double x_high = 100.0;
 
+
+
             double yield = 0;
 
             yield = root_bisection(BondValue, tol_f, tol_x, max_iter,
-                    x_low, x_high,n,coupon);
+                    x_low, x_high,coupon,dateValue,count);
             return yield;
         }
     }
