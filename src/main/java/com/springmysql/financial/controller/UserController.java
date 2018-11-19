@@ -203,10 +203,10 @@ public class UserController {
             double top = 0.5 * c;
             for (int i = 0; i < len; i++) {
                 if (i == len-1) {
-                    Sum = Sum + (100 + top) / Math.pow(down, dateValue[i]);
+                    Sum = Sum + (100 + top) / Math.pow(down, dateValue[i]*2);
                     break;
                 }
-                Sum = Sum + (top / Math.pow(down, dateValue[i]));
+                Sum = Sum + (top / Math.pow(down, dateValue[i]*2));
             }
             return Sum;
         }
