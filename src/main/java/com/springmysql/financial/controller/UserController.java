@@ -164,10 +164,10 @@ public class UserController {
         LocalDate issueDate = createON;
         LocalDate [] issueDateT = new LocalDate[issueTimes];
         int count = 0;
+        long add = 6;
 
         for (int i =1; i <= issueTimes; i++)
         {
-            int add= 6 * i;
             //issueDate = LocalDate.of(createON.getYear(), now.getMonth().plus(add), now.getDayOfMonth());
             issueDate = issueDate.plusMonths(add);
             if(now.isBefore(issueDate))
@@ -201,7 +201,7 @@ public class UserController {
             double Sum = 0.0;
             double down = 1.0 + 0.5 * x;
             double top = 0.5 * c;
-            for (int i = 1; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 if (i == len-1) {
                     Sum = Sum + (100 + top) / Math.pow(down, dateValue[i]);
                     break;
