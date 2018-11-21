@@ -1,4 +1,3 @@
-
 // $(document).ready(function () {
 //    $("#calculate_yield").submit(function (event) {
 //        //stop submit the form, we will post it manually
@@ -36,12 +35,19 @@ function calculate(method) {
         params.bondName = $("#calculateByYield").val();
         params.method = 'bond';
         params.yield = $('#yield_value').val();
+        params.couponValue1=$('#couponValue1').val();
         params.bondValue = '0';
+        params.couponValue = '0';
+
+
     } else if (method === 'yield') {
         params.bondName = $('#calculateByBond').val();
         params.method = 'yield';
         params.bondValue = $('#bond_value').val();
+        params.couponValue=$('#couponValue').val();
         params.yield = '0';
+        params.couponValue1 = '0';
+
     }
     $.ajax({
         type: "GET",
@@ -158,8 +164,8 @@ function filter(obj) {
             $.each(data, function (index, item) {
                 var datetimeStr = JSON.stringify(item.datetime);
                 strHtml += '<tr><td>' + item.stockName + '</td>' + '<td>' + item.stockPrice + '</td>' + '<td>' +
-                            datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
-                            + '</td>' + '<td>' + item.quantity + '</td></tr>';
+                    datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
+                    + '</td>' + '<td>' + item.quantity + '</td></tr>';
             });
             $(".table-content").html(strHtml);
         },

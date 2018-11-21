@@ -35,72 +35,72 @@
 <br><br>
 <h1>Market</h1>
 
-    <!-- table for stocks -->
-    <p class="table-name">Stocks
-    </p>
-    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
-        <thead>
-        <tr>
-            <th style="display: none">No. </th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Field</th>
-            <th></th>
-        </tr>
-        </thead>
+<!-- table for stocks -->
+<p class="table-name">Stocks
+</p>
+<table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+    <thead>
+    <tr>
+        <th style="display: none">No. </th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Field</th>
+        <th></th>
+    </tr>
+    </thead>
 
-        <tbody>
-        <tr th:each="stock, status: ${stocks}">
-            <td th:text="${status.index}" id="index" style="display: none"></td>
-            <td th:text="${stock.stockName}" id="stockName"></td>
-            <td th:text="${stock.price}"></td>
-            <td th:text="${stock.stockField}"></td>
-            <td>
-                <button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#buyStock">Buy/Sell</button>
-                <!--<button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#sellStock">Sell</button>-->
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <tbody>
+    <tr th:each="stock, status: ${stocks}">
+        <td th:text="${status.index}" id="index" style="display: none"></td>
+        <td th:text="${stock.stockName}" id="stockName"></td>
+        <td th:text="${stock.price}"></td>
+        <td th:text="${stock.stockField}"></td>
+        <td>
+            <button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#buyStock">Buy/Sell</button>
+            <!--<button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#sellStock">Sell</button>-->
+        </td>
+    </tr>
+    </tbody>
+</table>
 
-    <!-- modal for buy stock-->
-    <div class="modal fade" id="buyStock" tabindex="-1" role="dialog" aria-labelledby="buyLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="buyLabel">Confirm</h4>
-                </div>
+<!-- modal for buy stock-->
+<div class="modal fade" id="buyStock" tabindex="-1" role="dialog" aria-labelledby="buyLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="buyLabel">Confirm</h4>
+            </div>
 
-                <div class="modal-body">
-                    <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
-                    <p id="currentStockName" style="display: none"></p>
-                    <p>Current price: <span id="currentPrice"></span></p>
-                    <label for="quantity">Quantity: </label>
-                    <input type="number" id="quantity" />
-                    <h4 id="errorMsg" style="color: red;"></h4>
-                </div>
+            <div class="modal-body">
+                <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
+                <p id="currentStockName" style="display: none"></p>
+                <p>Current price: <span id="currentPrice"></span></p>
+                <label for="quantity">Quantity: </label>
+                <input type="number" id="quantity" />
+                <h4 id="errorMsg" style="color: red;"></h4>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button onclick="trade(this, true)" type="button" class="btn btn-primary">Buy</button>
-                    <button onclick="trade(this, false)" type="button" data-dismiss="modal" class="btn btn-primary">Sell</button>
-                </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button onclick="trade(this, true)" type="button" class="btn btn-primary">Buy</button>
+                <button onclick="trade(this, false)" type="button" data-dismiss="modal" class="btn btn-primary">Sell</button>
             </div>
 
         </div>
 
     </div>
 
+</div>
 
 
 
-      <p class="table-name">Indexes
-      </p>
-       <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
-       <thead>
-       <tr>
+
+<p class="table-name">Indexes
+</p>
+<table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+    <thead>
+    <tr>
         <th>Name</th>
         <th>Index Value</th>
         <th>Index Full Name</th>
@@ -114,105 +114,111 @@
         <td th:text="${index.indexFullName}"></td>
     </tr>
     </tbody>
-     </table>
+</table>
 
 
 
 
-    <div class="container row">
-        <div class="col-md-8">
-            <p class="table-name">Bonds</p>
-            <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Coupon</th>
-                    <th>Maturity</th>
-                    <th>Issued On</th>
-                    <th>Face Value</th>
-                    <th>Bond Value</th>
-                </tr>
-                </thead>
+<div class="container row">
+    <div class="col-md-8">
+        <p class="table-name">Bonds</p>
+        <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Coupon</th>
+                <th>Maturity</th>
+                <th>Issued On</th>
+                <th>Face Value</th>
+                <th>Bond Value</th>
+            </tr>
+            </thead>
 
-                <tbody>
-                <tr th:each="bond: ${bonds}">
-                    <td th:text="${bond.bondName}"></td>
-                    <td th:text="${bond.coupon}"></td>
-                    <td th:text="${bond.maturity}"></td>
-                    <td th:text="${bond.createdOn}"></td>
-                    <td th:text=100.0></td>
-                    <td th:text="${bond.bondValue}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+            <tbody>
+            <tr th:each="bond: ${bonds}">
+                <td th:text="${bond.bondName}"></td>
+                <td th:text="${bond.coupon}"></td>
+                <td th:text="${bond.maturity}"></td>
+                <td th:text="${bond.createdOn}"></td>
+                <td th:text=100.0></td>
+                <td th:text="${bond.bondValue}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="col-md-2">
-            <p class="calculation">Calculate Yield</p>
+    <div class="col-md-2">
+        <p class="calculation">Calculate Yield</p>
 
-            <label for="calculateByBond">Select Bond: </label>
-            <select name="bond" id="calculateByBond" class="form-control form-control-lg">
-                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
-            </select>
+        <label for="calculateByBond">Select Bond: </label>
+        <select name="bond" id="calculateByBond" class="form-control form-control-lg">
+            <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+        </select>
 
-            <label for="bond_value">Input Bond value: </label>
-            <input type="number" step="0.01" id="bond_value" />
+        <label for="bond_value">Input Bond value: </label>
+        <input type="number" step="0.01" id="bond_value" />
 
-            <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
-            <button onclick="calculate('yield')" class="btn btn-primary" align="right">Calculate</button>
+        <label for="couponValue">Input coupon value: </label>
+        <input type="number" step="0.01" id="couponValue" />
 
-        </div>
-
-        <div class="col-md-2">
-            <p class="calculation">Calculate Bond</p>
-
-            <label for="calculateByYield">Select Bond: </label>
-            <select name="bond" id="calculateByYield" class="form-control form-control-lg">
-                <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
-            </select>
-
-            <label for="yield_value">Input value: </label>
-            <input type="number" step="0.01" id="yield_value" />
-
-            <p style="color: #ffed16; font-size: 23px;">Bond: <span id="display_bond"></span> </p>
-            <button onclick="calculate('bond')" class="btn btn-primary" align="right">Calculate</button>
-        </div>
+        <p style="color: #ffed16; font-size: 23px;">Yield: <span id="display_yield"></span> </p>
+        <button onclick="calculate('yield')" class="btn btn-primary" align="right">Calculate</button>
 
     </div>
 
+    <div class="col-md-2">
+        <p class="calculation">Calculate Bond</p>
+
+        <label for="calculateByYield">Select Bond: </label>
+        <select name="bond" id="calculateByYield" class="form-control form-control-lg">
+            <option th:each="bond: ${bonds}" th:text="${bond.bondName}"></option>
+        </select>
+
+        <label for="yield_value">Input yield value: </label>
+        <input type="number" step="0.01" id="yield_value" />
+
+        <label for="couponValue1">Input coupon value: </label>
+        <input type="number" step="0.01" id="couponValue1" />
+
+        <p style="color: #ffed16; font-size: 23px;">Bond: <span id="display_bond"></span> </p>
+        <button onclick="calculate('bond')" class="btn btn-primary" align="right">Calculate</button>
+    </div>
+
+</div>
 
 
 
 
-    <p class="table-name">Options</p>
-    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px;" align="center">
-        <thead>
-        <tr>
-            <th>OCC</th>
-            <th>Name</th>
-            <th>Underlying</th>
-            <th>Strike Price</th>
-            <th>Issued On</th>
-            <th>Expiration</th>
-            <th>Put/Call</th>
-            <th>Ame/Eur</th>
-        </tr>
-        </thead>
 
-        <tbody>
-        <tr th:each="option: ${options}">
-            <td th:text="${option.occCode}"></td>
-            <td th:text="${option.optionName}"></td>
-            <td th:text="${option.underlying}"></td>
-            <td th:text="${option.strikePrice}"></td>
-            <td th:text="${option.createdOn}"></td>
-            <td th:text="${option.expiration}"></td>
-            <td th:text="${option.putCall}"></td>
-            <td th:text="${option.ameEur}"></td>
-        </tr>
-        </tbody>
+<p class="table-name">Options</p>
+<table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px;" align="center">
+    <thead>
+    <tr>
+        <th>OCC</th>
+        <th>Name</th>
+        <th>Underlying</th>
+        <th>Strike Price</th>
+        <th>Issued On</th>
+        <th>Expiration</th>
+        <th>Put/Call</th>
+        <th>Ame/Eur</th>
+    </tr>
+    </thead>
 
-    </table>
+    <tbody>
+    <tr th:each="option: ${options}">
+        <td th:text="${option.occCode}"></td>
+        <td th:text="${option.optionName}"></td>
+        <td th:text="${option.underlying}"></td>
+        <td th:text="${option.strikePrice}"></td>
+        <td th:text="${option.createdOn}"></td>
+        <td th:text="${option.expiration}"></td>
+        <td th:text="${option.putCall}"></td>
+        <td th:text="${option.ameEur}"></td>
+    </tr>
+    </tbody>
+
+</table>
 
 
 
