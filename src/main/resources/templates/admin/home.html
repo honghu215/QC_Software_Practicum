@@ -15,155 +15,33 @@
 
 </head>
 
-<body>
+<body class="w3-content" style="max-width:1200px">
 
 
+<!-- Sidebar/menu -->
+<div th:include="header"></div>
 
-<div class="container">
+<div class="w3-main" style="margin-left:250px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
 
-    <div th:include="header"></div>
-    <br>
+    <!-- Top header -->
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Admin Page</p>
+    </header>
 
-    <div class="container">
-        <h3 style="margin-top: 45px;">Admin page</h3>
-        <h4>manage traders, securities and view trade history</h4>
+    <!-- Image header -->
+    <div class="w3-display-container w3-container">
+        <img src="https://i.ebayimg.com/00/s/NTA1WDgwMA==/z/yucAAOSwfxFbiRe-/$_20.JPG" alt="Jeans" style="width:100%">
+        <!--<div class="w3-display-topleft w3-text-white" style="padding:24px 48px">-->
+        <!--<h1 class="w3-jumbo w3-hide-small">New arrivals</h1>-->
+        <!--<h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>-->
+        <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
+        <!--<p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>-->
+        <!--</div>-->
     </div>
 
-    <!--<div class="panel-group" style="margin-top:40px">-->
-        <!--<div class="panel panel-primary">-->
-            <!--<div class="panel-heading">-->
-                <!--<span th:utext="${userName}"></span>-->
-            <!--</div>-->
-            <!--<div class="panel-body">-->
-            <!--</div>-->
-            <!--<p class="admin-message-text text-center" th:utext="${adminMessage}"></p>-->
-        <!--</div>-->
-    <!--</div>-->
-
-
-
-
-    <!---->
-    <!--<div class="col-md-6 list">-->
-        <!--<h4>Users</h4>-->
-        <!--<table class="table">-->
-            <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>User Id</th>-->
-                <!--<th>User Name</th>-->
-                <!--<th>User Email</th>-->
-                <!--<th>Action</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-
-            <!--<tbody>-->
-            <!--<tr th:each="user : ${users}">-->
-                <!--<td th:text="${user.id}"/>-->
-                <!--<td th:text="${user.name}"/>-->
-                <!--<td th:text="${user.email}"/>-->
-                <!--<td th:if="${user.id} != 1">-->
-                    <!--<a th:href="@{/admin/deleteUser(id=${user.id})}">Delete</a>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-    <!--</div>-->
-
-    <!--<div class="col-md-6 list">-->
-        <!--<h4>Stocks</h4>-->
-
-        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">New Stock</button>-->
-
-        <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">-->
-            <!--<div class="modal-dialog" role="document">-->
-                <!--<div class="modal-content">-->
-
-                    <!--<div class="modal-header">-->
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                        <!--<h4 class="modal-title" id="exampleModalLabel">Add New Stock</h4>-->
-                    <!--</div>-->
-
-
-                    <!--<div class="modal-body">-->
-                        <!--<form th:action="@{/admin/addStock}" th:object="${newStock}" method="post">-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="name">Stock Name:</label>-->
-                                <!--<input type="text" class="form-control" id="name" th:field="*{stockName}"/>-->
-                            <!--</div>-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="price">Stock Price:</label>-->
-                                <!--<input type="number" step="any" class="form-control" id="price" th:field="*{stockPrice}"/>-->
-                            <!--</div>-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="field">Stock Field:</label>-->
-                                <!--<input type="text" class="form-control" id="field" th:field="*{stockField}"/>-->
-                            <!--</div>-->
-
-                            <!--<input type="submit" value="Submit" />-->
-                        <!--</form>-->
-                    <!--</div>-->
-
-
-                    <!--<div class="modal-footer">-->
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                        <!--&lt;!&ndash;<button type="submit" class="btn btn-primary">Comfirm</button>&ndash;&gt;-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash;Add Stock button&ndash;&gt;-->
-
-        <!--<table class="table">-->
-            <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>No.</th>-->
-                <!--<th>Stock Name</th>-->
-                <!--<th>Stock Price</th>-->
-                <!--<th>Stock Field</th>-->
-                <!--<th></th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-
-            <!--<tbody>-->
-            <!--<tr th:each="stock: ${stocks}">-->
-                <!--<td th:text="${stock.stockName}" />-->
-                <!--<td th:text="${stock.stockName}" />-->
-                <!--<td th:text="${stock.stockPrice}" />-->
-                <!--<td th:text="${stock.stockField}" />-->
-                <!--<td>-->
-                    <!--<a th:href="@{/admin/deleteStock(id=${stock.stockName})}">Delete</a>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-
-
-        <!--<table class="table col-md-6">-->
-            <!--<h4 style="text-align: center; color: darkred;">Transaction History</h4>-->
-            <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>No.</th>-->
-                <!--<th>User Id</th>-->
-                <!--<th>Stock Name</th>-->
-                <!--<th>Stock Price</th>-->
-                <!--<th>Quantity</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-
-            <!--<tbody>-->
-            <!--<tr th:each="trade : ${trades}">-->
-                <!--<td th:text="${trade.id}" />-->
-                <!--<td th:text="${trade.userId}" />-->
-                <!--<td th:text="${trade.stockName}" />-->
-                <!--<td th:text="${trade.stockPrice}" />-->
-                <!--<td th:text="${trade.quantity}" />-->
-            <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-
-
-    <!--</div>-->
+</div>
 
 
 

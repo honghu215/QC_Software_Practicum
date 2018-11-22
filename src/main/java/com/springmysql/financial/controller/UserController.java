@@ -39,6 +39,8 @@ public class UserController {
     OptionService optionService;
     @Autowired
     IndexService indexService;
+    @Autowired
+    OptionTradeService optionTradeService;
 
 
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
@@ -48,6 +50,11 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("currentUser", user);
+
+        List<Option> options = new ArrayList<>();
+        optionService.findAll().forEach(options::add);
+        modelAndView.addObject("options", options);
+
         return modelAndView;
     }
 
@@ -73,6 +80,46 @@ public class UserController {
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "user/market/option", method = RequestMethod.GET)
+    public ModelAndView option() {
+        ModelAndView modelAndView = new ModelAndView("user/market/option");
+        List<Option> options = new ArrayList<>();
+        optionService.findAll().forEach(options::add);
+        modelAndView.addObject("options", options);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "user/market/stock", method = RequestMethod.GET)
+    public ModelAndView stock(){
+        ModelAndView modelAndView = new ModelAndView("user/market/stock");
+        List<Stock> stocks = new ArrayList<>();
+        stockService.findAll().forEach(stocks::add);
+        modelAndView.addObject("stocks", stocks);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "user/market/bond", method = RequestMethod.GET)
+    public ModelAndView bond(){
+        ModelAndView modelAndView = new ModelAndView("user/market/bond");
+        List<Bond> bonds = new ArrayList<>();
+        bondService.findAll().forEach(bonds::add);
+        modelAndView.addObject("bonds", bonds);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "user/market/index", method = RequestMethod.GET)
+    public ModelAndView index(){
+        ModelAndView modelAndView = new ModelAndView("user/market/index");
+        List<Index> indexes = new ArrayList<>();
+        indexService.findAll().forEach(indexes::add);
+        modelAndView.addObject("indexes", indexes);
+
+        return modelAndView;
+    }
+
 
     @RequestMapping(value = "user/portfolio", method = RequestMethod.GET)
     public ModelAndView userPortfolio() {
@@ -110,6 +157,20 @@ public class UserController {
         tradeService.findAllByUserNameAndStockNameOrderByDatetimeDesc(auth.getName(), stockName).forEach(trades::add);
         return trades;
     }
+
+
+
+    @RequestMapping(value = "user/market/optionTrade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void buyOption(@RequestBody OptionTrade newTrade){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userService.findUserByEmail(auth.getName());
+        optionTradeService.save(newTrade);
+        currentUser.setBalance((double)Math.round((currentUser.getBalance() - newTrade.getStrikePrice())*10000)/10000);
+        userService.saveUser(currentUser);
+    }
+
+
     @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void buyStock(@RequestBody Trade newTrade) {
@@ -131,8 +192,6 @@ public class UserController {
         userService.saveUser(currentUser);
     }
 
-
-
     @RequestMapping(value = "user/market/getStockPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getStockPrice(@RequestParam("stockName") String stockName){
@@ -145,7 +204,6 @@ public class UserController {
     public String getBalance() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findUserByEmail(auth.getName());
-        System.out.println("Got user's balance = " + currentUser.getBalance());
         return String.valueOf(currentUser.getBalance());
     }
 

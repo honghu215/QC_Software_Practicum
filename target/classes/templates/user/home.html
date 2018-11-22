@@ -17,208 +17,83 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!--<script type="text/javascript" th:src="@{/js/index.js}"/>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </head>
-
-<body>
-
+<body class="w3-content" style="max-width:1200px">
 
 
-<div class="container">
+<!-- Sidebar/menu -->
+<div th:include="header"></div>
 
-    <div th:include="header"></div>
+
+<div class="w3-main" style="margin-left:250px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+
+    <!-- Top header -->
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Home</p>
+    </header>
+
+
+
+    <!-- Image header -->
+    <div class="w3-display-container w3-container">
+        <img src="https://ei.marketwatch.com/Multimedia/2018/01/16/Photos/ZH/MW-GB819_stocks_20180116134819_ZH.jpg?uuid=d1d56e68-faed-11e7-9db3-9c8e992d421e" alt="Jeans" style="width:100%">
+        <!--<div class="w3-display-topleft w3-text-white" style="padding:24px 48px">-->
+            <!--<h1 class="w3-jumbo w3-hide-small">New arrivals</h1>-->
+            <!--<h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>-->
+            <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
+            <!--<p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>-->
+        <!--</div>-->
+    </div>
+
+    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Options Owned</span></h4>
+    <h2>Options</h2>
+    <table class="rwd-table" style="width: 100%">
+        <thead>
+        <tr>
+            <!--<th>OCC</th>-->
+            <th>Name</th>
+            <th>Underlying</th>
+            <th>Strike Price</th>
+            <th>Issued On</th>
+            <th>Expiration</th>
+            <th>Days to expire</th>
+            <!--<th>Put/Call</th>-->
+            <!--<th>Ame/Eur</th>-->
+        </tr>
+        </thead>
+
+        <tbody id="content">
+            <tr th:each="option: ${options}">
+                <!--<td th:text="${option.occCode}"></td>-->
+                <td th:text="${option.optionName}"></td>
+                <td th:text="${option.underlying}"></td>
+                <td th:text="${option.strikePrice}"></td>
+                <td th:text="${#dates.format(option.createdOn, 'yyyy-MM-dd')}" id="issuedOn"></td>
+                <td th:text="${#dates.format(option.expiration, 'yyyy-MM-dd')}" id="expiration"></td>
+                <td id="daysLeft">
+                    <!--<script type="text/javascript">-->
+                        <!--var exp = $('#daysLeft').parent('tr').children('#expiration').text();-->
+                        <!--var exp1 = $(this).parent().parent();-->
+
+                        <!--console.log(exp1);-->
+                    <!--</script></td>-->
+                <!--<td th:text="${option.putCall}"></td>-->
+                <!--<td th:text="${option.ameEur}"></td>-->
+            </tr>
+        </tbody>
+    </table>
 
     <br><br>
-
-    <h1 style="text-align: center">Welcome to trader page. </h1>
-
+    <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity"> </a></div>
 
 </div>
-<!--<div class="container">-->
-    <!--<form th:action="@{/logout}" method="get">-->
-        <!--<button class="btn btn-md btn-danger btn-block" name="registration"-->
-                <!--type="Submit">Logout-->
-        <!--</button>-->
-    <!--</form>-->
 
-    <!--<div class="panel-group" style="margin-top:40px">-->
-        <!--<div class="panel panel-primary">-->
-            <!--<div class="panel-heading">-->
-                <!--<span th:utext="${currentUser.getName()}"></span>-->
-            <!--</div>-->
-        <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div>-->
-        <!--<h4 style="text-align: center; color: darkred;">Stocks</h4>-->
-        <!--<table class="table" id="stocks">-->
-            <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>Stock Id</th>-->
-                <!--<th>Stock Name</th>-->
-                <!--<th>Stock Price</th>-->
-                <!--<th>Stock Field</th>-->
-                <!--<th>Action</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-
-            <!--<tbody>-->
-            <!--<tr th:each="stock: ${stocks}">-->
-                <!--<td th:text="${stock.stockName}" />-->
-                <!--<td th:text="${stock.stockName}" />-->
-                <!--<td th:text="${stock.stockPrice}" />-->
-                <!--<td th:text="${stock.stockField}" />-->
-                <!--<td>-->
-
-                    <!--&lt;!&ndash;The buy Modal&ndash;&gt;-->
-                    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buy" data-whatever="@mdo">Buy</button>-->
-
-                    <!--<div class="modal fade" id="buy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">-->
-                        <!--<div class="modal-dialog" role="document">-->
-                            <!--<div class="modal-content">-->
-
-                                <!--<div class="modal-header">-->
-                                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                    <!--<h4 class="modal-title" id="exampleModalLabel">Confirm</h4>-->
-                                <!--</div>-->
-
-                                <!--<div class="modal-body">-->
-
-                                    <!--<p th:text="${stock.stockName}"></p>-->
-
-                                    <!--<form th:object="${newTrade}"-->
-                                          <!--th:action="@{/user/newTrade(stockName=${stock.stockName}, stockPrice=${stock.stockPrice}, buy=true)}"-->
-                                          <!--method="post">-->
-                                        <!--<input type="number" th:field="*{quantity}" class="form-control" placeholder="Enter the quantity you want to buy.">-->
-
-                                        <!--<br>-->
-                                        <!--<br>-->
-
-                                        <!--<div class="form-group">-->
-                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal" style="text-align: right">Close</button>-->
-                                            <!--<button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>-->
-                                        <!--</div>-->
-                                    <!--</form>-->
-                                <!--</div>-->
-
-
-                                <!--&lt;!&ndash;<div class="modal-footer">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-
-                    <!--&lt;!&ndash;The sell Modal&ndash;&gt;-->
-                    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sell" data-whatever="@fat">Sell</button>-->
-
-
-                    <!--<div class="modal fade" id="sell" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">-->
-                        <!--<div class="modal-dialog" role="document">-->
-                            <!--<div class="modal-content">-->
-
-                                <!--<div class="modal-header">-->
-                                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                    <!--<h4 class="modal-title">Confirm</h4>-->
-                                <!--</div>-->
-
-                                <!--<div class="modal-body">-->
-
-                                    <!--<p th:text="${stock.stockName}"></p>-->
-
-                                    <!--<form th:object="${newTrade}"-->
-                                          <!--th:action="@{/user/newTrade(stockName=${stock.stockName}, stockPrice=${stock.stockPrice}, buy=false)}"-->
-                                          <!--method="post">-->
-                                        <!--<input type="number" th:field="*{quantity}" class="form-control" placeholder="Enter the quantity you want to buy.">-->
-
-                                        <!--<br>-->
-                                        <!--<br>-->
-
-                                        <!--<div class="form-group">-->
-                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal" style="text-align: right">Close</button>-->
-                                            <!--<button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>-->
-                                        <!--</div>-->
-                                    <!--</form>-->
-                                <!--</div>-->
-
-
-                                <!--&lt;!&ndash;<div class="modal-footer">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<button type="submit" class="btn btn-default">Configrm</button>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-
-
-
-
-                <!--</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-
-    <!--</div>-->
-
-
-    <!--&lt;!&ndash;portfolio&ndash;&gt;-->
-    <!--<div class="container col-md-6">-->
-        <!--<h4 style="text-align: center; color: darkred;">Portfolio</h4>-->
-        <!--<table class="table">-->
-            <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>No.</th>-->
-                <!--<th>Stock Name</th>-->
-                <!--<th>Stock Quantity</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-
-            <!--<tbody th:each="portfolio: ${portfolios}">-->
-            <!--<tr th:if="${currentUser.id} == ${portfolio.userId}">-->
-
-                <!--<td th:text="${portfolio.portforlioId}" />-->
-                <!--<td th:text="${portfolio.stockName}" />-->
-                <!--<td th:text="${portfolio.quantity}" />-->
-
-            <!--</tr>-->
-
-            <!--</tbody>-->
-
-        <!--</table>-->
-    <!--</div>-->
-
-
-    <!--&lt;!&ndash;User trade history&ndash;&gt;-->
-    <!--<div class="container col-md-6">-->
-        <!--<h4 style="text-align: center; color: darkred;">Trade History</h4>-->
-
-        <!--<table class="table">-->
-            <!--<thead>-->
-            <!--<tr>-->
-                <!--<td>Stock Name</td>-->
-                <!--<td>Stock Price</td>-->
-                <!--<td>Quantity</td>-->
-                <!--<td>Date</td>-->
-            <!--</tr>-->
-            <!--</thead>-->
-
-            <!--<tbody th:each="trade: ${trades}">-->
-            <!--<tr th:if="${currentUser.id} == ${trade.userId}">-->
-                <!--<td th:text="${trade.stockName}" />-->
-                <!--<td th:text="${trade.stockPrice}" />-->
-                <!--<td th:text="${trade.quantity}" />-->
-                <!--<td th:text="${trade.date}" />-->
-            <!--</tr>-->
-            <!--</tbody>-->
-
-
-        <!--</table>-->
-
-    <!--</div>-->
-
-<!--</div>-->
 
 </body>
 </html>

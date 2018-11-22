@@ -98,6 +98,15 @@ public class AdminController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/admin/securities/stock", method = RequestMethod.GET)
+    public ModelAndView stock() {
+        ModelAndView modelAndView = new ModelAndView("admin/securities/stock");
+        List<Stock> stocks = new ArrayList<>();
+        stockService.findAll().forEach(stocks::add);
+        modelAndView.addObject("stocks", stocks);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/admin/securities/addStock", method = RequestMethod.POST)
     public ModelAndView addStock(@ModelAttribute("newStock") Stock newStock){
         newStock.setPrice( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );

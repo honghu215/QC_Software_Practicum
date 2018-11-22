@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://java.sun.com/xml/ns/persistence/orm" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</head>
+
+<body class="w3-content" style="max-width:1200px">
+
+
+<!-- Sidebar/menu -->
+<div th:include="header"></div>
+
+<div class="w3-main" style="margin-left:250px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+
+    <!-- Top header -->
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Bond Market</p>
+    </header>
+
+    <!-- Image header -->
+    <div class="w3-display-container w3-container">
+        <img src="https://i2.cdn.turner.com/money/dam/assets/180208191402-stock-market-feb-8-780x439.jpg" alt="stocks" style="width:100%">
+        <div class="w3-display-bottomleft w3-text-white" style="padding:24px 48px">
+            <!--<h1 class="w3-jumbo w3-hide-small">New arrivals</h1>-->
+            <!--<h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>-->
+            <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
+            <p><a href="#bonds" class="w3-button w3-black w3-padding-large w3-large">Make Purchase</a></p>
+        </div>
+    </div>
+
+
+    <!-- table for stocks -->
+    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Stocks</span></h4>
+    <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Stocks
+        <span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 59%;" data-target="#addStock" data-whatever="@mdo">+</button>
+            </span>
+    </p>
+
+    <div class="modal fade" id="addStock" tabindex="-1" role="dialog" aria-labelledby="addStockLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addStockLabel">Add New Stock</h4>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/securities/addStock}" th:object="${newStock}" method="post">
+                        <div class="form-group">
+                            <label for="stockName">Stock Name:</label>
+                            <input type="text" class="form-control" id="stockName" th:field="*{stockName}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" style="display: none">Price:</label>
+                            <input type="number" step="any" class="form-control" id="price" th:field="*{price}" style="display: none"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="field">Stock Field:</label>
+                            <input type="text" class="form-control" id="field" th:field="*{stockField}"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <!--<th>Price</th>-->
+            <th>Field</th>
+            <th></th>
+            <!--<th>Add Option</th>-->
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="stock: ${stocks}">
+            <td th:text="${stock.stockName}"></td>
+            <td th:text="${stock.stockField}"></td>
+            <td> <a th:href="@{/admin/securities/deleteStock(id=${stock.stockId})}">Delete</a> </td>
+            <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+</body>
+</html>
