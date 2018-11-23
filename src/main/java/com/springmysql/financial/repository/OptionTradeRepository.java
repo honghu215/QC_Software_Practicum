@@ -11,4 +11,6 @@ public interface OptionTradeRepository extends JpaRepository<OptionTrade, Long> 
 
     List<OptionTrade> findAllByUserNameOrderByDatetimeDesc(String username);
 
+    List<OptionTrade> findDistinctOptionNameByUserName(String username);
+
 }

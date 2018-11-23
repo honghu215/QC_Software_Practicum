@@ -136,7 +136,6 @@ public class UserController {
     public ModelAndView userHistory() {
         ModelAndView modelAndView = new ModelAndView("user/history");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findUserByEmail(auth.getName());
 
         List<Portfolio> portfolios = new ArrayList<>();
         portfolioService.findAllByUserName(auth.getName()).forEach(portfolios::add);
@@ -145,6 +144,34 @@ public class UserController {
         List<Trade> trades = new ArrayList<>();
         tradeService.findAllByUserNameOrderByDatetimeDesc(auth.getName()).forEach(trades::add);
         modelAndView.addObject("trades", trades);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "user/history/stock", method = RequestMethod.GET)
+    public ModelAndView stockHistory() {
+        ModelAndView modelAndView = new ModelAndView("user/history/stock");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        List<Trade> trades = new ArrayList<>();
+        tradeService.findAllByUserNameOrderByDatetimeDesc(auth.getName()).forEach(trades::add);
+        modelAndView.addObject("trades", trades);
+
+        List<Portfolio> portfolios = new ArrayList<>();
+        portfolioService.findAllByUserName(auth.getName()).forEach(portfolios::add);
+        modelAndView.addObject("portfolios", portfolios);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "user/history/option", method = RequestMethod.GET)
+    public ModelAndView optionHistory(){
+        ModelAndView modelAndView = new ModelAndView("user/history/option");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        List<OptionTrade> optionTrades = new ArrayList<>();
+        optionTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(optionTrades::add);
+        modelAndView.addObject("optionTrades", optionTrades);
 
         return modelAndView;
     }

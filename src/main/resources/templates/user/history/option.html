@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://java.sun.com/xml/ns/persistence/orm" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Option History</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+</head>
+<body class="w3-content" style="max-width:1200px">
+
+
+<!-- Sidebar/menu -->
+<div th:include="header"></div>
+
+<div class="w3-main" style="margin-left:250px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+    <!-- Top header -->
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Option Purchase History</p>
+    </header>
+    <!-- Image header -->
+    <div class="w3-display-container w3-container">
+        <img src="https://www.bbva.com/wp-content/uploads/en/2017/02/Apertura-ComprarYVenderAcciones.jpg" alt="stocks" style="width:100%">
+    </div>
+    <br><br>
+
+
+
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px; width: 100%;" align="center">
+        <thead>
+        <tr>
+            <th style="display: none">No. </th>
+            <th>Option Name</th>
+            <th>Underlying</th>
+            <th>Strike Price</th>
+            <th>DateTime</th>
+        </tr>
+        </thead>
+
+        <tbody class="table-content">
+        <tr th:each="optionTrade: ${optionTrades}">
+            <td th:text="${optionTrade.optionName}"></td>
+            <td th:text="${optionTrade.underlying}"></td>
+            <td th:text="${optionTrade.strikePrice}"></td>
+            <td th:text="${optionTrade.datetime}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+</div>
+</body>
+</html>

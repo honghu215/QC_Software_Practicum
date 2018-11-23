@@ -36,10 +36,10 @@
         <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
             <div sec:authorize="hasAuthority('ADMIN')">
                 <a th:href="@{/admin/home}" class="w3-bar-item w3-button">Home</a>
-                <a onclick="myAccFunc1()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn1">
+                <a onclick="myAccFunc(this)" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="securities">
                     Securities <i class="fa fa-caret-down"></i>
                 </a>
-                    <div id="demoAcc1" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                    <div class="w3-bar-block w3-hide w3-padding-large w3-medium">
                         <!--<a th:href="@{/user/market}" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Market</a>-->
                         <a th:href="@{/admin/securities/stock}" class="w3-bar-item w3-button">Stock</a>
                         <a th:href="@{/admin/securities/bond}" class="w3-bar-item w3-button">Bond</a>
@@ -53,23 +53,28 @@
             <div sec:authorize="hasAuthority('USER')">
                 <a th:href="@{/user/home}" class="w3-bar-item w3-button">Home</a>
                 <a th:href="@{/user/portfolio}" class="w3-bar-item w3-button">Portfolio</a>
-                <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-                    Market <i class="fa fa-caret-down"></i>
-                </a>
-                <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+
+                <a onclick="myAccFunc(this)" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="market">
+                    Market <i class="fa fa-caret-down"></i> </a>
+                <div class="w3-bar-block w3-hide w3-padding-large w3-medium">
                     <a th:href="@{/user/market/stock}" class="w3-bar-item w3-button">Stock</a>
                     <a th:href="@{/user/market/bond}" class="w3-bar-item w3-button">Bond</a>
                     <a th:href="@{/user/market/option}" class="w3-bar-item w3-button">Option</a>
                     <a th:href="@{/user/market/index}" class="w3-bar-item w3-button">Index</a>
                 </div>
-                <a th:href="@{/user/history}" class="w3-bar-item w3-button">History</a>
+
+                <a onclick="myAccFunc(this)" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="history">
+                    History <i class="fa fa-caret-down"></i> </a>
+                <div class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                    <a th:href="@{/user/history/stock}" class="w3-bar-item w3-button">Stock</a>
+                    <a th:href="@{/user/history/option}" class="w3-bar-item w3-button">Option</a>
+                    <a th:href="@{/user/history/bond}" class="w3-bar-item w3-button">Bond</a>
+                </div>
+
             </div>
         </div>
         <h6 sec:authorize="hasAuthority('USER')" class="w3-bar-item ">Balance: $ <span id="balance" style="font-weight: bolder; color: navy;"></span></h6>
         <a th:href="@{/logout}" class="w3-bar-item w3-button w3-padding">Log Out</a>
-        <!--<a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>-->
-        <!--<a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a>-->
-        <!--<a href="#footer"  class="w3-bar-item w3-button w3-padding">Subscribe</a>-->
     </nav>
 
     <!-- Top menu on small screens -->
@@ -81,57 +86,11 @@
     <!-- Overlay effect when opening sidebar on small screens -->
     <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
-
-
-
-<!--<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">-->
-
-    <!--<div class="container">-->
-        <!--<div class="navbar-header">-->
-            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">-->
-                <!--<span class="icon-bar"></span>-->
-            <!--</button>-->
-            <!--<a class="navbar-brand" href="#">My project</a>-->
-        <!--</div>-->
-
-        <!--<div class="navbar-collapse collapse">-->
-
-            <!--<ul class="nav navbar-nav">-->
-                <!--<li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/home}" mothods="get">Home</a></li>-->
-                <!--<li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/home}" mothods="get">Home</a></li>-->
-                <!--<li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}" mothods="get">Accounts</a></li>-->
-                <!--<li class="active" sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/securities}" mothods="get">Securities</a></li>-->
-                <!--<li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/market}" mothods="get">Market</a></li>-->
-                <!--<li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/portfolio}" mothods="get">Portfolio</a></li>-->
-                <!--<li class="active" sec:authorize="hasAuthority('USER')"><a th:href="@{/user/history}" mothods="get">History</a></li>-->
-
-                <!--&lt;!&ndash;<li class="nav-item dropdown">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="nav-link dropdown-toggle navbar-right" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&ndash;&gt;-->
-                        <!--&lt;!&ndash;+&ndash;&gt;-->
-                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button class="dropdown-item" href="#">Action</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a class="dropdown-item" href="#">Another action</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a class="dropdown-item" href="#">Something else here</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-
-            <!--</ul>-->
-
-            <!--<ul class="nav navbar-nav navbar-right">-->
-                <!--<li class="active"><a th:href="@{/logout}" methods="get">Logout</a></li>-->
-            <!--</ul>-->
-        <!--</div>-->
-
-    <!--</div>-->
-
-<!--</div>-->
-
     <script>
         getBalance();
         // Accordion
-        function myAccFunc() {
-            var x = document.getElementById("demoAcc");
+        function myAccFunc(obj) {
+            let x = obj.nextSibling.nextSibling;
             if (x.className.indexOf("w3-show") == -1) {
                 x.className += " w3-show";
             } else {
@@ -148,9 +107,14 @@
             }
         }
         // Click on the "Jeans" link on page load to open the accordion for demo purposes
-        document.getElementById("myBtn").click();
-        document.getElementById("myBtn1").click();
-
+        let market = document.getElementById("market");
+        let history = document.getElementById("history");
+        let securities = document.getElementById("securities");
+        if (market != null) {
+            market.click();
+            history.click();
+        }
+        if (securities != null) securities.click();
 
         // Script to open and close sidebar
         function w3_open() {

@@ -26,4 +26,8 @@ public class OptionTradeService {
     public void save(OptionTrade newTrade) {
         optionTradeRepository.save(newTrade);
     }
+
+    public List<OptionTrade> findDistinctOptionNameByUsername(String username) {
+        return optionTradeRepository.findAllByUserNameOrderByDatetimeDesc(username);
+    }
 }

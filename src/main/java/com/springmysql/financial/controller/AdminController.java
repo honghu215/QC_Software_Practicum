@@ -99,8 +99,12 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/securities/stock", method = RequestMethod.GET)
-    public ModelAndView stock() {
+    public ModelAndView allStocks() {
         ModelAndView modelAndView = new ModelAndView("admin/securities/stock");
+
+        Stock stock = new Stock();
+        modelAndView.addObject("newStock", stock);
+
         List<Stock> stocks = new ArrayList<>();
         stockService.findAll().forEach(stocks::add);
         modelAndView.addObject("stocks", stocks);
@@ -111,7 +115,7 @@ public class AdminController {
     public ModelAndView addStock(@ModelAttribute("newStock") Stock newStock){
         newStock.setPrice( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );
         stockService.saveStock(newStock);
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/stock");
     }
 
     @RequestMapping(value = "admin/securities/addOption", method = RequestMethod.POST)
