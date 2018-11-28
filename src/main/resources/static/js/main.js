@@ -1,10 +1,4 @@
-// $(document).ready(function () {
-//    $("#calculate_yield").submit(function (event) {
-//        //stop submit the form, we will post it manually
-//        event.preventDefault();
-//        fire_ajax_submit();
-//    });
-// });
+
 //
 // function fire_ajax_submit() {
 //     var params = {
@@ -114,6 +108,40 @@ function buyOption(obj) {
         },
         error: function (error) {
             console.log("Error!", error);
+        }
+    });
+}
+
+function buyBond(obj) {
+    let balance = $('#balance').text();
+    let buyNewBond = {
+        "userName": $('#currentUsername').text(),
+        "bondName": $(obj).parents('tr').find('#bondName').text(),
+        "value": $(obj).parents('tr').find('#value').text(),
+        "coupon": $(obj).parents('tr').find('#coupon').text(),
+        "issuedOn": $(obj).parents('tr').find('#issuedOn').text(),
+        "maturityLength": $(obj).parents('tr').find('#length').text(),
+        "datetime": new Date()
+    };
+    if (balance - buyNewBond.value < 0) {
+        $('#successMsg').html('');
+        $('#errorMsg').html("Error: You don't have sufficient balance to buy this bond!");
+        $('#buyBond').modal('show');
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/user/market/bondTrade",
+        data: JSON.stringify(buyNewBond),
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            $('#errorMsg').html('');
+            $('#successMsg').html('Success!');
+            $('#buyBond').modal('show');
+            getBalance();
+        },
+        error: function (error) {
+            console.log('Error: ', error);
         }
     });
 }

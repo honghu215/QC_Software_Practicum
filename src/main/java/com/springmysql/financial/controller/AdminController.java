@@ -111,6 +111,39 @@ public class AdminController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/admin/securities/option", method = RequestMethod.GET)
+    public ModelAndView adminOption(){
+        ModelAndView modelAndView = new ModelAndView("admin/securities/option");
+        Option newOption = new Option();
+        modelAndView.addObject("newOption", newOption);
+        List<Option> options = new ArrayList<>();
+        optionService.findAll().forEach(options::add);
+        modelAndView.addObject("options", options);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/securities/bond", method = RequestMethod.GET)
+    public ModelAndView adminBond() {
+        ModelAndView modelAndView = new ModelAndView("admin/securities/bond");
+        Bond newBond = new Bond();
+        modelAndView.addObject("newBond", newBond);
+        List<Bond> bonds = new ArrayList<>();
+        bondService.findAll().forEach(bonds::add);
+        modelAndView.addObject("bonds", bonds);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/securities/index", method = RequestMethod.GET)
+    public ModelAndView adminIndex() {
+        ModelAndView modelAndView = new ModelAndView("admin/securities/index");
+        Index newIndex = new Index();
+        modelAndView.addObject("newIndex", newIndex);
+        List<Index> indexes = new ArrayList<>();
+        indexService.findAll().forEach(indexes::add);
+        modelAndView.addObject("indexes", indexes);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/admin/securities/addStock", method = RequestMethod.POST)
     public ModelAndView addStock(@ModelAttribute("newStock") Stock newStock){
         newStock.setPrice( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );

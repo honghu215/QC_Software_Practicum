@@ -13,7 +13,7 @@
 </head>
 
 <body class="w3-content" style="max-width:1200px">
-
+<p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
 
     <!-- Sidebar/menu -->
     <div th:include="header"></div>
@@ -48,20 +48,50 @@
                 <th>Issued On</th>
                 <th>Face Value</th>
                 <th>Bond Value</th>
+                <th style="display: none">MaturityLength</th>
+                <th></th>
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="bond: ${bonds}">
-                <td th:text="${bond.bondName}"></td>
-                <td th:text="${bond.coupon}"></td>
+                <td th:text="${bond.bondName}" id="bondName"></td>
+                <td th:text="${bond.coupon}" id="coupon"></td>
                 <td th:text="${bond.maturity}"></td>
-                <td th:text="${bond.createdOn}"></td>
+                <td th:text="${bond.createdOn}" id="issuedOn"></td>
                 <td th:text=100.0></td>
-                <td th:text="${bond.bondValue}"></td>
+                <td th:text="${bond.bondValue}" id="value"></td>
+                <th th:text="${bond.maturityLength}" style="display: none" id="length"></th>
+                <td>
+                    <button class="btn btn-primary" onclick="buyBond(this)">Buy</button>
+                </td>
             </tr>
             </tbody>
         </table>
+
+        <!-- modal for buy bond-->
+        <div class="modal fade" id="buyBond" tabindex="-1" role="dialog" aria-labelledby="buyLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="buyLabel">Result</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <h4 id="successMsg"></h4>
+                        <h4 id="errorMsg" style="color: red;"></h4>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

@@ -41,6 +41,8 @@ public class UserController {
     IndexService indexService;
     @Autowired
     OptionTradeService optionTradeService;
+    @Autowired
+    BondTradeService bondTradeService;
 
 
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
@@ -176,6 +178,37 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "user/history/bond", method = RequestMethod.GET)
+    public ModelAndView bondHistory() {
+        ModelAndView modelAndView = new ModelAndView("user/history/bond");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<BondTrade> bondTrades = new ArrayList<>();
+        bondTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(bondTrades::add);
+        modelAndView.addObject("bondTrades", bondTrades);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "user/bonds", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<BondTrade> allBonds() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return bondTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName());
+    }
+
+    @RequestMapping(value = "user/adjustBalance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void adjust(@RequestParam("value") double value,
+                       @RequestParam("bondName") String bondName,
+                       @RequestParam("frequency") int frequency){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currUser = userService.findUserByEmail(auth.getName());
+        currUser.setBalance((double)Math.round((currUser.getBalance() + value)*10000)/10000);
+        userService.saveUser(currUser);
+        BondTrade bondTrade = bondTradeService.findByUsernameAndBondName(auth.getName(), bondName);
+        bondTrade.setReturned(frequency);
+        bondTradeService.save(bondTrade);
+    }
+
     @RequestMapping(value = "user/history/filter", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Trade> filter(@RequestParam("stockName") String stockName) {
@@ -196,6 +229,17 @@ public class UserController {
         currentUser.setBalance((double)Math.round((currentUser.getBalance() - newTrade.getStrikePrice())*10000)/10000);
         userService.saveUser(currentUser);
     }
+
+    @RequestMapping(value = "user/market/bondTrade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void buyBond(@RequestBody BondTrade buyNewBond){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userService.findUserByEmail(auth.getName());
+        bondTradeService.save(buyNewBond);
+        currentUser.setBalance((double)Math.round((currentUser.getBalance() - buyNewBond.getValue())*10000)/10000);
+        userService.saveUser(currentUser);
+    }
+
 
 
     @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!--<script type="text/javascript" th:src="@{/js/index.js}"/>-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 
+    <!--<script type="text/javascript" th:src="@{/js/bond_check_date.js"></script>-->
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 
@@ -63,6 +63,7 @@
             <th>Strike Price</th>
             <th>Issued On</th>
             <th>Expiration</th>
+            <th>PUT/CALL</th>
             <th>Days to expire</th>
             <!--<th>Put/Call</th>-->
             <!--<th>Ame/Eur</th>-->
@@ -77,6 +78,7 @@
                 <td th:text="${option.strikePrice}"></td>
                 <td th:text="${#dates.format(option.createdOn, 'yyyy-MM-dd')}" id="issuedOn"></td>
                 <td th:text="${#dates.format(option.expiration, 'yyyy-MM-dd')}" id="expiration"></td>
+                <td th:text="${option.putCall}"></td>
                 <td id="daysLeft">
                     <!--<script type="text/javascript">-->
                         <!--var exp = $('#daysLeft').parent('tr').children('#expiration').text();-->
