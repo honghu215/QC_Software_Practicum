@@ -7,14 +7,24 @@
     <title>Users</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 </head>
-<body>
+<body class="w3-content" style="max-width:1200px">
 
-    <div th:include="header"></div>
-    <br><br>
 
-    
-    <div class="container">
-        
+<!-- Sidebar/menu -->
+<div th:include="header"></div>
+
+
+<div class="w3-main" style="margin-left:250px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+
+    <!-- Top header -->
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Home</p>
+    </header>
+
+
+
         <h2 style="text-align: center;">Traders</h2>
         <table class="rwd-table" style="margin-top: 10px;" align="center">
             <thead>
@@ -38,7 +48,7 @@
             </tbody>
         </table>
 
-    </div>
+</div>
 
 </body>
 </html>

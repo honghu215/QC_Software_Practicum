@@ -1,11 +1,4 @@
 
-// $(document).ready(function () {
-//    $("#calculate_yield").submit(function (event) {
-//        //stop submit the form, we will post it manually
-//        event.preventDefault();
-//        fire_ajax_submit();
-//    });
-// });
 //
 // function fire_ajax_submit() {
 //     var params = {
@@ -29,6 +22,7 @@
 //         }
 //     });
 // }
+
 
 function calculate(method) {
     var params = {};
@@ -86,6 +80,76 @@ function getCurrentPrice(obj) {
     });
 }
 
+function buyOption(obj) {
+    let balance = $('#balance').text();
+    let newTrade = {
+        "userName": $('#currentUsername').text(),
+        "optionName": $(obj).parents('tr').find('#optionName').text(),
+        "underlying": $(obj).parents('tr').find('#underlying').text(),
+        "strikePrice": $(obj).parents('tr').find('#strikePrice').text(),
+        "datetime": new Date(),
+        "expire": $(obj).parents('tr').find('#expire').text(),
+        "putCall": $(obj).parents('tr').find('#putCall').text(),
+        "ameEur": $(obj).parents('tr').find('#ameEur').text()
+    };
+    console.log(newTrade);
+    if (newTrade.strikePrice - balance > 0.0) {
+        $('#successMsg').html('');
+        $('#errorMsg').html("Error: You don't have sufficient balance to buy this option!");
+        $('#buyOption').modal('show');
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/user/market/optionTrade",
+        data: JSON.stringify(newTrade),
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            $('#errorMsg').html('');
+            $('#successMsg').html('Success!');
+            $('#buyOption').modal('show');
+            getBalance();
+        },
+        error: function (error) {
+            console.log("Error!", error);
+        }
+    });
+}
+
+function buyBond(obj) {
+    let balance = $('#balance').text();
+    let buyNewBond = {
+        "userName": $('#currentUsername').text(),
+        "bondName": $(obj).parents('tr').find('#bondName').text(),
+        "value": $(obj).parents('tr').find('#value').text(),
+        "coupon": $(obj).parents('tr').find('#coupon').text(),
+        "issuedOn": $(obj).parents('tr').find('#issuedOn').text(),
+        "maturityLength": $(obj).parents('tr').find('#length').text(),
+        "datetime": new Date()
+    };
+    if (balance - buyNewBond.value < 0) {
+        $('#successMsg').html('');
+        $('#errorMsg').html("Error: You don't have sufficient balance to buy this bond!");
+        $('#buyBond').modal('show');
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/user/market/bondTrade",
+        data: JSON.stringify(buyNewBond),
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            $('#errorMsg').html('');
+            $('#successMsg').html('Success!');
+            $('#buyBond').modal('show');
+            getBalance();
+        },
+        error: function (error) {
+            console.log('Error: ', error);
+        }
+    });
+}
+
 function trade(obj, buySell) {
     let newTrade = {
         "userName": $("#currentUsername").text(),
@@ -121,6 +185,7 @@ function trade(obj, buySell) {
                 success: function (data) {
                     console.log("Success!");
                     $('#buyStock').modal('hide');
+                    getBalance();
                 },
                 error: function (error) {
                     console.log("Error!", error);
@@ -132,25 +197,24 @@ function trade(obj, buySell) {
             console.log(error);
         }
     });
+
 }
 
-// function getBalance() {
-//     let balance = 0.0;
-//     $.ajax({
-//         type: "GET",
-//         url: "/user/market/getBalance",
-//         contentType: "application/json; charset=utf-8",
-//         success: function (data) {
-//             balance = data;
-//             console.log("Balance = ;/", balance);
-//         },
-//         error: function(error) {
-//             console.log(error);
-//         }
-//     });
-//     console.log("Get balance: ", balance);
-//     return balance;
-// }
+function getBalance() {
+    let balance = 0.0;
+    $.ajax({
+        type: "GET",
+        url: "/user/market/getBalance",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $('#balance').html(data);
+            },
+        error: function(error) {
+            console.log(error);
+            }
+    });
+    return balance;
+}
 
 function filter(obj) {
     let stockName = $('#selectedStock option:selected').val();
@@ -165,8 +229,8 @@ function filter(obj) {
             $.each(data, function (index, item) {
                 var datetimeStr = JSON.stringify(item.datetime);
                 strHtml += '<tr><td>' + item.stockName + '</td>' + '<td>' + item.stockPrice + '</td>' + '<td>' +
-                            datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
-                            + '</td>' + '<td>' + item.quantity + '</td></tr>';
+                    datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
+                    + '</td>' + '<td>' + item.quantity + '</td></tr>';
             });
             $(".table-content").html(strHtml);
         },
@@ -174,4 +238,9 @@ function filter(obj) {
             console.log("Error: ", error);
         }
     });
+}
+
+function calculateDays(obj) {
+    let exp = $(obj).parents("tr").find('#expiration').text();
+    console.log(exp);
 }

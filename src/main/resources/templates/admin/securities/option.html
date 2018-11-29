@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://java.sun.com/xml/ns/persistence/orm"
+      xmlns:HH="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Option</title>
+
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+</head>
+
+<body class="w3-content" style="max-width:1200px">
+
+
+<!-- Sidebar/menu -->
+<div th:include="header"></div>
+
+<div class="w3-main" style="margin-left:250px">
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+
+    <!-- Top header -->
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Option</p>
+    </header>
+
+    <!-- Image header -->
+    <div class="w3-display-container w3-container">
+        <img src="https://i.ebayimg.com/00/s/NTA1WDgwMA==/z/yucAAOSwfxFbiRe-/$_20.JPG" alt="Jeans" style="width:100%">
+        <!--<div class="w3-display-topleft w3-text-white" style="padding:24px 48px">-->
+        <!--<h1 class="w3-jumbo w3-hide-small">New arrivals</h1>-->
+        <!--<h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>-->
+        <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
+        <!--<p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>-->
+        <!--</div>-->
+    </div>
+
+
+    <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Options
+        <span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 57%;" data-target="#addOption" data-whatever="@mdo">+</button>
+            </span>
+    </p>
+
+    <div class="modal fade" id="addOption" tabindex="-1" role="dialog" aria-labelledby="addOptionLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addOptionLabel">Add New Option</h4>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/securities/addOption}" th:object="${newOption}" method="post">
+
+                        <div class="form-group">
+                            <span type="text" style="display: none" th:field="*{occCode}">OCC</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="optionName">Option Name:</label>
+                            <input type="text" class="form-control" id="optionName" th:field="*{optionName}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="strikePrice">Strike Price:</label>
+                            <input type="number" step="any" class="form-control" id="strikePrice" th:field="*{strikePrice}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="createdOn">Issued on:</label>
+                            <input type="Date" class="form-control" id="createdOn" th:field="*{createdOn}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expiration">Expiration Date:</label>
+                            <input type="Date" class="form-control" id="expiration" th:field="*{expiration}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="putCall" style="margin-right: 8px;">Put/Call:</label>
+                            <!--<input type="text" class="form-control" id="putCall" th:field="*{putCall}"/>-->
+                            <select id="putCall" th:field="*{putCall}" class="form-control form-control-lg">
+                                <option value="Put">Put</option>
+                                <option value="Call">Call</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ameEur">Ame/Eur</label>
+                            <!--<input type="text" class="form-control" id="ameEur" th:field="*{ameEur}"/>-->
+                            <select id="ameEur" th:field="*{ameEur}" class="form-control form-control-lg">
+                                <option value="Ame">America</option>
+                                <option value="Eur">Europe</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="underlying">Underlying</label>
+                            <!--<input type="text" class="form-control" id="underlying" th:field="*{underlying}"/>-->
+                            <select id="underlying" th:field="*{underlying}" class="form-control form-control-lg">
+                                <option th:each="stock: ${stocks}" th:value="${stock.stockName}" th:text="${stock.stockName}"></option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px; width: 100%;" align="center">
+        <thead>
+        <tr>
+            <th>OCC</th>
+            <th>Name</th>
+            <th>Underlying</th>
+            <th>Strike Price</th>
+            <th>Issued on</th>
+            <th>Expiration</th>
+            <th>Put/Call</th>
+            <th>Ame/Eur</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="option: ${options}">
+            <td th:text="${option.occCode}"></td>
+            <td th:text="${option.optionName}"></td>
+            <td th:text="${option.underlying}"></td>
+            <td th:text="${option.strikePrice}"></td>
+            <td th:text="${option.createdOn}"></td>
+            <td th:text="${option.expiration}"></td>
+            <td th:text="${option.putCall}"></td>
+            <td th:text="${option.ameEur}"></td>
+            <th> <a th:href="@{/admin/securities/deleteOption(OCC=${option.occCode})}">Delete</a></th>
+        </tr>
+        </tbody>
+
+    </table>
+
+
+
+
+
+
+</div>
+
+
+
+</body>
+</html>
