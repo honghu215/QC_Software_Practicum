@@ -34,6 +34,9 @@ public class OptionTrade {
     @Column(name = "strike_price", nullable = false)
     private double strikePrice;
 
+    @Column(name = "option_value")
+    private double optionValue;
+
     @Column(name = "datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date datetime;

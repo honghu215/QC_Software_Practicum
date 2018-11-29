@@ -116,6 +116,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView("admin/securities/option");
         Option newOption = new Option();
         modelAndView.addObject("newOption", newOption);
+
         List<Option> options = new ArrayList<>();
         optionService.findAll().forEach(options::add);
         modelAndView.addObject("options", options);
@@ -157,8 +158,7 @@ public class AdminController {
 
     @RequestMapping(value = "admin/securities/addOption", method = RequestMethod.POST)
     public ModelAndView addOption(@ModelAttribute("newOption") Option newOption) {
-        Calendar cal0 = Calendar.getInstance();
-        cal0.setTime(newOption.getCreatedOn());
+        System.out.println(newOption);
         Calendar cal = Calendar.getInstance();
         cal.setTime(newOption.getExpiration());
         String priceStr = String.format("%08d", (int)(newOption.getStrikePrice()*100));

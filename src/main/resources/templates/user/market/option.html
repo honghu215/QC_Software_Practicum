@@ -48,6 +48,7 @@
             <th>Name</th>
             <th>Underlying</th>
             <th>Strike Price</th>
+            <th>Option Value</th>
             <th>Issued On</th>
             <th>Expiration</th>
             <th>Put/Call</th>
@@ -62,6 +63,7 @@
             <td th:text="${option.optionName}" id="optionName"></td>
             <td th:text="${option.underlying}" id="underlying"></td>
             <td th:text="${option.strikePrice}" id="strikePrice"></td>
+            <td th:text="${option.optionValue}" id="optionValue"></td>
             <td th:text="${#dates.format(option.createdOn, 'yyyy-MM-dd')}"></td>
             <td th:text="${#dates.format(option.expiration, 'yyyy-MM-dd')}" id="expire"></td>
             <td th:text="${option.putCall}" id="putCall"></td>

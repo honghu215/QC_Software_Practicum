@@ -227,7 +227,7 @@ public class UserController {
         User currentUser = userService.findUserByEmail(auth.getName());
         optionTradeService.save(newTrade);
         System.out.println(newTrade);
-        currentUser.setBalance((double)Math.round((currentUser.getBalance() - newTrade.getStrikePrice())*10000)/10000);
+        currentUser.setBalance((double)Math.round((currentUser.getBalance() - newTrade.getOptionValue())*10000)/10000);
         userService.saveUser(currentUser);
     }
 

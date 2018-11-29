@@ -43,7 +43,7 @@ public class User {
     private int active;
 
     @Column(name = "balance")
-    private Double balance = 0.0;
+    private Double balance = 10000.0;
 
     @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

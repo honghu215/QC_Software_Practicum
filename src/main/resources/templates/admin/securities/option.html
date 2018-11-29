@@ -76,13 +76,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="optionValue">Option Value:</label>
+                            <input type="number" step="any" class="form-control" id="optionValue" th:field="*{optionValue}"/>
+                        </div>
+
+                        <div class="form-group">
                             <label for="createdOn">Issued on:</label>
-                            <input type="Date" class="form-control" id="createdOn" th:field="*{createdOn}"/>
+                            <input type="date" class="form-control" id="createdOn" th:field="*{createdOn}"/>
                         </div>
 
                         <div class="form-group">
                             <label for="expiration">Expiration Date:</label>
-                            <input type="Date" class="form-control" id="expiration" th:field="*{expiration}"/>
+                            <input type="date" class="form-control" id="expiration" th:field="*{expiration}"/>
                         </div>
 
                         <div class="form-group">
@@ -121,10 +126,11 @@
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 30px; width: 100%;" align="center">
         <thead>
         <tr>
-            <th>OCC</th>
+            <!--<th>OCC</th>-->
             <th>Name</th>
             <th>Underlying</th>
             <th>Strike Price</th>
+            <th>Option Value</th>
             <th>Issued on</th>
             <th>Expiration</th>
             <th>Put/Call</th>
@@ -135,12 +141,13 @@
 
         <tbody>
         <tr th:each="option: ${options}">
-            <td th:text="${option.occCode}"></td>
+            <!--<td th:text="${option.occCode}"></td>-->
             <td th:text="${option.optionName}"></td>
             <td th:text="${option.underlying}"></td>
             <td th:text="${option.strikePrice}"></td>
-            <td th:text="${option.createdOn}"></td>
-            <td th:text="${option.expiration}"></td>
+            <td th:text="${option.optionValue}"></td>
+            <td th:text="${#dates.format(option.createdOn, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(option.expiration, 'yyyy-MM-dd')}"></td>
             <td th:text="${option.putCall}"></td>
             <td th:text="${option.ameEur}"></td>
             <th> <a th:href="@{/admin/securities/deleteOption(OCC=${option.occCode})}">Delete</a></th>

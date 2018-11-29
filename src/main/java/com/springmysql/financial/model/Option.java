@@ -29,6 +29,10 @@ public class Option {
     @DecimalMin("0.01")
     private double strikePrice;
 
+    @Column(name = "option_value")
+    @DecimalMin("0.01")
+    private double optionValue;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "createdOn")
     private Date createdOn;
@@ -46,9 +50,10 @@ public class Option {
     @Column(name = "underlying")
     private String underlying;
 
-    public Option() { }
+    public Option() {
+    }
 
-    public Option(String occCode, String optionName, double strikePrice, Date createdOn ,Date expiration, String putCall, String ameEur, String underlying) {
+    public Option(String occCode, String optionName, double strikePrice, double optionValue, Date createdOn, Date expiration, String putCall, String ameEur, String underlying) {
         this.optionName = optionName;
         this.strikePrice = strikePrice;
         this.expiration = expiration;
@@ -56,13 +61,22 @@ public class Option {
         this.putCall = putCall;
         this.ameEur = ameEur;
         this.underlying = underlying;
+        this.optionValue = optionValue;
 
         Calendar cal0 = Calendar.getInstance();
         cal0.setTime(expiration);
         Calendar cal = Calendar.getInstance();
         cal.setTime(expiration);
         this.occCode = underlying.substring(0, 3).toUpperCase() + cal.get(Calendar.MONTH) + cal.get(Calendar.DAY_OF_MONTH) + cal.get(Calendar.YEAR)
-                        + putCall.toUpperCase().charAt(0) + strikePrice;
+                + putCall.toUpperCase().charAt(0) + strikePrice;
+    }
+
+    public double getOptionValue() {
+        return optionValue;
+    }
+
+    public void setOptionValue(double optionValue) {
+        this.optionValue = optionValue;
     }
 
     public String getOccCode() {
@@ -128,12 +142,14 @@ public class Option {
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
     }
+
     @Override
     public String toString() {
         return "Option{" +
                 "occCode='" + occCode + '\'' +
                 ", optionName='" + optionName + '\'' +
                 ", strikePrice=" + strikePrice +
+                ", optionValue=" + optionValue +
                 ", createdOn=" + createdOn +
                 ", expiration=" + expiration +
                 ", putCall='" + putCall + '\'' +
@@ -147,9 +163,11 @@ public class Option {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Option option = (Option) o;
-        return Objects.equals(occCode, option.occCode) &&
+        return Double.compare(option.strikePrice, strikePrice) == 0 &&
+                Double.compare(option.optionValue, optionValue) == 0 &&
+                Objects.equals(occCode, option.occCode) &&
                 Objects.equals(optionName, option.optionName) &&
-                Objects.equals(strikePrice, option.strikePrice) &&
+                Objects.equals(createdOn, option.createdOn) &&
                 Objects.equals(expiration, option.expiration) &&
                 Objects.equals(putCall, option.putCall) &&
                 Objects.equals(ameEur, option.ameEur) &&
@@ -158,6 +176,6 @@ public class Option {
 
     @Override
     public int hashCode() {
-        return Objects.hash(occCode, optionName, strikePrice, expiration, putCall, ameEur, underlying);
+        return Objects.hash(occCode, optionName, strikePrice, optionValue, createdOn, expiration, putCall, ameEur, underlying);
     }
 }

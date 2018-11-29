@@ -87,6 +87,7 @@ function buyOption(obj) {
         "optionName": $(obj).parents('tr').find('#optionName').text(),
         "underlying": $(obj).parents('tr').find('#underlying').text(),
         "strikePrice": $(obj).parents('tr').find('#strikePrice').text(),
+        "optionValue": $(obj).parents('tr').find('#optionValue').text(),
         "datetime": new Date(),
         "expire": $(obj).parents('tr').find('#expire').text(),
         "putCall": $(obj).parents('tr').find('#putCall').text(),
@@ -241,6 +242,14 @@ function filter(obj) {
 }
 
 function calculateDays(obj) {
-    let exp = $(obj).parents("tr").find('#expiration').text();
-    console.log(exp);
+    let exp = moment($(obj).parents("tr").find('#expiration').text());
+    var today = moment(moment().format('YYYY-MM-DD'));
+    var days = exp.diff(today, 'days');
+    if(days < 40) {
+        $(obj).addClass('expiring');
+        $(obj).html('<b>'+days+'</b>');
+    } else {
+        $(obj).html(days);
+    }
+
 }

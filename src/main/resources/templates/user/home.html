@@ -23,6 +23,12 @@
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 
+    <style>
+        .expiring {
+            color: #FF1C19;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body class="w3-content" style="max-width:1200px">
 
@@ -62,11 +68,11 @@
             <th>Name</th>
             <th>Underlying</th>
             <th>Strike Price</th>
+            <th>Option Value</th>
             <th>Expiration</th>
             <th>PUT/CALL</th>
+            <th>Ame/Eur</th>
             <th>Days to expire</th>
-            <!--<th>Put/Call</th>-->
-            <!--<th>Ame/Eur</th>-->
         </tr>
         </thead>
 
@@ -76,11 +82,12 @@
                 <td th:text="${option.optionName}"></td>
                 <td th:text="${option.underlying}"></td>
                 <td th:text="${option.strikePrice}"></td>
+                <td th:text="${option.optionValue}"></td>
+
                 <td th:text="${#dates.format(option.expire, 'yyyy-MM-dd')}" id="expiration"></td>
                 <td th:text="${option.putCall}"></td>
+                <td th:text="${option.ameEur}"></td>
                 <td class="daysLeft" onclick="calculateDays(this)"></td>
-                <!--<td th:text="${option.putCall}"></td>-->
-                <!--<td th:text="${option.ameEur}"></td>-->
             </tr>
         </tbody>
     </table>
