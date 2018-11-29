@@ -1,25 +1,16 @@
 package com.springmysql.financial.controller;
 
-import com.springmysql.financial.model.Portfolio;
-import com.springmysql.financial.model.Stock;
-import com.springmysql.financial.model.Trade;
 import com.springmysql.financial.model.User;
 import com.springmysql.financial.service.PortfolioService;
 import com.springmysql.financial.service.StockService;
 import com.springmysql.financial.service.TradeService;
 import com.springmysql.financial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 @RestController
@@ -65,8 +56,8 @@ public class Controller {
         } else {
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
+//            modelAndView.addObject("user", new User());
+            modelAndView.setViewName("login");
 
         }
         return modelAndView;

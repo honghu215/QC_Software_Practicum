@@ -1,15 +1,15 @@
 package com.springmysql.financial.repository;
 
-import com.springmysql.financial.model.Portfolio;
+import com.springmysql.financial.model.StockPortfolio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
+public interface PortfolioRepository extends JpaRepository<StockPortfolio, Long> {
 
-    Portfolio findByUserNameAndStockName(String userName, String stockName);
+    StockPortfolio findByUserNameAndStockName(String userName, String stockName);
 
-    List<Portfolio> findAllByUserName(String userName);
+    List<StockPortfolio> findAllByUserName(String userName);
 
-    List<Portfolio> findAllByUserNameAndQuantityNot(String userName, int min);
+    List<StockPortfolio> findAllByUserNameAndQuantityNot(String userName, int min);
 }

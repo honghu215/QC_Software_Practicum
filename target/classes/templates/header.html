@@ -52,7 +52,7 @@
 
             <div sec:authorize="hasAuthority('USER')">
                 <a th:href="@{/user/home}" class="w3-bar-item w3-button">Home</a>
-                <a th:href="@{/user/portfolio}" class="w3-bar-item w3-button">Portfolio</a>
+                <a th:href="@{/user/stockPortfolio}" class="w3-bar-item w3-button">Portfolio</a>
 
                 <a onclick="myAccFunc(this)" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="market">
                     Market <i class="fa fa-caret-down"></i> </a>

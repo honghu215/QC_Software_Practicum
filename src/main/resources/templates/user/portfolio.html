@@ -44,9 +44,9 @@
         </thead>
 
         <tbody>
-        <tr th:each="portfolio: ${portfolios}">
-            <td th:text="${portfolio.stockName}"></td>
-            <td th:text="${portfolio.quantity}"></td>
+        <tr th:each="stockPortfolio: ${stockPortfolios}">
+            <td th:text="${stockPortfolio.stockName}"></td>
+            <td th:text="${stockPortfolio.quantity}"></td>
         </tr>
         </tbody>
     </table>

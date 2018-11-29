@@ -296,11 +296,11 @@ public class AdminController {
 //        Trade newTrade = new Trade(user.getId(), stockName, stockPrice, quantity, date);
 //        tradeService.save(newTrade);
 //
-//        Portfolio existPortfolio = portfolioService.findByUserIdAndStockName(user.getId(), stockName);
+//        StockPortfolio existPortfolio = portfolioService.findByUserIdAndStockName(user.getId(), stockName);
 //        if (existPortfolio != null)
 //            existPortfolio.setQuantity(quantity + existPortfolio.getQuantity());
 //        else {
-//            portfolioService.save(new Portfolio(user.getId(), stockName, quantity));
+//            portfolioService.save(new StockPortfolio(user.getId(), stockName, quantity));
 //        }
 //
 //        return new ModelAndView("redirect:/user/home");

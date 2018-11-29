@@ -26,7 +26,7 @@ public class Trade implements Serializable {
     @Column(name = "STOCK_PRICE", nullable = false)
     private double stockPrice;
 
-    @Column(name = "datetime", updatable = false, columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    @Column(name = "datetime")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date datetime;
 

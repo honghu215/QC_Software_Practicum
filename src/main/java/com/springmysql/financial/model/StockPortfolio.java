@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "portfolio")
-public class Portfolio implements Serializable{
+@Table(name = "stock_portfolio")
+public class StockPortfolio implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,10 @@ public class Portfolio implements Serializable{
     @Column(name = "quantity")
     private int quantity;
 
-    public Portfolio() {
+    public StockPortfolio() {
     }
 
-    public Portfolio(String userName, String stockName, int quantity) {
+    public StockPortfolio(String userName, String stockName, int quantity) {
         this.userName = userName;
         this.stockName = stockName;
         this.quantity = quantity;
@@ -66,7 +66,7 @@ public class Portfolio implements Serializable{
 
     @Override
     public String toString() {
-        return "Portfolio{" +
+        return "StockPortfolio{" +
                 "portforlioId=" + portforlioId +
                 ", userName='" + userName + '\'' +
                 ", stockName='" + stockName + '\'' +

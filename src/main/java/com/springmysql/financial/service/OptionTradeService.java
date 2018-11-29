@@ -30,4 +30,12 @@ public class OptionTradeService {
     public List<OptionTrade> findDistinctOptionNameByUsername(String username) {
         return optionTradeRepository.findAllByUserNameOrderByDatetimeDesc(username);
     }
+
+    public OptionTrade findByUsernameAndId(String username, int id) {
+        return optionTradeRepository.findByUserNameAndId(username, id);
+    }
+
+    public void delete(OptionTrade optionTrade) {
+        optionTradeRepository.delete(optionTrade);
+    }
 }

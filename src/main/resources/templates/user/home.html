@@ -64,6 +64,7 @@
     <table class="rwd-table" style="width: 100%">
         <thead>
         <tr>
+            <th style="display: none;">Option Trade ID</th>
             <!--<th>OCC</th>-->
             <th>Name</th>
             <th>Underlying</th>
@@ -73,25 +74,54 @@
             <th>PUT/CALL</th>
             <th>Ame/Eur</th>
             <th>Days to expire</th>
+            <th></th>
         </tr>
         </thead>
 
         <tbody id="content">
             <tr th:each="option: ${optionTrades}">
+                <td th:text="${option.id}" id="id" style="display: none;"></td>
                 <!--<td th:text="${option.occCode}"></td>-->
-                <td th:text="${option.optionName}"></td>
-                <td th:text="${option.underlying}"></td>
-                <td th:text="${option.strikePrice}"></td>
-                <td th:text="${option.optionValue}"></td>
-
+                <td th:text="${option.optionName}" id="optionName"></td>
+                <td th:text="${option.underlying}" id="underlying"></td>
+                <td th:text="${option.strikePrice}" id="strikePrice"></td>
+                <td th:text="${option.optionValue}" id="optionValue"></td>
                 <td th:text="${#dates.format(option.expire, 'yyyy-MM-dd')}" id="expiration"></td>
-                <td th:text="${option.putCall}"></td>
-                <td th:text="${option.ameEur}"></td>
+                <td th:text="${option.putCall}" id="putCall"></td>
+                <td th:text="${option.ameEur}" id="ameEur"></td>
                 <td class="daysLeft" onclick="calculateDays(this)"></td>
+                <td>
+                    <button class="btn btn-primary" onclick="exercise(this)">Exercise</button>
+                </td>
             </tr>
         </tbody>
     </table>
 
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exercise" tabindex="-1" role="dialog" aria-labelledby="addStockLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addStockLabel">Exercise</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="successMsg"></p>
+                    <p id="errorMsg" style="color: red;"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <br><br>
     <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity"> </a></div>
 

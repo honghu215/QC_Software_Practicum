@@ -244,6 +244,7 @@ function filter(obj) {
 function calculateDays(obj) {
     let exp = moment($(obj).parents("tr").find('#expiration').text());
     var today = moment(moment().format('YYYY-MM-DD'));
+    // console.log(today);
     var days = exp.diff(today, 'days');
     if(days < 40) {
         $(obj).addClass('expiring');
@@ -252,4 +253,128 @@ function calculateDays(obj) {
         $(obj).html(days);
     }
 
+}
+
+function exercise(obj) {
+    let putCall = $(obj).parents('tr').find('#putCall').text();
+    let ameEur = $(obj).parents('tr').find('#ameEur').text();
+    let expire = $(obj).parents('tr').find('#expiration').text();
+    let today = moment().format('YYYY-MM-DD');
+    let stockName = $(obj).parents('tr').find('#underlying').text();
+    console.log(putCall, ameEur, expire, today);
+    // console.log(expire === m);
+    if (ameEur === 'Eur') {
+        if (expire === today) {
+            if (putCall === 'Put') {
+                $.ajax({
+                    type: 'GET',
+                    url: '/user/portfolio/quantity',
+                    data: {'stockName': stockName},
+                    dataType: 'json',
+                    contentType: 'application/json;charset=UTF-8',
+                    success: function (data) {
+                        if (data === 0) {
+                            $('#successMsg').html('');
+                            $('#errorMsg').html("You don't have stock " + stockName + ", go to Stock Market to buy one.");
+                            $('#exercise').modal('show');
+                            return;
+                        }
+                        putExercise(obj);
+                    },
+                    error: function (error) {
+                        console.log("Error: ", error);
+
+                    }
+                });
+            }
+            if (putCall === 'Call') callExercise(obj);
+        } else {
+            $('#successMsg').html('');
+            $('#errorMsg').html('Exercise failed! You can only exercise when it"s expiring.');
+        }
+
+    }
+    if (ameEur === 'Ame') {
+        if (putCall === 'Put') {
+            $.ajax({
+                type: 'GET',
+                url: '/user/portfolio/quantity',
+                data: {'stockName': stockName},
+                dataType: 'json',
+                contentType: 'application/json;charset=UTF-8',
+                success: function (data) {
+                    if (data === 0) {
+                        $('#successMsg').html('');
+                        $('#errorMsg').html("You don't have stock " + stockName + ", go to Stock Market to buy one.");
+                        $('#exercise').modal('show');
+                        return;
+                    }
+                    doExercise(obj);
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+
+                }
+            });
+        }
+        if (putCall === 'Call') callExercise(obj);
+    }
+
+
+}
+
+function doExercise(obj){
+    let id, strikePrice, stockName, putCall;
+    id = $(obj).parents('tr').find('#id').text();
+    strikePrice = $(obj).parents('tr').find('#strikePrice').text();
+    stockName = $(obj).parents('tr').find('#underlying').text();
+    putCall = $(obj).parents('tr').find('#putCall').text();
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        url: "/user/market/getStockPrice",
+        data: {"stockName": stockName },
+        success: function (stockPrice) {
+            if (putCall === 'Put') {
+                if (strikePrice > stockPrice) {
+                    $('#successMsg').html('');
+                    $('#errorMsg').html('The strike price is less than stock price. You cannot Put.');
+                }
+                else doExercise2(id, putCall);
+            }
+            if (putCall === 'Call') {
+                if (strikePrice < stockPrice) {
+                    $('#successMsg').html('');
+                    $('#errorMsg').html('The strike price is greater than stock price. You cannot Call');
+                }
+                if ($('#balance') < strikePrice) {
+                    $('#successMsg').html('');
+                    $('#errorMsg').html('You don"t have sufficient balance. You cannot Call');
+                }
+                else doExercise2(id, putCall);
+            }
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+
+function doExercise2(id, putCall) {
+    console.log(id, putCall);
+    $.ajax({
+        type: "GET",
+        url: "/user/exercise",
+        contentType: "application/json; charset=utf-8",
+        data: { "tradeId": id,
+                "putCall": putCall },
+        success: function (data) {
+            console.log('Exercise success!');
+            getBalance();
+        },
+        error: function (error) {
+            console.log("Exercise failed!", error)
+        }
+    });
 }

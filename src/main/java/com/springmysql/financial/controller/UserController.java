@@ -9,15 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.transaction.Transactional;
-import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -127,9 +121,9 @@ public class UserController {
     public ModelAndView userPortfolio() {
         ModelAndView modelAndView = new ModelAndView("user/portfolio");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<Portfolio> portfolios = new ArrayList<>();
-        portfolioService.findAllByUserNameAndQUantityNot(auth.getName(), 0).forEach(portfolios::add);
-        modelAndView.addObject("portfolios", portfolios);
+        List<StockPortfolio> stockPortfolios = new ArrayList<>();
+        portfolioService.findAllByUserNameAndQUantityNot(auth.getName(), 0).forEach(stockPortfolios::add);
+        modelAndView.addObject("stockPortfolios", stockPortfolios);
 
         return modelAndView;
     }
@@ -139,9 +133,9 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("user/history");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        List<Portfolio> portfolios = new ArrayList<>();
-        portfolioService.findAllByUserName(auth.getName()).forEach(portfolios::add);
-        modelAndView.addObject("portfolios", portfolios);
+        List<StockPortfolio> stockPortfolios = new ArrayList<>();
+        portfolioService.findAllByUserName(auth.getName()).forEach(stockPortfolios::add);
+        modelAndView.addObject("portfolios", stockPortfolios);
 
         List<Trade> trades = new ArrayList<>();
         tradeService.findAllByUserNameOrderByDatetimeDesc(auth.getName()).forEach(trades::add);
@@ -159,9 +153,9 @@ public class UserController {
         tradeService.findAllByUserNameOrderByDatetimeDesc(auth.getName()).forEach(trades::add);
         modelAndView.addObject("trades", trades);
 
-        List<Portfolio> portfolios = new ArrayList<>();
-        portfolioService.findAllByUserName(auth.getName()).forEach(portfolios::add);
-        modelAndView.addObject("portfolios", portfolios);
+        List<StockPortfolio> stockPortfolios = new ArrayList<>();
+        portfolioService.findAllByUserName(auth.getName()).forEach(stockPortfolios::add);
+        modelAndView.addObject("stockPortfolios", stockPortfolios);
 
         return modelAndView;
     }
@@ -209,6 +203,31 @@ public class UserController {
         bondTradeService.save(bondTrade);
     }
 
+    @RequestMapping(value = "user/exercise", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void exercise(@RequestParam("tradeId") int tradeId,
+                         @RequestParam("putCall") String putCall) {
+        System.out.println("Id: " + tradeId + ", Put/Call: " + putCall);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        OptionTrade trade = optionTradeService.findByUsernameAndId(auth.getName(), tradeId);
+        StockPortfolio stockPortfolio = portfolioService.findByUserNameAndStockName(auth.getName(), trade.getUnderlying());
+        User currUser = userService.findUserByEmail(auth.getName());
+        if (putCall.equals("Put")) {
+            System.out.println("Exercising put!");
+            currUser.setBalance((double)Math.round((currUser.getBalance() + trade.getStrikePrice()) * 100) / 100);
+            stockPortfolio.setQuantity(stockPortfolio.getQuantity() - 1);
+        }
+        else if (putCall.equals("Call")) {
+            System.out.println("Exercising call!");
+            currUser.setBalance((double)Math.round((currUser.getBalance() - trade.getStrikePrice()) * 100) / 100);
+            stockPortfolio.setQuantity(stockPortfolio.getQuantity() + 1);
+        }
+        userService.saveUser(currUser);
+        portfolioService.save(stockPortfolio);
+//        optionTradeService.delete(trade);
+    }
+
     @RequestMapping(value = "user/history/filter", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Trade> filter(@RequestParam("stockName") String stockName) {
@@ -218,7 +237,15 @@ public class UserController {
         return trades;
     }
 
-
+    @RequestMapping(value = "user/portfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public int getQuantity(@RequestParam("stockName") String stockName){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        StockPortfolio stockPortfolio = portfolioService.findByUserNameAndStockName(auth.getName(), stockName);
+        if (stockPortfolio == null) return 0;
+        System.out.println("Quantity: " + stockPortfolio.getQuantity());
+        return stockPortfolio.getQuantity();
+    }
 
     @RequestMapping(value = "user/market/optionTrade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -249,12 +276,12 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findUserByEmail(auth.getName());
         tradeService.save(newTrade);
-        Portfolio portfolio = portfolioService.findByUserNameAndStockName(newTrade.getUserName(), newTrade.getStockName());
-        if (portfolio != null) {
-            portfolio.setQuantity(portfolio.getQuantity() + newTrade.getQuantity());
-            portfolioService.save(portfolio);
+        StockPortfolio stockPortfolio = portfolioService.findByUserNameAndStockName(newTrade.getUserName(), newTrade.getStockName());
+        if (stockPortfolio != null) {
+            stockPortfolio.setQuantity(stockPortfolio.getQuantity() + newTrade.getQuantity());
+            portfolioService.save(stockPortfolio);
         } else {
-            portfolioService.save(new Portfolio(newTrade.getUserName(), newTrade.getStockName(), newTrade.getQuantity()));
+            portfolioService.save(new StockPortfolio(newTrade.getUserName(), newTrade.getStockName(), newTrade.getQuantity()));
         }
         double totalCost = newTrade.getQuantity() * newTrade.getStockPrice();
         if (newTrade.getQuantity() > 0) {
