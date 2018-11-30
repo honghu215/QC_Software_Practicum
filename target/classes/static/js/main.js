@@ -270,6 +270,22 @@ function calculateDays(obj) {
     var today = moment(moment().format('YYYY-MM-DD'));
     // console.log(today);
     var days = exp.diff(today, 'days');
+    if (days < 0) {
+        $.ajax({
+            type: "GET",
+            url: "/user/option/deleteExpired",
+            data: { "optionTradeId": $(obj).parents('tr').find('#id').text() },
+            contentType:'application/json;charset=UTF-8',
+            success: function (data) {
+                console.log("Deleted expired option.");
+                // location.reload();
+                return;
+            },
+            error: function (error) {
+                console.log("Error: ", error);
+            }
+        });
+    }
     if(days < 40) {
         $(obj).addClass('expiring');
         $(obj).html('<b>'+days+'</b>');

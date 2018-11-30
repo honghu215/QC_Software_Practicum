@@ -207,11 +207,18 @@ public class UserController {
                 bondTrades.add(bondTrade);
             }
         });
-
         return bondTrades;
-
     }
 
+    @RequestMapping(value = "/user/option/deleteExpired", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void deleteExpired(@RequestParam("optionTradeId") int optionTradeId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        OptionTrade optionTrade = optionTradeService.findByUsernameAndId(auth.getName(), optionTradeId);
+        OptionPortfolio optionPortfolio = optionPortfolioService.findByUserNameAndOptionName(auth.getName(), optionTrade.getOptionName());
+        optionPortfolio.setQuantity(optionPortfolio.getQuantity() - 1);
+        optionPortfolioService.save(optionPortfolio);
+    }
     @RequestMapping(value = "user/adjustBalance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void adjust(@RequestParam("value") double value,

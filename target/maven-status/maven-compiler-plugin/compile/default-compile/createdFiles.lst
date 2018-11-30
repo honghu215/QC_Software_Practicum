@@ -10,7 +10,6 @@ com/springmysql/financial/config/SecurityConfiguration.class
 com/springmysql/financial/repository/PortfolioRepository.class
 com/springmysql/financial/controller/UserController$calYield.class
 com/springmysql/financial/controller/UserController$1.class
-com/springmysql/financial/model/Portfolio.class
 com/springmysql/financial/service/StockService.class
 com/springmysql/financial/repository/StockRepository.class
 com/springmysql/financial/repository/OptionRepository.class
