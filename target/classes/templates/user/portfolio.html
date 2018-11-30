@@ -6,8 +6,10 @@
     <meta charset="UTF-8">
     <title>Portfolio</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bond_check_date.js}"></script>
 </head>
-<body class="w3-content" style="max-width:1200px">
+<body class="w3-content" style="max-width:1200px" onload="returnCoupon()">
 
 
 <!-- Sidebar/menu -->
@@ -35,6 +37,8 @@
         <!--<p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>-->
         <!--</div>-->
     </div>
+
+    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide" id="stock">Stock</span></h4>
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
         <thead>
         <tr>
@@ -50,6 +54,44 @@
         </tr>
         </tbody>
     </table>
+
+
+
+    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide" id="option">Option</span></h4>
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th>Option Name</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="optionPortfolio: ${optionPortfolios}">
+            <td th:text="${optionPortfolio.optionName}"></td>
+            <td th:text="${optionPortfolio.quantity}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide" id="bond">Bond</span></h4>
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th>Bond Name</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="bondPortfolio: ${bondPortfolios}">
+            <td th:text="${bondPortfolio.bondName}"></td>
+            <td th:text="${bondPortfolio.quantity}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>

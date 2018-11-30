@@ -28,7 +28,7 @@ public class OptionTradeService {
     }
 
     public List<OptionTrade> findDistinctOptionNameByUsername(String username) {
-        return optionTradeRepository.findAllByUserNameOrderByDatetimeDesc(username);
+        return optionTradeRepository.findDistinctOptionNameByUserName(username);
     }
 
     public OptionTrade findByUsernameAndId(String username, int id) {
@@ -38,4 +38,11 @@ public class OptionTradeService {
     public void delete(OptionTrade optionTrade) {
         optionTradeRepository.delete(optionTrade);
     }
+
+    public List<OptionTrade> findAllByUserNameAndOptionName(String userName, String optionName) {
+        return optionTradeRepository.findAllByUserNameAndOptionName(userName, optionName);
+    }
+//    public List<OptionTrade> findDistinctByUserNameAndOptionName(String userName){
+//        return optionTradeRepository.findDistinctByUserNameAndOptionName(userName);
+//    }
 }

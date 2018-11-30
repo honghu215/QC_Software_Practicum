@@ -1,4 +1,4 @@
-
+var optionNames = [];
 //
 // function fire_ajax_submit() {
 //     var params = {
@@ -82,7 +82,7 @@ function getCurrentPrice(obj) {
 
 function buyOption(obj) {
     let balance = $('#balance').text();
-    let newTrade = {
+    let newOptionTrade = {
         "userName": $('#currentUsername').text(),
         "optionName": $(obj).parents('tr').find('#optionName').text(),
         "underlying": $(obj).parents('tr').find('#underlying').text(),
@@ -93,8 +93,8 @@ function buyOption(obj) {
         "putCall": $(obj).parents('tr').find('#putCall').text(),
         "ameEur": $(obj).parents('tr').find('#ameEur').text()
     };
-    console.log(newTrade);
-    if (newTrade.strikePrice - balance > 0.0) {
+    console.log(newOptionTrade);
+    if (newOptionTrade.strikePrice - balance > 0.0) {
         $('#successMsg').html('');
         $('#errorMsg').html("Error: You don't have sufficient balance to buy this option!");
         $('#buyOption').modal('show');
@@ -103,7 +103,7 @@ function buyOption(obj) {
     $.ajax({
         type: "POST",
         url: "/user/market/optionTrade",
-        data: JSON.stringify(newTrade),
+        data: JSON.stringify(newOptionTrade),
         contentType:'application/json;charset=UTF-8',
         success: function (data) {
             $('#errorMsg').html('');
@@ -152,7 +152,7 @@ function buyBond(obj) {
 }
 
 function trade(obj, buySell) {
-    let newTrade = {
+    let newStockTrade = {
         "userName": $("#currentUsername").text(),
         "stockName": $("#currentStockName").text(),
         "stockPrice": $("#currentPrice").text(),
@@ -165,8 +165,8 @@ function trade(obj, buySell) {
         success: function (data) {
             if (buySell === true) {
                 var quantity = $("#quantity").val();
-                newTrade.quantity = quantity;
-                if(quantity * newTrade.stockPrice > data) {
+                newStockTrade.quantity = quantity;
+                if(quantity * newStockTrade.stockPrice > data) {
                     console.log("You don't have sufficient money left.");
                     $('#errorMsg').html('You don\'t have sufficient money left.');
                     setTimeout(function () {
@@ -176,12 +176,12 @@ function trade(obj, buySell) {
                     return;
                 }
             } else {
-                newTrade.quantity = 0 - $("#quantity").val();
+                newStockTrade.quantity = 0 - $("#quantity").val();
             }
             $.ajax({
                 type: "POST",
                 url: "/user/market/trade",
-                data: JSON.stringify(newTrade),
+                data: JSON.stringify(newStockTrade),
                 contentType:'application/json;charset=UTF-8',
                 success: function (data) {
                     console.log("Success!");
@@ -241,6 +241,30 @@ function filter(obj) {
     });
 }
 
+function filterOption(obj) {
+    let optionName = $('#selectedOption option:selected').val();
+    let strHtml = '';
+    $.ajax({
+        type: "GET",
+        url: "/user/history/filterOption",
+        data: {"optionName": optionName},
+        dataType: 'json',
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            $.each(data, function (index, item) {
+                var datetimeStr = JSON.stringify(item.datetime);
+                strHtml += '<tr><td>' + item.optionName + '</td>' + '<td>' + item.underlying + '</td>' + '<td>' + item.strikePrice + '</td>' + '<td>' +
+                    datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
+                    + '</td>' +  '<td>'+item.expire+'</td>' + '<td>'+item.putCall+'</td>' + '<td>'+item.ameEur+'</td></tr>';
+            });
+            $(".table-content").html(strHtml);
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+
 function calculateDays(obj) {
     let exp = moment($(obj).parents("tr").find('#expiration').text());
     var today = moment(moment().format('YYYY-MM-DD'));
@@ -268,7 +292,7 @@ function exercise(obj) {
             if (putCall === 'Put') {
                 $.ajax({
                     type: 'GET',
-                    url: '/user/portfolio/quantity',
+                    url: '/user/stockportfolio/quantity',
                     data: {'stockName': stockName},
                     dataType: 'json',
                     contentType: 'application/json;charset=UTF-8',
@@ -279,7 +303,7 @@ function exercise(obj) {
                             $('#exercise').modal('show');
                             return;
                         }
-                        putExercise(obj);
+                        doExercise(obj);
                     },
                     error: function (error) {
                         console.log("Error: ", error);
@@ -287,7 +311,7 @@ function exercise(obj) {
                     }
                 });
             }
-            if (putCall === 'Call') callExercise(obj);
+            if (putCall === 'Call') doExercise(obj);
         } else {
             $('#successMsg').html('');
             $('#errorMsg').html('Exercise failed! You can only exercise when it"s expiring.');
@@ -298,7 +322,7 @@ function exercise(obj) {
         if (putCall === 'Put') {
             $.ajax({
                 type: 'GET',
-                url: '/user/portfolio/quantity',
+                url: '/user/stockportfolio/quantity',
                 data: {'stockName': stockName},
                 dataType: 'json',
                 contentType: 'application/json;charset=UTF-8',
@@ -313,11 +337,10 @@ function exercise(obj) {
                 },
                 error: function (error) {
                     console.log("Error: ", error);
-
                 }
             });
         }
-        if (putCall === 'Call') callExercise(obj);
+        if (putCall === 'Call') doExercise(obj);
     }
 
 
@@ -339,20 +362,29 @@ function doExercise(obj){
             if (putCall === 'Put') {
                 if (strikePrice > stockPrice) {
                     $('#successMsg').html('');
-                    $('#errorMsg').html('The strike price is less than stock price. You cannot Put.');
+                    $('#errorMsg').html('The strike price is greater than stock price. You cannot Put.');
+                    $('#exercise').modal('show');
+                    return;
                 }
                 else doExercise2(id, putCall);
             }
             if (putCall === 'Call') {
+                console.log('doExercise ', strikePrice, stockPrice, id)
                 if (strikePrice < stockPrice) {
                     $('#successMsg').html('');
-                    $('#errorMsg').html('The strike price is greater than stock price. You cannot Call');
+                    $('#errorMsg').html('The strike price is less than stock price. You cannot Call');
+                    $('#exercise').modal('show');
+                    return;
                 }
-                if ($('#balance') < strikePrice) {
+                else if ($('#balance') < strikePrice) {
                     $('#successMsg').html('');
                     $('#errorMsg').html('You don"t have sufficient balance. You cannot Call');
+                    $('#exercise').modal('show');
+                    return;
                 }
-                else doExercise2(id, putCall);
+                else{
+                    doExercise2(id, putCall);
+                }
             }
         },
         error: function (error) {
@@ -370,11 +402,43 @@ function doExercise2(id, putCall) {
         data: { "tradeId": id,
                 "putCall": putCall },
         success: function (data) {
-            console.log('Exercise success!');
+            $('#successMsg').html('Success!');
+            $('#errorMsg').html('');
+            $('#exercise').modal('show');
             getBalance();
+            setTimeout(location.reload(), 2000);
         },
         error: function (error) {
-            console.log("Exercise failed!", error)
+            console.log("Exercise failed!", error);
+            $('#successMsg').html('');
+            $('#errorMsg').html('Exercise failed!');
+            $('#exercise').modal('show');
+        }
+    });
+}
+
+
+function checkQuantity(obj) {
+    let optionName = $(obj).parents('tr').find('#optionName').text();
+    if (optionNames.includes(optionName))  {
+        $(obj).closest('tr').remove();
+        return;
+    }
+    optionNames.push(optionName);
+    $.ajax({
+        type: "GET",
+        url: "/user/optionportfolio/quantity",
+        contentType: "application/json; charset=utf-8",
+        data: { "optionName": optionName },
+        success: function (data) {
+            // console.log("Quantity of option ", optionName, " = ", data);
+            if (data <= 0) {
+                // console.log("Current row is deleted.");
+                $(obj).closest('tr').remove();
+            }
+        },
+        error: function (error) {
+            console.log("Error: ", error);
         }
     });
 }

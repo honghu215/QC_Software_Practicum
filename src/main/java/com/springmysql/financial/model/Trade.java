@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Trade implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "trade_id")
     private int id;
 

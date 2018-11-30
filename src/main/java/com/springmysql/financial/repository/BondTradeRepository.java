@@ -10,4 +10,6 @@ public interface BondTradeRepository extends JpaRepository<BondTrade, Long> {
     List<BondTrade> findAllByUserNameOrderByDatetimeDesc(String username);
 
     BondTrade findByUserNameAndBondName(String username, String bondName);
+
+    BondTrade findByUserNameAndId(String username, int id);
 }

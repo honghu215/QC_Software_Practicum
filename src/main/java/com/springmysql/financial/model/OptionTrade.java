@@ -18,7 +18,7 @@ import java.util.Date;
 public class OptionTrade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "trade_id")
     private int id;
 

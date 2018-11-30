@@ -1,44 +1,62 @@
 
 
-function returnCoupon() {
-    // let balance = $('#balance').text();
-    // $.ajax({
-    //     type: "GET",
-    //     url: "/user/bonds",
-    //     contentType: "application/json; charset=utf-8",
-    //     success: function (data) {
-    //         data.forEach(function (bond) {
-    //             console.log(bond);
-    //             let issuedOn = new Date(bond.issuedOn);
-    //             let today = new Date();
-    //             let months = (today.getFullYear() - issuedOn.getFullYear())*12 +
-    //                 (today.getMonth() - issuedOn.getMonth() - 1);
-    //             let frequency = Math.round(months/6);
-    //             if ( frequency > bond.returned) {
-    //                 postBalance((months/6 - bond.returned) * bond.coupon, bond.bondName, frequency);
-    //             }
-    //         });
-    //     },
-    //     error: function (error) {
-    //         console.log(error);
-    //     }
-    // });
-}
 
-function postBalance(value, bondName ,frequency) {
+function returnCoupon() {
+    let today = moment();
+    let balance = $('#balance').text();
     $.ajax({
         type: "GET",
-        url: "/user/adjustBalance",
-        data: { "value": value,
-                "frequency": frequency,
-                "bondName": bondName
-        },
+        url: "/user/bondTrades",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            console.log('Success! Returned ', value, ' to your account.');
+            data.forEach(function (bondTrade) {
+                console.log(bondTrade);
+                let issuedOn = moment(bondTrade.issuedOn);
+                let boughtOn = moment(bondTrade.datetime);
+                let monthsFromBought = boughtOn.diff(issuedOn, 'months');
+                let monthsFromNow = today.diff(issuedOn, 'months');
+                console.log(boughtOn, today, monthsFromBought, monthsFromNow, bondTrade.returned);
+                if (Math.floor(monthsFromNow / 6) - Math.floor(monthsFromBought / 6) > bondTrade.returned) {
+
+                    let couponDates = [];
+                    let couponTimes = bondTrade.maturityLength * 2;
+                    for (var i=1; i<=couponTimes; i++) {
+                        couponDates.push(moment(issuedOn).add(6*i, 'M').format('MM-DD-YYYY'));
+                    }
+                    couponDates.forEach(function (dateItem, index) {
+                        console.log(dateItem);
+                        if (dateItem === moment(today).format('MM-DD-YYYY')) {
+                            if (index === couponDates.length-1) {
+                                redeemCoupon(bondTrade.id, true);
+                            }
+                            else {
+                                redeemCoupon(bondTrade.id, false);
+                            }
+                        }
+                    });
+                }
+            });
         },
         error: function (error) {
-            console.log('Error: ', error);
+            console.log(error);
         }
     });
 }
+
+
+function redeemCoupon(bondTradeId, expire) {
+    $.ajax({
+        type: "GET",
+        url: "/user/redeemCoupon",
+        data: { "bondTradeId": bondTradeId, "expire": expire },
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            console.log("Redeem successfully!");
+            getBalance();
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+

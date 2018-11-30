@@ -37,7 +37,10 @@ public class UserController {
     OptionTradeService optionTradeService;
     @Autowired
     BondTradeService bondTradeService;
-
+    @Autowired
+    OptionPortfolioService optionPortfolioService;
+    @Autowired
+    BondPortfolioService bondPortfolioService;
 
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
     public ModelAndView userHome() {
@@ -50,7 +53,6 @@ public class UserController {
         List<OptionTrade> optionTrades = new ArrayList<>();
         optionTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(optionTrades::add);
         modelAndView.addObject("optionTrades", optionTrades);
-
         return modelAndView;
     }
 
@@ -125,6 +127,13 @@ public class UserController {
         portfolioService.findAllByUserNameAndQUantityNot(auth.getName(), 0).forEach(stockPortfolios::add);
         modelAndView.addObject("stockPortfolios", stockPortfolios);
 
+        List<OptionPortfolio> optionPortfolios = new ArrayList<>();
+        optionPortfolioService.findAllByUsername(auth.getName()).forEach(optionPortfolios::add);
+        modelAndView.addObject("optionPortfolios", optionPortfolios);
+
+        List<BondPortfolio> bondPortfolios = new ArrayList<>();
+        bondPortfolioService.findAllByUsername(auth.getName()).forEach(bondPortfolios::add);
+        modelAndView.addObject("bondPortfolios", bondPortfolios);
         return modelAndView;
     }
 
@@ -169,6 +178,9 @@ public class UserController {
         optionTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(optionTrades::add);
         modelAndView.addObject("optionTrades", optionTrades);
 
+        List<OptionPortfolio> optionPortfolios = new ArrayList<>();
+        optionPortfolioService.findAllByUsername(auth.getName()).forEach(optionPortfolios::add);
+        modelAndView.addObject("optionPortfolios", optionPortfolios);
         return modelAndView;
     }
 
@@ -182,11 +194,22 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "user/bonds", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/bondTrades", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<BondTrade> allBonds() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return bondTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName());
+        List<String> bondPortfolioNames = new ArrayList<>();
+        bondPortfolioService.findAllByUsernameAndQuantityNot(auth.getName(), 0).forEach(bondPortfolio -> bondPortfolioNames.add(bondPortfolio.getBondName()));
+
+        List<BondTrade> bondTrades = new ArrayList<>();
+        bondTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(bondTrade -> {
+            if (bondPortfolioNames.contains(bondTrade.getBondName())) {
+                bondTrades.add(bondTrade);
+            }
+        });
+
+        return bondTrades;
+
     }
 
     @RequestMapping(value = "user/adjustBalance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -197,7 +220,7 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currUser = userService.findUserByEmail(auth.getName());
         currUser.setBalance((double)Math.round((currUser.getBalance() + value)*100)/100);
-        userService.saveUser(currUser);
+        userService.save(currUser);
         BondTrade bondTrade = bondTradeService.findByUsernameAndBondName(auth.getName(), bondName);
         bondTrade.setReturned(frequency);
         bondTradeService.save(bondTrade);
@@ -208,9 +231,9 @@ public class UserController {
     public void exercise(@RequestParam("tradeId") int tradeId,
                          @RequestParam("putCall") String putCall) {
         System.out.println("Id: " + tradeId + ", Put/Call: " + putCall);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OptionTrade trade = optionTradeService.findByUsernameAndId(auth.getName(), tradeId);
+        OptionPortfolio optionPortfolio = optionPortfolioService.findByUserNameAndOptionName(auth.getName(), trade.getOptionName());
         StockPortfolio stockPortfolio = portfolioService.findByUserNameAndStockName(auth.getName(), trade.getUnderlying());
         User currUser = userService.findUserByEmail(auth.getName());
         if (putCall.equals("Put")) {
@@ -223,9 +246,10 @@ public class UserController {
             currUser.setBalance((double)Math.round((currUser.getBalance() - trade.getStrikePrice()) * 100) / 100);
             stockPortfolio.setQuantity(stockPortfolio.getQuantity() + 1);
         }
-        userService.saveUser(currUser);
+        userService.save(currUser);
         portfolioService.save(stockPortfolio);
-//        optionTradeService.delete(trade);
+        optionPortfolio.setQuantity(optionPortfolio.getQuantity() - 1);
+        optionPortfolioService.save(optionPortfolio);
     }
 
     @RequestMapping(value = "user/history/filter", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -237,9 +261,25 @@ public class UserController {
         return trades;
     }
 
-    @RequestMapping(value = "user/portfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/history/filterOption", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public int getQuantity(@RequestParam("stockName") String stockName){
+    public List<OptionTrade> filterOption(@RequestParam("optionName") String optionName) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<OptionTrade> optionTrades = new ArrayList<>();
+        optionTradeService.findAllByUserNameAndOptionName(auth.getName(), optionName).forEach(optionTrades::add);
+        return optionTrades;
+    }
+
+    @RequestMapping(value = "user/optionportfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public int getOptionQuantity(@RequestParam("optionName") String optionName) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return optionPortfolioService.findByUserNameAndOptionName(auth.getName(), optionName).getQuantity();
+    }
+
+    @RequestMapping(value = "user/stockportfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public int getStockQuantity(@RequestParam("stockName") String stockName){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         StockPortfolio stockPortfolio = portfolioService.findByUserNameAndStockName(auth.getName(), stockName);
         if (stockPortfolio == null) return 0;
@@ -252,10 +292,18 @@ public class UserController {
     public void buyOption(@RequestBody OptionTrade newTrade){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findUserByEmail(auth.getName());
+        OptionPortfolio optionPortfolio = optionPortfolioService.findByUserNameAndOptionName(auth.getName(), newTrade.getOptionName());
+        if (optionPortfolio == null) {
+            optionPortfolioService.save(new OptionPortfolio(auth.getName(), newTrade.getOptionName(), 1));
+        }
+        else {
+            optionPortfolio.setQuantity(optionPortfolio.getQuantity() + 1);
+        }
+
         optionTradeService.save(newTrade);
         System.out.println(newTrade);
         currentUser.setBalance((double)Math.round((currentUser.getBalance() - newTrade.getOptionValue())*10000)/10000);
-        userService.saveUser(currentUser);
+        userService.save(currentUser);
     }
 
     @RequestMapping(value = "user/market/bondTrade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -265,9 +313,36 @@ public class UserController {
         User currentUser = userService.findUserByEmail(auth.getName());
         bondTradeService.save(buyNewBond);
         currentUser.setBalance((double)Math.round((currentUser.getBalance() - buyNewBond.getValue())*10000)/10000);
-        userService.saveUser(currentUser);
+        userService.save(currentUser);
+
+        BondPortfolio bondPortfolio = bondPortfolioService.findByUsernameAndBondname(auth.getName(), buyNewBond.getBondName());
+        if (bondPortfolio == null) {
+            bondPortfolioService.save(new BondPortfolio(auth.getName(), buyNewBond.getBondName(), 1));
+        } else {
+            bondPortfolio.setQuantity(bondPortfolio.getQuantity() + 1);
+            bondPortfolioService.save(bondPortfolio);
+        }
     }
 
+    @RequestMapping(value = "user/redeemCoupon", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void redeem(@RequestParam("bondTradeId") int bondTradeId,
+                       @RequestParam("expire") boolean expire) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currUser = userService.findUserByEmail(auth.getName());
+        BondTrade bondTrade = bondTradeService.findByUsernameAndTradeId(auth.getName(), bondTradeId);
+        BondPortfolio bondPortfolio = bondPortfolioService.findByUsernameAndBondname(auth.getName(), bondTrade.getBondName());
+        if (! expire) {
+            currUser.setBalance((double)Math.round((currUser.getBalance() + bondTrade.getCoupon())*100)/100);
+        } else {
+            currUser.setBalance((double)Math.round((currUser.getBalance() + 100.0)*100)/100);
+        }
+        bondTrade.setReturned(bondTrade.getReturned() + 1);
+        bondTradeService.save(bondTrade);
+        bondPortfolio.setQuantity(bondPortfolio.getQuantity() - 1);
+        userService.save(currUser);
+        bondPortfolioService.save(bondPortfolio);
+    }
 
 
     @RequestMapping(value = "user/market/trade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -288,7 +363,7 @@ public class UserController {
             currentUser.setBalance((double)Math.round((currentUser.getBalance() - totalCost) * 100) / 100);
         }
         else currentUser.setBalance((double)Math.round((currentUser.getBalance() - totalCost) * 100) / 100);
-        userService.saveUser(currentUser);
+        userService.save(currentUser);
     }
 
     @RequestMapping(value = "user/market/getStockPrice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

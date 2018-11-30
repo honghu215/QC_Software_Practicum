@@ -27,4 +27,7 @@ public class BondTradeService {
         return bondTradeRepository.findByUserNameAndBondName(username, bondName );
     }
 
+    public BondTrade findByUsernameAndTradeId(String username, int tradeId){
+        return bondTradeRepository.findByUserNameAndId(username, tradeId);
+    }
 }

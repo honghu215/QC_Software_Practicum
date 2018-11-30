@@ -27,6 +27,13 @@
     <br><br>
 
 
+    <div class="container">
+        <label for="selectedOption" style="font-size: 25px; margin-left: 5%; margin-right: 15px;">Filter By:</label>
+        <select name="selectedOption" id="selectedOption" style="height: 33px; margin-right: 15px;">
+            <option th:each="optionPortfolio: ${optionPortfolios}" th:value="${optionPortfolio.optionName}" th:text="${optionPortfolio.optionName}"></option>
+        </select>
+        <button class="btn-info btn" onclick="filterOption(this)">View</button>
+    </div>
 
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px; width: 100%;" align="center">
         <thead>
