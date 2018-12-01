@@ -527,18 +527,30 @@ public class UserController {
         Option currOption = optionService.findByOptionName(optionName);
         LocalDate now = LocalDate.now();
         Date t_0=java.sql.Date.valueOf( now );
+
         Date expiration = currOption.getExpiration();
         Date create = currOption.getCreatedOn();
+
         long diff = t_0.getTime() - create.getTime();
         long diffi = expiration.getTime() - create.getTime();
-        double ExT = 1;
-        double t0 = 0;
+
+        double days = (double) ((diff) / (1000 * 60 * 60 * 24));
+        double days1 = (double) ((diffi) / (1000 * 60 * 60 * 24));
+
+        double ExT = days1/365;
+        double t0 = days/365;
+
+        //double ExT = 1;
+        //double t0 = 0;
+
 
         String type = currOption.getAmeEur();
+        //System.out.print(type);
         boolean isAmerican1;
-        if(type == "Ame")
+        if(type.equals("Ame"))
         {
             isAmerican1 = true;
+            //System.out.print(type);
         }
         else
         {
@@ -547,7 +559,7 @@ public class UserController {
 
         String type1 = currOption.getPutCall();
         boolean isCall1;
-        if(type1 == "Call")
+        if(type1.equals("Call"))
         {
             isCall1 = true;
         }
