@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://java.sun.com/xml/ns/persistence/orm" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Market</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</head>
+
+<body class="w3-content" style="max-width:1200px">
+
+
+    <!-- Sidebar/menu -->
+    <div th:include="header"></div>
+
+    <div class="w3-main" style="margin-left:250px">
+        <!-- Push down content on small screens -->
+        <div class="w3-hide-large" style="margin-top:83px"></div>
+
+        <!-- Top header -->
+        <header class="w3-container w3-xlarge">
+            <p class="w3-left">Stock Market</p>
+        </header>
+
+        <!-- Image header -->
+        <div class="w3-display-container w3-container">
+            <img src="https://i2.cdn.turner.com/money/dam/assets/180208191402-stock-market-feb-8-780x439.jpg" alt="stocks" style="width:100%">
+            <div class="w3-display-bottomleft w3-text-white" style="padding:24px 48px">
+            <!--<h1 class="w3-jumbo w3-hide-small">New arrivals</h1>-->
+            <!--<h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>-->
+            <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
+            <p><a href="#stocks" class="w3-button w3-black w3-padding-large w3-large">Make Purchase</a></p>
+            </div>
+        </div>
+
+
+        <!-- table for stocks -->
+        <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide" id="stocks">Stocks</span></h4>
+        <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+            <thead>
+            <tr>
+                <th style="display: none">No. </th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Field</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="stock, status: ${stocks}">
+                <td th:text="${status.index}" id="index" style="display: none"></td>
+                <td th:text="${stock.stockName}" id="stockName"></td>
+                <td th:text="${stock.price}"></td>
+                <td th:text="${stock.stockField}"></td>
+                <td>
+                    <button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#buyStock">Buy/Sell</button>
+                    <!--<button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#sellStock">Sell</button>-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+
+        <!-- modal for buy stock-->
+        <div class="modal fade" id="buyStock" tabindex="-1" role="dialog" aria-labelledby="buyLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="buyLabel">Confirm</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
+                        <p id="currentStockName" style="display: none"></p>
+                        <p>Current price: <span id="currentPrice"></span></p>
+                        <label for="quantity">Quantity: </label>
+                        <input type="number" id="quantity" />
+                        <h4 id="errorMsg" style="color: red;"></h4>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button onclick="trade(this, true)" type="button" class="btn btn-primary">Buy</button>
+                        <button onclick="trade(this, false)" type="button" data-dismiss="modal" class="btn btn-primary">Sell</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>

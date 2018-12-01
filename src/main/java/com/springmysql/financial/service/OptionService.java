@@ -26,4 +26,8 @@ public class OptionService{
     public void deleteByOCC(String OCC) {
         optionRepository.deleteById(OCC);
     }
+
+    public Option findByOptionName(String optionName) {
+        return optionRepository.findByOptionName(optionName);
+    }
 }

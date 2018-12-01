@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,6 +43,7 @@ public class UserController {
     @Autowired
     BondPortfolioService bondPortfolioService;
 
+
     @RequestMapping(value = "user/home", method = RequestMethod.GET)
     public ModelAndView userHome() {
         ModelAndView modelAndView = new ModelAndView("user/home");
@@ -53,6 +55,11 @@ public class UserController {
         List<OptionTrade> optionTrades = new ArrayList<>();
         optionTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(optionTrades::add);
         modelAndView.addObject("optionTrades", optionTrades);
+
+        List<BondTrade> bondTrades = new ArrayList<>();
+        bondTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(bondTrades::add);
+        modelAndView.addObject("bondTrades", bondTrades);
+
         return modelAndView;
     }
 
@@ -499,4 +506,93 @@ public class UserController {
             return yield;
         }
     }
+
+
+
+    @RequestMapping(value = "user/market/calculate1", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String calculateYield1(@RequestParam("optionName") String optionName,
+                                 @RequestParam("method") String method,
+                                 @RequestParam("riskFree1") String riskFree1,
+                                 @RequestParam("stockDividend1") String stockDividend1,
+                                 @RequestParam("target") String Target,
+                                 @RequestParam("step1") String step1,
+                                  @RequestParam("stockPrice1") String stockPrice1,
+                                  @RequestParam("riskFree") String riskFree,
+                                  @RequestParam("stockDividend") String stockDividend,
+                                  @RequestParam("stockVolatility") String stockVolatility,
+                                  @RequestParam("step") String step,
+                                  @RequestParam("stockPrice") String stockPrice
+                                  ) {
+        Option currOption = optionService.findByOptionName(optionName);
+        LocalDate now = LocalDate.now();
+        Date t_0=java.sql.Date.valueOf( now );
+        Date expiration = currOption.getExpiration();
+        Date create = currOption.getCreatedOn();
+        long diff = t_0.getTime() - create.getTime();
+        long diffi = expiration.getTime() - create.getTime();
+        double ExT = 1;
+        double t0 = 0;
+
+        String type = currOption.getAmeEur();
+        boolean isAmerican1;
+        if(type == "Ame")
+        {
+            isAmerican1 = true;
+        }
+        else
+        {
+            isAmerican1 = false;
+        }
+
+        String type1 = currOption.getPutCall();
+        boolean isCall1;
+        if(type1 == "Call")
+        {
+            isCall1 = true;
+        }
+        else
+        {
+            isCall1 = false;
+        }
+
+        int n = Integer.parseInt(step);
+        double S = Double.parseDouble(stockPrice);
+        int n1 = Integer.parseInt(step1);
+        double S1 = Double.parseDouble(stockPrice1);
+
+        Options op = new Options();
+        op.isAmerican = isAmerican1;
+        op.isCall = isCall1;
+        op.K = currOption.getStrikePrice();
+        op.q = Double.parseDouble(stockDividend);
+        op.r = Double.parseDouble(riskFree);
+        op.sigma = Double.parseDouble(stockVolatility);
+        op.T = ExT;
+
+
+
+        Options op1 = new Options();
+        op1.isAmerican = isAmerican1;
+        op1.isCall = isCall1;
+        op1.K = currOption.getStrikePrice();
+        op1.q = Double.parseDouble(stockDividend1);
+        op1.r = Double.parseDouble(riskFree1);
+        double target = Double.parseDouble(Target);
+        op1.T = ExT;
+
+
+
+        if (method.equals("option")) {
+            return String.valueOf((double) Math.round((new BinomialModel(n).FairValue(n,op,S,t0)) * 10000) / 10000);
+        } else {
+            return String.valueOf((double) Math.round((new BinomialModel(n).ImpliedVolatility(n1,op1,S1,t0,target)) * 10000) / 10000);
+
+        }
+    }
+
+
 }
+
+
+

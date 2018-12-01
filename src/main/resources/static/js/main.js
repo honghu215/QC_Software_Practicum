@@ -62,6 +62,56 @@ function calculate(method) {
     });
 }
 
+function calculate1(method) {
+    var params = {};
+    if (method === 'volatility') {
+        params.optionName = $("#calculateByOption").val();
+        params.method = 'volatility';
+        params.riskFree1 = $('#risk_free1').val();
+        params.stockDividend1=$('#stock_dividend1').val();
+        params.target = $('#target').val();
+        params.step1 = $('#step1').val();
+        params.stockPrice1 = $('#stock_price1').val();
+        params.riskFree = '0';
+        params.stockDividend = '0';
+        params.stockVolatility = '0';
+        params.step = '0';
+        params.stockPrice = '0';
+
+
+    } else if (method === 'option') {
+        params.optionName = $('#calculateByVolatility').val();
+        params.method = 'option';
+        params.riskFree = $('#risk_free').val();
+        params.stockDividend=$('#stock_dividend').val();
+        params.stockVolatility = $('#stock_volatility').val();
+        params.step = $('#step').val();
+        params.stockPrice = $('#stock_price').val();
+        params.riskFree1 = '0';
+        params.stockDividend1 = '0';
+        params.target = '0';
+        params.step1 = '0';
+        params.stockPrice1 = '0';
+
+    }
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        url: "/user/market/calculate1",
+        data: params,
+        success: function (data) {
+            console.log(data);
+            if (method === 'option')
+                $("#display_option").html(data);
+            else if (method === 'volatility')
+                $("#display_volatility").html(data);
+        },
+        error: function (error) {
+            console.log("Error", error);
+        }
+    });
+}
+
 function getCurrentPrice(obj) {
     var stockName = $(obj).parents("tr").find("#stockName").text();
     $("#currentStockName").html(stockName);
