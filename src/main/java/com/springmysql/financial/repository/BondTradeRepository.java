@@ -12,4 +12,6 @@ public interface BondTradeRepository extends JpaRepository<BondTrade, Long> {
     BondTrade findByUserNameAndBondName(String username, String bondName);
 
     BondTrade findByUserNameAndId(String username, int id);
+
+    List<BondTrade> findAllByUserNameAndBondName(String username, String bondName);
 }

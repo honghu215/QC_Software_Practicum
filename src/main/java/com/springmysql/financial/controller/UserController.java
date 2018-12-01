@@ -198,6 +198,10 @@ public class UserController {
         List<BondTrade> bondTrades = new ArrayList<>();
         bondTradeService.findAllByUsernameOrderByDatetimeDesc(auth.getName()).forEach(bondTrades::add);
         modelAndView.addObject("bondTrades", bondTrades);
+
+        List<BondPortfolio> bondPortfolios = new ArrayList<>();
+        bondPortfolioService.findAllByUsername(auth.getName()).forEach(bondPortfolios::add);
+        modelAndView.addObject("bondPortfolios", bondPortfolios);
         return modelAndView;
     }
 
@@ -273,6 +277,15 @@ public class UserController {
         List<Trade> trades = new ArrayList<>();
         tradeService.findAllByUserNameAndStockNameOrderByDatetimeDesc(auth.getName(), stockName).forEach(trades::add);
         return trades;
+    }
+
+    @RequestMapping(value = "user/history/filterBond", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<BondTrade> filterBond(@RequestParam("bondName") String bondName) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<BondTrade> bondTrades = new ArrayList<>();
+        bondTradeService.findAllByUserNameAndBondName(auth.getName(), bondName).forEach(bondTrades::add);
+        return bondTrades;
     }
 
     @RequestMapping(value = "user/history/filterOption", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

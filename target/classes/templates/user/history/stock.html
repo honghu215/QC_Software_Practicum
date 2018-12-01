@@ -32,6 +32,7 @@
             <option th:each="stockPortfolio: ${stockPortfolios}" th:value="${stockPortfolio.stockName}" th:text="${stockPortfolio.stockName}"></option>
         </select>
         <button class="btn-info btn" onclick="filter(this)">View</button>
+        <button class="btn btn-info" onclick="viewAll()">View All</button>
     </div>
 
 

@@ -291,6 +291,36 @@ function filter(obj) {
     });
 }
 
+
+function filterBond(obj) {
+    let bondName = $('#selectedBond option:selected').val();
+    let strHtml = '';
+    $.ajax({
+        type: "GET",
+        url: "/user/history/filterBond",
+        data: { "bondName": bondName },
+        dataType: 'json',
+        contentType: 'application/json;charset=UTF-8',
+        success: function (data) {
+            $.each(data, function (index, item) {
+                let datetimeStr = JSON.stringify(item.datetime);
+                let issuedOnStr = JSON.stringify(item.issuedOn);
+                strHtml += '<tr><td>' + item.bondName+'</td>' + '<td>'+item.bondValue+'</td>' + '<td>100.0</td>'
+                        + '<td>'+item.coupon+'</td>' + '<td>'+issuedOnStr.substr(1,10) + ' ' + issuedOnStr.substr(12,10) + '</td>'
+                        + '<td>'+item.maturityLength+'</td>' + '<td>'+item.coupon+'</td>' + '<td>'+datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10) + '</td>'
+                        + '<td>'+item.returned+'</td>';
+                $('.table-content').html(strHtml);
+            });
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+
+function viewAll(){
+    location.reload();
+}
 function filterOption(obj) {
     let optionName = $('#selectedOption option:selected').val();
     let strHtml = '';
@@ -302,10 +332,11 @@ function filterOption(obj) {
         contentType:'application/json;charset=UTF-8',
         success: function (data) {
             $.each(data, function (index, item) {
-                var datetimeStr = JSON.stringify(item.datetime);
+                let datetimeStr = JSON.stringify(item.datetime);
+                let expireStr = JSON.stringify(item.expire);
                 strHtml += '<tr><td>' + item.optionName + '</td>' + '<td>' + item.underlying + '</td>' + '<td>' + item.strikePrice + '</td>' + '<td>' +
                     datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
-                    + '</td>' +  '<td>'+item.expire+'</td>' + '<td>'+item.putCall+'</td>' + '<td>'+item.ameEur+'</td></tr>';
+                    + '</td>' +  '<td>'+expireStr.substr(1,10)+'</td>' + '<td>'+item.putCall+'</td>' + '<td>'+item.ameEur+'</td></tr>';
             });
             $(".table-content").html(strHtml);
         },
