@@ -4,14 +4,8 @@
       xmlns:HH="http://www.w3.org/1999/xhtml">
 
 <head>
-    <!--<title>Admin Page</title>-->
-
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
-
+    <title>Bond Management</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 
 </head>
 
@@ -41,12 +35,85 @@
         <!--</div>-->
     </div>
 
+    <p class="table-name" style="font-size: 32px; margin-top: 25px;margin-left: 45%; margin-bottom: 0px;">Bond
+        <span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 62%;" data-target="#addBond" data-whatever="@mdo">+</button>
+            </span>
+    </p>
 
+    <div class="modal fade" id="addBond" tabindex="-1" role="dialog" aria-labelledby="addBondLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addBondLabel">Add New Bond</h4>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/securities/addBond}" th:object="${newBond}" method="post">
+                        <div class="form-group">
+                            <label for="bondName">Bond Name:</label>
+                            <input type="text" class="form-control" id="bondName" th:field="*{bondName}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="maturity">Maturity Length(years):</label>
+                            <input type="number" class="form-control" id="maturity" th:field="*{maturityLength}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="coupon">Coupon:</label>
+                            <input type="number" step="0.01" class="form-control" id="coupon" th:field="*{coupon}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="issuedOn">Issued On:</label>
+                            <input type="date" class="form-control" id="issuedOn" th:field="*{createdOn}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bondValue" style="display: none">bondValue:</label>
+                            <input type="number" step="any" class="form-control" id="bondValue" th:field="*{bondValue}" style="display: none"/>
+                        </div>
+                        <!--<input type="datetime" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{createdOn}"  style="display: none"/>-->
+                        <!--<input type="datetime" th:field="*{createdOn}" />-->
+                        <!--<input type="datetime" th:text="${#dates.createNow()}" th:field="*{maturity}" />-->
+                        <!--&lt;!&ndash;<input type="datetime" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" th:field="*{maturity}" style="display: none;">&ndash;&gt;-->
+
+                        <button type="submit" class="btn btn-primary" style="text-align: end">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px" align="center">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Issued On</th>
+            <th>Maturity</th>
+            <th>Coupon</th>
+            <th></th>
+            <!--<th>Add Index</th>-->
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="bond: ${bonds}">
+            <td th:text="${bond.bondName}"></td>
+            <td th:text="${bond.createdOn}"></td>
+            <td th:text="${bond.maturity}"></td>
+            <td th:text="${bond.coupon}"></td>
+            <th> <a th:href="@{/admin/securities/deleteBond(id=${bond.bondId})}">Delete</a> </th>
+            <!--<th> <button class="w3-circle w3-Teal">+</button> </th>-->
+        </tr>
+        </tbody>
+    </table>
 
 
 
 
 </div>
+<br><br>
+<div class="w3-black w3-center w3-padding-24" style="text-align: center">Powed by   <b>Spring Boot</b>   &   <b>MySQL</b>   &   <b>JavaScript</b>   &   <b>JQuery</b> </div>
 
 
 

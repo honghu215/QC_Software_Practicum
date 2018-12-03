@@ -31,9 +31,10 @@
     <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar" th:fragment="header">
         <div class="w3-container w3-display-container w3-padding-16">
             <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-            <h3 class="w3-wide"><b>LOGO</b></h3>
+            <!--<h3 class="w3-wide"><b>LOGO</b></h3>-->
+            <img th:src="@{/images/logo.jpg}" class="img-responsive center-block" width="200" height="200" alter="logo" />
         </div>
-        <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+        <div class="w3-padding-16 w3-large w3-text-grey" style="font-weight:bold">
             <div sec:authorize="hasAuthority('ADMIN')">
                 <a th:href="@{/admin/home}" class="w3-bar-item w3-button">Home</a>
                 <a onclick="myAccFunc(this)" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="securities">
@@ -75,6 +76,7 @@
         </div>
         <h6 sec:authorize="hasAuthority('USER')" class="w3-bar-item ">Balance: $ <span id="balance" style="font-weight: bolder; color: navy;"></span></h6>
         <a th:href="@{/logout}" class="w3-bar-item w3-button w3-padding">Log Out</a>
+        <br><br>
     </nav>
 
     <!-- Top menu on small screens -->
@@ -85,6 +87,7 @@
 
     <!-- Overlay effect when opening sidebar on small screens -->
     <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
 
     <script>
         getBalance();

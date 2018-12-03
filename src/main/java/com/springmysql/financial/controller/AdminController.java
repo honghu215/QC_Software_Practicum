@@ -185,7 +185,7 @@ public class AdminController {
 //        //        cal.set(cal.get(Calendar.YEAR)+newBond.getMaturityLength(), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 //        System.out.println(cal);
 //        newBond.setMaturity(cal.getTime());
-        newBond.setBondValue( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );
+        newBond.setBondValue( (double)(Math.round( ((Double) Math.random() * 25 + 80) * 100)) / 100 );
         newBond.setMaturity(LocalDate.of(newBond.getCreatedOn().getYear()+newBond.getMaturityLength(), newBond.getCreatedOn().getMonth(), newBond.getCreatedOn().getDayOfMonth()));
         bondService.save(newBond);
         return new ModelAndView("redirect:/admin/securities");

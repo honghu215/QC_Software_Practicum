@@ -51,16 +51,10 @@
     <!-- Image header -->
     <div class="w3-display-container w3-container">
         <img src="https://ei.marketwatch.com/Multimedia/2018/01/16/Photos/ZH/MW-GB819_stocks_20180116134819_ZH.jpg?uuid=d1d56e68-faed-11e7-9db3-9c8e992d421e" alt="Jeans" style="width:100%">
-        <!--<div class="w3-display-topleft w3-text-white" style="padding:24px 48px">-->
-            <!--<h1 class="w3-jumbo w3-hide-small">New arrivals</h1>-->
-            <!--<h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>-->
-            <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
-            <!--<p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>-->
-        <!--</div>-->
     </div>
 
-    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Options and Bonds Reminder</span></h4>
-    <h2>The Options in your portfolio</h2>
+    <h3 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Options and Bonds Reminder</span></h3>
+    <h4 class="w3-left w3-padding-16"><span class="w3-tag w3-wide">Options</span></h4>
     <table class="rwd-table" style="width: 100%" id="optionTable">
         <thead>
         <tr>
@@ -117,13 +111,13 @@
         </div>
     </div>
 
-    <h2>The Bonds in your portfolio</h2>
+    <h4 class="w3-left w3-padding-16"><span class="w3-tag w3-wide">Bonds</span></h4>
 
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px; width: 100%;" align="center">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Value</th>
+            <th>Price</th>
             <th>Face Value</th>
             <th>Coupon</th>
             <th>Issued On</th>
@@ -142,7 +136,7 @@
             <td th:text="${bond.coupon}" id="coupon"></td>
             <td th:text="${#dates.format(bond.issuedOn, 'yyyy-MM-dd')}" id="issuedOn"></td>
             <td th:text="${bond.maturityLength}" style="display: none" id="length"></td>
-            <td th:text="${bond.datetime}"></td>
+            <td th:text="${#dates.format(bond.datetime, 'yyyy-MM-dd')}"></td>
             <td th:text="${bond.returned}"></td>
             <td class="daysToMaturity" onclick="calculateMaturity(this)"></td>
         </tr>
@@ -152,7 +146,7 @@
 
     <!-- Footer -->
     <br><br>
-    <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity"> </a></div>
+    <div class="w3-black w3-center w3-padding-24">Powed by   <b>Spring Boot</b>   &   <b>MySQL</b>   &   <b>JavaScript</b>   &   <b>JQuery</b> </div>
 
     <script>
         $('.daysLeft').click();
