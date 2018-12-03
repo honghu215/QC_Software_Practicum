@@ -166,14 +166,14 @@ public class AdminController {
         newOption.setOccCode(newOption.getUnderlying().substring(0, 4).toUpperCase() + cal.get(Calendar.MONTH) + cal.get(Calendar.DAY_OF_MONTH) + cal.get(Calendar.YEAR)
                 + newOption.getPutCall().toUpperCase().charAt(0) + priceStr);
         optionService.save(newOption);
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/option");
     }
 
     @RequestMapping(value = "/admin/securities/addIndex", method = RequestMethod.POST)
     public ModelAndView addIndex(@ModelAttribute("newIndex") Index newIndex){
         newIndex.setIndexValue( (double)(Math.round( ((Double) Math.random() * 50 + 50) * 100)) / 100 );
         indexService.saveIndex(newIndex);
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/index");
     }
 
     @RequestMapping(value = "/admin/securities/addBond", method = RequestMethod.POST)
@@ -188,14 +188,14 @@ public class AdminController {
         newBond.setBondValue( (double)(Math.round( ((Double) Math.random() * 25 + 80) * 100)) / 100 );
         newBond.setMaturity(LocalDate.of(newBond.getCreatedOn().getYear()+newBond.getMaturityLength(), newBond.getCreatedOn().getMonth(), newBond.getCreatedOn().getDayOfMonth()));
         bondService.save(newBond);
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/bond");
     }
 
     @RequestMapping(value = "/admin/securities/deleteBond", method = RequestMethod.GET)
     @Transactional
     public ModelAndView deleteBond(@RequestParam("id") String id) {
         bondService.deleteByBondId(Integer.parseInt(id));
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/bond");
     }
 
 
@@ -203,32 +203,22 @@ public class AdminController {
     @Transactional
     public ModelAndView deleteOption(@RequestParam("OCC") String OCC) {
         optionService.deleteByOCC(OCC);
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/option");
     }
 
     @RequestMapping(value = "/admin/securities/deleteStock", method = RequestMethod.GET)
     @Transactional
     public ModelAndView deleteStock(@RequestParam("id") String id){
         stockService.deleteByStockId(Integer.parseInt(id));
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/stock");
     }
 
     @RequestMapping(value = "/admin/securities/deleteIndex", method = RequestMethod.GET)
     @Transactional
     public ModelAndView deleteIndex(@RequestParam("id") String id){
         indexService.deleteByIndexId(Integer.parseInt(id));
-        return new ModelAndView("redirect:/admin/securities");
+        return new ModelAndView("redirect:/admin/securities/index");
     }
-
-    @RequestMapping(value = "admin/history", method = RequestMethod.GET)
-    public ModelAndView getHistory(){
-        ModelAndView modelAndView = new ModelAndView("admin/history");
-
-
-
-        return modelAndView;
-    }
-
 
     @RequestMapping(value="admin/home", method = RequestMethod.GET)
     public ModelAndView home(){
@@ -277,33 +267,4 @@ public class AdminController {
         return modelAndView;
     }
 
-
-
-
-//    @RequestMapping(value = "/user/newTrade", method = RequestMethod.POST)
-//    @Transactional
-//    public ModelAndView newTrade(
-//            @RequestParam("stockName") String stockName,
-//            @RequestParam("stockPrice") String stockPrice,
-//            @RequestParam("quantity") int quantity,
-//            @RequestParam("buy") Boolean buy){
-//        if(!buy) quantity = 0 - quantity;
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findUserByEmail(auth.getName());
-//        Date date = new Date();
-//        System.out.println("Adding new trade: " + user.getId() + " " + stockName + " " + stockPrice + " " + quantity + " " + date);
-//
-//        Trade newTrade = new Trade(user.getId(), stockName, stockPrice, quantity, date);
-//        tradeService.save(newTrade);
-//
-//        StockPortfolio existPortfolio = portfolioService.findByUserIdAndStockName(user.getId(), stockName);
-//        if (existPortfolio != null)
-//            existPortfolio.setQuantity(quantity + existPortfolio.getQuantity());
-//        else {
-//            portfolioService.save(new StockPortfolio(user.getId(), stockName, quantity));
-//        }
-//
-//        return new ModelAndView("redirect:/user/home");
-//
-//    }
 }

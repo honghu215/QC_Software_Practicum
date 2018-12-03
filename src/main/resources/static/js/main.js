@@ -1,5 +1,4 @@
-var optionNames = [];
-//
+
 // function fire_ajax_submit() {
 //     var params = {
 //         "bondName": $("#calculateByBond").val()
@@ -426,6 +425,8 @@ function exercise(obj) {
         } else {
             $('#successMsg').html('');
             $('#errorMsg').html('Exercise failed! You can only exercise when it"s expiring.');
+            $('#exercise').modal('show');
+            return;
         }
 
     }
@@ -473,7 +474,7 @@ function doExercise(obj){
             if (putCall === 'Put') {
                 if (strikePrice > stockPrice) {
                     $('#successMsg').html('');
-                    $('#errorMsg').html('The strike price is greater than stock price. You cannot Put.');
+                    $('#errorMsg').html('The strike price is greater than stock price. You cannot Put Exercise.');
                     $('#exercise').modal('show');
                     return;
                 }
@@ -483,13 +484,13 @@ function doExercise(obj){
                 console.log('doExercise ', strikePrice, stockPrice, id)
                 if (strikePrice < stockPrice) {
                     $('#successMsg').html('');
-                    $('#errorMsg').html('The strike price is less than stock price. You cannot Call');
+                    $('#errorMsg').html('The strike price is less than stock price. You cannot Call Exercise');
                     $('#exercise').modal('show');
                     return;
                 }
                 else if ($('#balance') < strikePrice) {
                     $('#successMsg').html('');
-                    $('#errorMsg').html('You don"t have sufficient balance. You cannot Call');
+                    $('#errorMsg').html('You don"t have sufficient balance. You cannot Call Exercise');
                     $('#exercise').modal('show');
                     return;
                 }
@@ -528,7 +529,7 @@ function doExercise2(id, putCall) {
     });
 }
 
-
+var optionNames = [];
 function checkQuantity(obj) {
     let optionName = $(obj).parents('tr').find('#optionName').text();
     if (optionNames.includes(optionName))  {
@@ -553,3 +554,30 @@ function checkQuantity(obj) {
         }
     });
 }
+
+var bondNames = [];
+function checkBondQuantity(obj) {
+    let bondName = $(obj).parents('tr').find('#bondName').text();
+    if (bondNames.includes(bondName))  {
+        $(obj).closest('tr').remove();
+        return;
+    }
+    bondNames.push(bondName);
+    $.ajax({
+        type: "GET",
+        url: "/user/bondportfolio/quantity",
+        contentType: "application/json; charset=utf-8",
+        data: { "bondName": bondName },
+        success: function (data) {
+            // console.log("Quantity of bond ", bondName, " = ", data);
+            if (data <= 0) {
+                // console.log("Current row is deleted.");
+                $(obj).closest('tr').remove();
+            }
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+

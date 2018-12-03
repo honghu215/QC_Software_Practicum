@@ -12,4 +12,5 @@ public interface BondPortfolioRepository extends JpaRepository<BondPortfolio, Lo
     BondPortfolio findByUserNameAndBondName(String username, String bondname);
 
     List<BondPortfolio> findAllByUserNameAndQuantityNot(String username, int min);
+
 }

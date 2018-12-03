@@ -10,9 +10,10 @@
 
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/automateRefresh.js}"></script>
 </head>
 
-<body class="w3-content" style="max-width:1200px">
+<body class="w3-content" style="max-width:1200px" onload="refreshStock()">
 
 
     <!-- Sidebar/menu -->
@@ -52,7 +53,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody id="stockBody">
             <tr th:each="stock, status: ${stocks}">
                 <td th:text="${status.index}" id="index" style="display: none"></td>
                 <td th:text="${stock.stockName}" id="stockName"></td>
@@ -60,7 +61,6 @@
                 <td th:text="${stock.stockField}"></td>
                 <td>
                     <button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#buyStock">Buy/Sell</button>
-                    <!--<button class="btn btn-primary" onclick="getCurrentPrice(this)" data-toggle="modal" data-target="#sellStock">Sell</button>-->
                 </td>
             </tr>
             </tbody>
@@ -103,8 +103,6 @@
 
         </div>
 
-        <br><br>
-        <div class="w3-black w3-center w3-padding-24" style="text-align: center">Powed by   <b>Spring Boot</b>   &   <b>MySQL</b>   &   <b>JavaScript</b>   &   <b>JQuery</b> </div>
-
+        <div th:include="footer"></div>
     </div>
 </body>

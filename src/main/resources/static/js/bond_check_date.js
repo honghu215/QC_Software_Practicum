@@ -15,7 +15,8 @@ function returnCoupon() {
                 let boughtOn = moment(bondTrade.datetime);
                 let monthsFromBought = boughtOn.diff(issuedOn, 'months');
                 let monthsFromNow = today.diff(issuedOn, 'months');
-                console.log(boughtOn, today, monthsFromBought, monthsFromNow, bondTrade.returned);
+                console.log(bondTrade);
+                // console.log(boughtOn, today, monthsFromBought, monthsFromNow, bondTrade.returned);
                 if (Math.floor(monthsFromNow / 6) - Math.floor(monthsFromBought / 6) > bondTrade.returned) {
 
                     let couponDates = [];
@@ -24,7 +25,7 @@ function returnCoupon() {
                         couponDates.push(moment(issuedOn).add(6*i, 'M').format('MM-DD-YYYY'));
                     }
                     couponDates.forEach(function (dateItem, index) {
-                        console.log(dateItem);
+                        // console.log(dateItem, monthsFromNow, monthsFromBought, bondTrade.returned);
                         if (dateItem === moment(today).format('MM-DD-YYYY')) {
                             if (index === couponDates.length-1) {
                                 redeemCoupon(bondTrade.id, true);
@@ -45,6 +46,7 @@ function returnCoupon() {
 
 
 function redeemCoupon(bondTradeId, expire) {
+    console.log('Redeeming coupon at ', bondTradeId, expire);
     $.ajax({
         type: "GET",
         url: "/user/redeemCoupon",

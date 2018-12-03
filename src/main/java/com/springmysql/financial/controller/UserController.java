@@ -229,8 +229,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OptionTrade optionTrade = optionTradeService.findByUsernameAndId(auth.getName(), optionTradeId);
         OptionPortfolio optionPortfolio = optionPortfolioService.findByUserNameAndOptionName(auth.getName(), optionTrade.getOptionName());
-        optionPortfolio.setQuantity(optionPortfolio.getQuantity() - 1);
-        optionPortfolioService.save(optionPortfolio);
+//        optionPortfolio.setQuantity(optionPortfolio.getQuantity() - 1);
+        if (optionPortfolio != null) optionPortfolioService.delete(optionPortfolio);
     }
     @RequestMapping(value = "user/adjustBalance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -303,7 +303,26 @@ public class UserController {
     @ResponseBody
     public int getOptionQuantity(@RequestParam("optionName") String optionName) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return optionPortfolioService.findByUserNameAndOptionName(auth.getName(), optionName).getQuantity();
+        OptionPortfolio optionPortfolio =  optionPortfolioService.findByUserNameAndOptionName(auth.getName(), optionName);
+        if (optionPortfolio != null) return optionPortfolio.getQuantity();
+        else return 0;
+    }
+
+    @RequestMapping(value = "user/bondnportfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public int getBondQuantity(@RequestParam("bondName") String bondName) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        BondPortfolio bondPortfolio = bondPortfolioService.findByUsernameAndBondname(auth.getName(), bondName);
+        if (bondPortfolio != null) return bondPortfolio.getQuantity();
+        else return 0;
+    }
+
+    @RequestMapping(value = "user/market/stocks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Stock> getStocks() {
+        List<Stock> stocks = new ArrayList<>();
+        stockService.findAll().forEach(stocks::add);
+        return stocks;
     }
 
     @RequestMapping(value = "user/stockportfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -315,6 +334,7 @@ public class UserController {
         System.out.println("Quantity: " + stockPortfolio.getQuantity());
         return stockPortfolio.getQuantity();
     }
+
 
     @RequestMapping(value = "user/market/optionTrade", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

@@ -26,4 +26,8 @@ public class OptionPortfolioService {
     public OptionPortfolio findByUserNameAndOptionName(String username, String optionName) {
         return optionPortfolioRepository.findByUserNameAndOptionName(username, optionName);
     }
+
+    public void delete(OptionPortfolio optionPortfolio) {
+        optionPortfolioRepository.delete(optionPortfolio);
+    }
 }

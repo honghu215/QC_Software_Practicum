@@ -53,13 +53,8 @@
         <img src="https://ei.marketwatch.com/Multimedia/2018/01/16/Photos/ZH/MW-GB819_stocks_20180116134819_ZH.jpg?uuid=d1d56e68-faed-11e7-9db3-9c8e992d421e" alt="Jeans" style="width:100%">
     </div>
 
-<<<<<<< Updated upstream
-    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Options and Bonds Reminder/Option exercise</span></h4>
-    <h2>The Options in your portfolio</h2>
-=======
-    <h3 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Options and Bonds Reminder</span></h3>
+    <h4 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Reminder & Option exercise</span></h4>
     <h4 class="w3-left w3-padding-16"><span class="w3-tag w3-wide">Options</span></h4>
->>>>>>> Stashed changes
     <table class="rwd-table" style="width: 100%" id="optionTable">
         <thead>
         <tr>
@@ -135,7 +130,7 @@
 
         <tbody class="table-content">
         <tr th:each="bond: ${bondTrades}">
-            <td th:text="${bond.bondName}" id="bondName"></td>
+            <td th:text="${bond.bondName}" id="bondName" class="bondTrades" onclick="checkBondQuantity(this)"></td>
             <td th:text="${bond.value}" id="bondValue"></td>
             <td th:text="100.0"></td>
             <td th:text="${bond.coupon}" id="coupon"></td>
@@ -148,15 +143,13 @@
         </tbody>
     </table>
 
-
-    <!-- Footer -->
-    <br><br>
-    <div class="w3-black w3-center w3-padding-24" style="text-align: center">Powed by   <b>Spring Boot</b>   &   <b>MySQL</b>   &   <b>JavaScript</b>   &   <b>JQuery</b> </div>
+    <div th:include="footer"></div>
 
     <script>
         $('.daysLeft').click();
         $('.optionTrades').click();
         $('.daysToMaturity').click();
+        $('bondTrades').click();
     </script>
 </div>
 
