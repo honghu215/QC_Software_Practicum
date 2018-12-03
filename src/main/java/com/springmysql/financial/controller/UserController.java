@@ -489,7 +489,7 @@ public class UserController {
             }
             if (diff_y_low * diff_y_high > 0.0) {
                 x = 0;
-                return -1.0;
+                return 0.0;
             }
             for (int i = 1; i < max_iter; ++i) {
                 x = (x_low + x_high) / 2.0;
@@ -501,7 +501,7 @@ public class UserController {
 
                 if (Math.abs(x_high - x_low) <= tol_x) return x;
             }
-            return -1.0;
+            return 0.0;
         }
 
         double sentBack(double coupon,double BondValue,double[]dateValue,int count) {

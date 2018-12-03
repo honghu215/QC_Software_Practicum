@@ -75,20 +75,20 @@
         <div class="w3-container" id="menu">
             <div class="w3-content" style="max-width:700px">
 
-                <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">Bond's yield rate and Bond value calculation</span></h5>
+                <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">Bond's yield rate and Bond price calculation</span></h5>
 
                 <div class="w3-row w3-center w3-card w3-padding">
                     <a href="javascript:void(0)" onclick="openMenu(event, 'Eat');" id="myLink">
-                        <div class="w3-col s6 tablink">calculate chosen bond's yield</div>
+                        <div class="w3-col s6 tablink">calculate chosen bond's yield rate</div>
                     </a>
                     <a href="javascript:void(0)" onclick="openMenu(event, 'Drinks');">
-                        <div class="w3-col s6 tablink">calculate chosen bond's value with input yield</div>
+                        <div class="w3-col s6 tablink">calculate chosen bond's Price with input yield</div>
                     </a>
                 </div>
 
                 <div id="Eat" class="w3-container menu w3-padding-48 w3-card">
-                    <h5>Yield calculation instruction:</h5>
-                    <p class="w3-text-grey">instructions...</p><br>
+                    <h5>Yield Rate calculation instruction:</h5>
+                    <p class="w3-text-grey">Dear trader,you need to type Bond price and Coupon value,other values will follow the chosen Bond.</p><br>
 
                     <label for="calculateByBond">Select Bond: </label>
                     <select name="bond" id="calculateByBond" class="form-control form-control-lg">
@@ -97,7 +97,7 @@
 
                     <br>
 
-                    <label for="bond_value">Input Bond value: </label>
+                    <label for="bond_value">Input Bond Price: </label>
                     <input type="number" step="0.01" id="bond_value" />
 
                     <br>
@@ -112,8 +112,8 @@
                 </div>
 
                 <div id="Drinks" class="w3-container menu w3-padding-48 w3-card">
-                    <h5>Bond calculation instruction:</h5>
-                    <p class="w3-text-grey">instructions</p><br>
+                    <h5>Bond Price calculation instruction:</h5>
+                    <p class="w3-text-grey">Dear trader,you need to type Yield rate and Coupon value,another values will follow the chosen Bond.</p><br>
 
                     <label for="calculateByYield">Select Bond: </label>
                     <select name="bond" id="calculateByYield" class="form-control form-control-lg">
@@ -121,7 +121,7 @@
                     </select>
 
                     <br>
-                    <label for="yield_value">Input yield value: </label>
+                    <label for="yield_value">Input yield rate value: </label>
                     <input type="number" step="0.01" id="yield_value" />
 
                     <br>
