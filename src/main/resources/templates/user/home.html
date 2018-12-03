@@ -122,27 +122,29 @@
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px; width: 100%;" align="center">
         <thead>
         <tr>
-            <th>Bond Name</th>
-            <th>Bond Value</th>
+            <th>Name</th>
+            <th>Value</th>
             <th>Face Value</th>
             <th>Coupon</th>
             <th>Issued On</th>
             <th style="display: none">Maturity Length(Years)</th>
             <th>Purchase Time</th>
             <th>Coupon Returned</th>
+            <th>Days to Maturity</th>
         </tr>
         </thead>
 
         <tbody class="table-content">
         <tr th:each="bond: ${bondTrades}">
-            <td th:text="${bond.bondName}"></td>
-            <td th:text="${bond.value}"></td>
+            <td th:text="${bond.bondName}" id="bondName"></td>
+            <td th:text="${bond.value}" id="bondValue"></td>
             <td th:text="100.0"></td>
-            <td th:text="${bond.coupon}"></td>
+            <td th:text="${bond.coupon}" id="coupon"></td>
             <td th:text="${#dates.format(bond.issuedOn, 'yyyy-MM-dd')}" id="issuedOn"></td>
             <td th:text="${bond.maturityLength}" style="display: none" id="length"></td>
             <td th:text="${bond.datetime}"></td>
             <td th:text="${bond.returned}"></td>
+            <td class="daysToMaturity" onclick="calculateMaturity(this)"></td>
         </tr>
         </tbody>
     </table>
@@ -155,6 +157,7 @@
     <script>
         $('.daysLeft').click();
         $('.optionTrades').click();
+        $('.daysToMaturity').click();
     </script>
 </div>
 

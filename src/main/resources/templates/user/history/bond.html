@@ -28,12 +28,21 @@
     </div>
     <br><br>
 
+    <div class="container">
+        <label for="selectedBond" style="font-size: 25px; margin-left: 5%; margin-right: 15px;">Filter By:</label>
+        <select name="selectedBond" id="selectedBond" style="height: 33px; margin-right: 15px;">
+            <option th:each="bondPortfolio: ${bondPortfolios}" th:value="${bondPortfolio.bondName}" th:text="${bondPortfolio.bondName}"></option>
+        </select>
+        <button class="btn-info btn" onclick="filterBond(this)">View</button>
+        <butto class="btn btn-info" onclick="viewAll()">View All</butto>
+    </div>
+
     <!--<input type="hidden" id="trades" th:value="${bondTrades}" \>-->
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px; width: 100%;" align="center">
         <thead>
         <tr>
-            <th>Bond Name</th>
-            <th>Bond Value</th>
+            <th>Name</th>
+            <th>Value</th>
             <th>Face Value</th>
             <th>Coupon</th>
             <th>Issued On</th>

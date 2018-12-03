@@ -33,6 +33,7 @@
             <option th:each="optionPortfolio: ${optionPortfolios}" th:value="${optionPortfolio.optionName}" th:text="${optionPortfolio.optionName}"></option>
         </select>
         <button class="btn-info btn" onclick="filterOption(this)">View</button>
+        <button class="btn btn-info" onclick="viewAll()">View All</button>
     </div>
 
     <table class="rwd-table" style="margin-top: 10px; margin-bottom: 20px; width: 100%;" align="center">

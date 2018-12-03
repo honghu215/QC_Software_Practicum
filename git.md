@@ -63,7 +63,7 @@ git remote -v
 * fetch remote branch to local
 
 	```bash
-	git checkout --track -b local_branch_name origin/remote_branch_name
+	git checkout --track origin/remote_branch_name
 	``` 
 
 * ignoring the changes to files/restore keeping track of files

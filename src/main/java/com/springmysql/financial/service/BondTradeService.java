@@ -30,4 +30,8 @@ public class BondTradeService {
     public BondTrade findByUsernameAndTradeId(String username, int tradeId){
         return bondTradeRepository.findByUserNameAndId(username, tradeId);
     }
+
+    public List<BondTrade> findAllByUserNameAndBondName(String username, String bondName){
+        return bondTradeRepository.findAllByUserNameAndBondName(username, bondName);
+    }
 }

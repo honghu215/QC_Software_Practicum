@@ -302,10 +302,11 @@ function filterOption(obj) {
         contentType:'application/json;charset=UTF-8',
         success: function (data) {
             $.each(data, function (index, item) {
-                var datetimeStr = JSON.stringify(item.datetime);
+                let datetimeStr = JSON.stringify(item.datetime);
+                let expireStr = JSON.stringify(item.expire);
                 strHtml += '<tr><td>' + item.optionName + '</td>' + '<td>' + item.underlying + '</td>' + '<td>' + item.strikePrice + '</td>' + '<td>' +
                     datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10)
-                    + '</td>' +  '<td>'+item.expire+'</td>' + '<td>'+item.putCall+'</td>' + '<td>'+item.ameEur+'</td></tr>';
+                    + '</td>' +  '<td>'+expireStr.substr(1,10)+'</td>' + '<td>'+item.putCall+'</td>' + '<td>'+item.ameEur+'</td></tr>';
             });
             $(".table-content").html(strHtml);
         },
@@ -315,11 +316,41 @@ function filterOption(obj) {
     });
 }
 
+function filterBond(obj) {
+    let bondName = $('#selectedBond option:selected').val();
+    let strHtml = '';
+    $.ajax({
+        type: "GET",
+        url: "/user/history/filterBond",
+        data: { "bondName": bondName },
+        dataType: 'json',
+        contentType: 'application/json;charset=UTF-8',
+        success: function (data) {
+            $.each(data, function (index, item) {
+                let datetimeStr = JSON.stringify(item.datetime);
+                let issuedOnStr = JSON.stringify(item.issuedOn);
+                strHtml += '<tr><td>' + item.bondName+'</td>' + '<td>'+item.bondValue+'</td>' + '<td>100.0</td>'
+                    + '<td>'+item.coupon+'</td>' + '<td>'+issuedOnStr.substr(1,10) + '</td>'
+                    + '<td>'+datetimeStr.substr(1,10) + ' ' + datetimeStr.substr(12,10) + '</td>'
+                    + '<td>'+item.returned+'</td>';
+                $('.table-content').html(strHtml);
+            });
+        },
+        error: function (error) {
+            console.log("Error: ", error);
+        }
+    });
+}
+
+function viewAll(){
+    location.reload();
+}
+
 function calculateDays(obj) {
     let exp = moment($(obj).parents("tr").find('#expiration').text());
-    var today = moment(moment().format('YYYY-MM-DD'));
+    let today = moment(moment().format('YYYY-MM-DD'));
     // console.log(today);
-    var days = exp.diff(today, 'days');
+    let days = exp.diff(today, 'days');
     if (days < 0) {
         $.ajax({
             type: "GET",
@@ -342,8 +373,22 @@ function calculateDays(obj) {
     } else {
         $(obj).html(days);
     }
-
 }
+
+function calculateMaturity(obj) {
+    let length = $(obj).parents('tr').find('#length').text();
+    let issuedOn = $(obj).parents('tr').find('#issuedOn').text();
+    let maturity = moment(issuedOn).add(length, 'year');
+    let today = moment(moment().format('YYYY-MM-DD'));
+    let days = maturity.diff(today, 'days');
+    if(days < 40) {
+        $(obj).addClass('expiring');
+        $(obj).html('<b>'+days+'</b>');
+    } else {
+        $(obj).html(days);
+    }
+}
+
 
 function exercise(obj) {
     let putCall = $(obj).parents('tr').find('#putCall').text();
