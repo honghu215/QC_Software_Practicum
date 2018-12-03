@@ -325,6 +325,14 @@ public class UserController {
         return stocks;
     }
 
+    @RequestMapping(value = "user/market/options", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Option> getOptions() {
+        List<Option> options = new ArrayList<>();
+        optionService.findAll().forEach(options::add);
+        return options;
+    }
+
     @RequestMapping(value = "user/stockportfolio/quantity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public int getStockQuantity(@RequestParam("stockName") String stockName){

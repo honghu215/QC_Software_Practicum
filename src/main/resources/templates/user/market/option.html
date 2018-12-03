@@ -11,9 +11,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/automateRefresh.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+
 </head>
 
-<body class="w3-content" style="max-width:1200px">
+<body class="w3-content" style="max-width:1200px" onload="refreshOption()">
 <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
 
 <!-- Sidebar/menu -->
@@ -58,7 +61,7 @@
         </tr>
         </thead>
 
-        <tbody>
+        <tbody id="optionBody">
         <tr th:each="option: ${options}">
             <!--<td th:text="${option.occCode}"></td>-->
             <td th:text="${option.optionName}" id="optionName"></td>
