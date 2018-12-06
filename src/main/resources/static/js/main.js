@@ -159,6 +159,7 @@ function buyOption(obj) {
             $('#successMsg').html('Success!');
             $('#buyOption').modal('show');
             getBalance();
+            getAsset();
         },
         error: function (error) {
             console.log("Error!", error);
@@ -193,6 +194,7 @@ function buyBond(obj) {
             $('#successMsg').html('Success!');
             $('#buyBond').modal('show');
             getBalance();
+            getAsset();
         },
         error: function (error) {
             console.log('Error: ', error);
@@ -216,7 +218,6 @@ function trade(obj, buySell) {
                 var quantity = $("#quantity").val();
                 newStockTrade.quantity = quantity;
                 if(quantity * newStockTrade.stockPrice > data) {
-                    console.log("You don't have sufficient money left.");
                     $('#errorMsg').html('You don\'t have sufficient money left.');
                     setTimeout(function () {
                         $('#buyStock').modal('hide');
@@ -236,6 +237,7 @@ function trade(obj, buySell) {
                     console.log("Success!");
                     $('#buyStock').modal('hide');
                     getBalance();
+                    getAsset();
                 },
                 error: function (error) {
                     console.log("Error!", error);
@@ -250,21 +252,6 @@ function trade(obj, buySell) {
 
 }
 
-function getBalance() {
-    let balance = 0.0;
-    $.ajax({
-        type: "GET",
-        url: "/user/market/getBalance",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            $('#balance').html(data);
-            },
-        error: function(error) {
-            console.log(error);
-            }
-    });
-    return balance;
-}
 
 function filter(obj) {
     let stockName = $('#selectedStock option:selected').val();
@@ -518,6 +505,7 @@ function doExercise2(id, putCall) {
             $('#errorMsg').html('');
             $('#exercise').modal('show');
             getBalance();
+            getAsset();
             setTimeout(location.reload(), 2000);
         },
         error: function (error) {
@@ -581,3 +569,34 @@ function checkBondQuantity(obj) {
     });
 }
 
+
+function getBalance() {
+    let balance = 0.0;
+    $.ajax({
+        type: "GET",
+        url: "/user/market/getBalance",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $('#balance').html(data);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+    return balance;
+}
+
+
+function getAsset() {
+    $.ajax({
+        type: "GET",
+        url: "/user/getAsset",
+        contentType: "application/json; charset=utf-8",
+        success: function (asset) {
+            $('#asset').html(asset);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}

@@ -74,7 +74,8 @@
 
             </div>
         </div>
-        <h6 sec:authorize="hasAuthority('USER')" class="w3-bar-item ">Balance: $ <span id="balance" style="font-weight: bolder; color: navy;"></span></h6>
+        <h6 sec:authorize="hasAuthority('USER')" class="w3-bar-item ">Balance: $ <span id="balance" style="font-weight: bolder; color: #020980;"></span></h6>
+        <h6 sec:authorize="hasAuthority('USER')" class="w3-bar-item ">Asset: $ <span id="asset" style="font-weight: bolder; color: #020980;"></span></h6>
         <a th:href="@{/logout}" class="w3-bar-item w3-button w3-padding">Log Out</a>
         <br><br>
     </nav>
@@ -90,6 +91,7 @@
 
 
     <script>
+        getAsset();
         getBalance();
         // Accordion
         function myAccFunc(obj) {

@@ -21,6 +21,9 @@ public class OptionPortfolio {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "asset")
+    private double asset;
+
     public OptionPortfolio() {
     }
 
@@ -28,6 +31,22 @@ public class OptionPortfolio {
         this.userName = userName;
         this.optionName = optionName;
         this.quantity = quantity;
+        this.asset = 0.0;
+    }
+
+    public OptionPortfolio(String userName, String optionName, int quantity, double asset) {
+        this.userName = userName;
+        this.optionName = optionName;
+        this.quantity = quantity;
+        this.asset = asset;
+    }
+
+    public double getAsset() {
+        return asset;
+    }
+
+    public void setAsset(double asset) {
+        this.asset = asset;
     }
 
     public void setUserName(String userName) {
@@ -65,6 +84,7 @@ public class OptionPortfolio {
                 ", userName='" + userName + '\'' +
                 ", optionName='" + optionName + '\'' +
                 ", quantity=" + quantity +
+                ", asset=" + asset +
                 '}';
     }
 }

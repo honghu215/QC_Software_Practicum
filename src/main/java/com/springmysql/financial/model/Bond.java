@@ -38,14 +38,12 @@ public class Bond {
     public Bond() {    }
 
     public Bond(String bondName, int maturityLength, double coupon) {
-        System.out.println("3 arguments..............");
         this.bondName = bondName;
         this.maturityLength = maturityLength;
         this.coupon = coupon;
     }
 
     public Bond(String bondName, int maturityLength, LocalDate maturity, double coupon, LocalDate createdOn) {
-        System.out.println("All args constructor$$$$$$$$$$$$$$$$");
         this.bondName = bondName;
         this.maturityLength = maturityLength;
         this.coupon = coupon;

@@ -44,6 +44,7 @@
         <tr>
             <th>Stock Name</th>
             <th>Quantity</th>
+            <th>Asset</th>
         </tr>
         </thead>
 
@@ -51,6 +52,7 @@
         <tr th:each="stockPortfolio: ${stockPortfolios}">
             <td th:text="${stockPortfolio.stockName}"></td>
             <td th:text="${stockPortfolio.quantity}"></td>
+            <td th:text="${stockPortfolio.asset}"></td>
         </tr>
         </tbody>
     </table>
@@ -63,6 +65,7 @@
         <tr>
             <th>Option Name</th>
             <th>Quantity</th>
+            <th>Asset</th>
         </tr>
         </thead>
 
@@ -70,6 +73,8 @@
         <tr th:each="optionPortfolio: ${optionPortfolios}">
             <td th:text="${optionPortfolio.optionName}"></td>
             <td th:text="${optionPortfolio.quantity}"></td>
+            <td th:text="${optionPortfolio.asset}"></td>
+
         </tr>
         </tbody>
     </table>
@@ -80,6 +85,7 @@
         <tr>
             <th>Bond Name</th>
             <th>Quantity</th>
+            <th>Asset</th>
         </tr>
         </thead>
 
@@ -87,6 +93,7 @@
         <tr th:each="bondPortfolio: ${bondPortfolios}">
             <td th:text="${bondPortfolio.bondName}"></td>
             <td th:text="${bondPortfolio.quantity}"></td>
+            <td th:text="${bondPortfolio.asset}"></td>
         </tr>
         </tbody>
     </table>

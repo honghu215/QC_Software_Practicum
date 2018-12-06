@@ -19,13 +19,33 @@ public class BondPortfolio {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "asset")
+    private double asset;
+
     public BondPortfolio() {
     }
+
 
     public BondPortfolio(String userName, String bondName, int quantity) {
         this.userName = userName;
         this.bondName = bondName;
         this.quantity = quantity;
+        this.asset = 0.0;
+    }
+
+    public BondPortfolio(String userName, String bondName, int quantity, double asset) {
+        this.userName = userName;
+        this.bondName = bondName;
+        this.quantity = quantity;
+        this.asset = asset;
+    }
+
+    public double getAsset() {
+        return asset;
+    }
+
+    public void setAsset(double asset) {
+        this.asset = asset;
     }
 
     public int getBondPortfolioId() {
@@ -63,6 +83,7 @@ public class BondPortfolio {
                 ", userName='" + userName + '\'' +
                 ", bondName='" + bondName + '\'' +
                 ", quantity=" + quantity +
+                ", asset=" + asset +
                 '}';
     }
 }

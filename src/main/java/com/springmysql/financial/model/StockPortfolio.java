@@ -27,6 +27,9 @@ public class StockPortfolio implements Serializable{
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "asset")
+    private double asset;
+
     public StockPortfolio() {
     }
 
@@ -34,6 +37,22 @@ public class StockPortfolio implements Serializable{
         this.userName = userName;
         this.stockName = stockName;
         this.quantity = quantity;
+        this.asset = 0.0;
+    }
+
+    public StockPortfolio(String userName, String stockName, int quantity, double asset) {
+        this.userName = userName;
+        this.stockName = stockName;
+        this.quantity = quantity;
+        this.asset = asset;
+    }
+
+    public double getAsset() {
+        return asset;
+    }
+
+    public void setAsset(double asset) {
+        this.asset = asset;
     }
 
     public int getPortforlioId() {
@@ -71,6 +90,7 @@ public class StockPortfolio implements Serializable{
                 ", userName='" + userName + '\'' +
                 ", stockName='" + stockName + '\'' +
                 ", quantity=" + quantity +
+                ", asset=" + asset +
                 '}';
     }
 }

@@ -47,3 +47,30 @@ function refreshOption() {
         });
     }, 5000);
 }
+
+function refreshBond() {
+    setInterval(function () {
+        let rowStr = '';
+        $.ajax({
+            type: "GET",
+            url: "/user/market/bonds",
+            contentType: "application/json; charset=utf-8",
+            success: function (bonds) {
+                $.each(bonds, function (index, bond) {
+                    let maturity = JSON.stringify(bond.maturity);
+                    let issuedOn = JSON.stringify(bond.issuedOn);
+                    console.log(bond);
+                    rowStr += '<tr> <td id="bondName">'+bond.bondName+'</td>'
+                            + '<td id="coupon">'+bond.coupon+'</td>'
+                            + '<td>'+maturity.substr(1,10)+'</td>'
+                            + '<td id="issuedOn">'+bond.createdOn+'</td>'
+                            + '<td>100.0</td>'
+                            + '<td id="value">'+bond.bondValue+'</td>'
+                            + '<td style="display: none" id="length">'+bond.maturityLength+'</td>'
+                            + '<td><button class="btn btn-primary" onclick="buyBond(this)">Buy</button></td>'
+                });
+                $('#bondBody').html(rowStr);
+            }
+        });
+    }, 5000);
+}

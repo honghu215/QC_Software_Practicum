@@ -12,9 +12,10 @@
 
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/automateRefresh.js}"></script>
 </head>
 
-<body class="w3-content" style="max-width:1200px">
+<body class="w3-content" style="max-width:1200px" onload="refreshBond()">
 <p id="currentUsername" th:text="${#authentication.getPrincipal().getUsername()}" style="display: none"></p>
 
     <!-- Sidebar/menu -->
@@ -55,7 +56,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody id="bondBody">
             <tr th:each="bond: ${bonds}">
                 <td th:text="${bond.bondName}" id="bondName"></td>
                 <td th:text="${bond.coupon}" id="coupon"></td>
