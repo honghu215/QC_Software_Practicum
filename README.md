@@ -2,7 +2,8 @@
 
 The project is accessable via http://honghu215.com. It is a market trading simulator, including calculation practices. Traders can buy stocks, bonds and options in the virtual market, and exercise options in their home pages.
 
-[![Github](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+**Website**: http://honghu215.com  
+**Github**: https://github.com/honghu215/QC_Software_Practicum.git
 
 ## Software Structure 
 * ### Back-end(Spring)
