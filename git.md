@@ -72,4 +72,11 @@ git remote -v
     git update-index --assume-unchanged path/to/file
     git update-index --no-assume-unchanged path/to/file
     ```  
+* update gitignore
 
+    ```
+    git rm -r --cached .
+    git add .
+    git commit ...
+    git push
+    ```
